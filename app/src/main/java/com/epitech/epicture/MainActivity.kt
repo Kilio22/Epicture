@@ -1,14 +1,18 @@
 package com.epitech.epicture
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.epitech.epicture.config.Config
 import com.epitech.epicture.databinding.ActivityMainBinding
 import com.epitech.epicture.service.AuthService
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -16,21 +20,29 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.loginButton.setOnClickListener { this.login() }
-    }
+        val navView: BottomNavigationView = binding.navView
 
-    private fun login() {
-        val intent = Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse("https://api.imgur.com/oauth2/authorize?client_id=" + Config.CLIENT_ID + "&response_type=token")
+        val navController = findNavController(R.id.nav_host_fragment)
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.login_fragment,
+                R.id.navigation_home,
+                R.id.navigation_dashboard,
+                R.id.navigation_notifications
+            )
         )
-        startActivity(intent)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
+        if (!AuthService.isLogged)
+            binding.navView.visibility = View.GONE
     }
 
     override fun onResume() {
         super.onResume()
 
-        if (intent.data != null) {
+        if (intent.data != null && !AuthService.isLogged) {
             val uri = intent.data
             val uriString = uri.toString()
             if (uri != null && uriString.startsWith(Config.REDIRECT_URI)) {
@@ -50,8 +62,9 @@ class MainActivity : AppCompatActivity() {
                     credentials[splittedParam[0]] = splittedParam[1]
                 }
                 AuthService.setCredentials(credentials)
-                val homeIntent = Intent(this, HomeActivity::class.java)
-                startActivity(homeIntent)
+                AuthService.isLogged = true
+                binding.navView.visibility = View.VISIBLE
+                findNavController(R.id.nav_host_fragment).navigate(R.id.action_loginFragment_to_navigation_home)
             }
         }
     }
