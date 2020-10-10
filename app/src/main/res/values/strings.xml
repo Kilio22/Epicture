@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">Epicture</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_favorites">Favorites</string>
+    <string name="title_search">Search</string>
+    <string name="title_upload">Upload</string>
+    <string name="title_user">User</string>
     <string name="login">login</string>
+    <string name="oui">Oui.</string>
+    <string name="sign_out">Sign out</string>
 </resources>

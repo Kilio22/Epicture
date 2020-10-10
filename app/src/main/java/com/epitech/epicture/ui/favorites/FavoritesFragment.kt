@@ -1,4 +1,4 @@
-package com.epitech.epicture.ui.notifications
+package com.epitech.epicture.ui.favorites
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,23 +9,23 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.epitech.epicture.R
-import com.epitech.epicture.databinding.FragmentNotificationsBinding
+import com.epitech.epicture.databinding.FragmentFavoritesBinding
 
-class NotificationsFragment : Fragment() {
+class FavoritesFragment : Fragment() {
 
-    private lateinit var notificationsViewModel: NotificationsViewModel
+    private lateinit var favoritesViewModel: FavoritesViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        notificationsViewModel =
-            ViewModelProvider(this).get(NotificationsViewModel::class.java)
-        val binding: FragmentNotificationsBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_notifications, container, false)
+        favoritesViewModel =
+            ViewModelProvider(this).get(FavoritesViewModel::class.java)
+        val binding: FragmentFavoritesBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_favorites, container, false)
         val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner, {
+        favoritesViewModel.text.observe(viewLifecycleOwner, {
             textView.text = it
         })
         return binding.root

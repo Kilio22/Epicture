@@ -1,4 +1,4 @@
-package com.epitech.epicture.ui.dashboard
+package com.epitech.epicture.ui.search
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,23 +9,23 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.epitech.epicture.R
-import com.epitech.epicture.databinding.FragmentDashboardBinding
+import com.epitech.epicture.databinding.FragmentSearchBinding
 
-class DashboardFragment : Fragment() {
+class SearchFragment : Fragment() {
 
-    private lateinit var dashboardViewModel: DashboardViewModel
+    private lateinit var searchViewModel: SearchViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
-        val binding: FragmentDashboardBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_dashboard, container, false)
+        searchViewModel =
+            ViewModelProvider(this).get(SearchViewModel::class.java)
+        val binding: FragmentSearchBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
         val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner, {
+        searchViewModel.text.observe(viewLifecycleOwner, {
             textView.text = it
         })
         return binding.root
