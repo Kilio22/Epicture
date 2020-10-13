@@ -1,4 +1,4 @@
-package com.epitech.epicture.data
+package com.epitech.epicture.model
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable

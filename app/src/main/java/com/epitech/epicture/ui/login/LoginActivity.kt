@@ -8,8 +8,8 @@ import androidx.databinding.DataBindingUtil
 import com.epitech.epicture.HomeActivity
 import com.epitech.epicture.R
 import com.epitech.epicture.config.Config
-import com.epitech.epicture.data.ImgurCredentials
 import com.epitech.epicture.databinding.ActivityLoginBinding
+import com.epitech.epicture.model.ImgurCredentials
 import com.epitech.epicture.service.ImgurService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -42,7 +42,7 @@ class LoginActivity : AppCompatActivity() {
         ImgurService.login(this)
     }
 
-    fun updateCredentials(credentials: ImgurCredentials?) {
+    private fun updateCredentials(credentials: ImgurCredentials?) {
         if (credentials == null) {
             return
         }

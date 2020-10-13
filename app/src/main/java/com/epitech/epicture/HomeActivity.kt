@@ -9,8 +9,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.epitech.epicture.config.Config
-import com.epitech.epicture.data.ImgurCredentials
 import com.epitech.epicture.databinding.ActivityHomeBinding
+import com.epitech.epicture.model.ImgurCredentials
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeActivity : AppCompatActivity() {

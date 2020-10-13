@@ -9,7 +9,8 @@ import com.epitech.epicture.config.Config.Companion.ACCOUNT_ID_KEY
 import com.epitech.epicture.config.Config.Companion.ACCOUNT_USERNAME_KEY
 import com.epitech.epicture.config.Config.Companion.CLIENT_ID
 import com.epitech.epicture.config.Config.Companion.REFRESH_TOKEN_KEY
-import com.epitech.epicture.data.ImgurCredentials
+import com.epitech.epicture.model.FavoriteObject
+import com.epitech.epicture.model.ImgurCredentials
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -24,7 +25,6 @@ object ImgurService {
             RetrofitImgurService::
             class.java
         )
-        get() = field
 
     fun login(context: Context?) {
         if (context != null) {
@@ -74,5 +74,19 @@ object ImgurService {
             )
         }
         return null
+    }
+
+    suspend fun getUserFavorites(
+        accessToken: String,
+        username: String,
+        page: Int,
+        sort: String
+    ): List<FavoriteObject> {
+        return this.retrofitImgurService.getUserFavorites(
+            username,
+            page,
+            sort,
+            "Bearer $accessToken"
+        )
     }
 }

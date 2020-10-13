@@ -1,10 +1,9 @@
 package com.epitech.epicture.service
 
 import com.epitech.epicture.config.Config
-import com.epitech.epicture.data.ImgurCredentials
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import com.epitech.epicture.model.FavoriteObject
+import com.epitech.epicture.model.ImgurCredentials
+import retrofit2.http.*
 
 interface RetrofitImgurService {
     @FormUrlEncoded
@@ -15,4 +14,12 @@ interface RetrofitImgurService {
         @Field(Config.CLIENT_SECRET_KEY) clientSecret: String,
         @Field(Config.GRANT_TYPE_KEY) grantType: String
     ): ImgurCredentials
+
+    @GET("3/account/{username}/favorites/{page}/{favoritesSort}")
+    suspend fun getUserFavorites(
+        @Path("username") username: String,
+        @Path("page") page: Int,
+        @Path("favoritesSort") favoritesSort: String,
+        @Header("Authorization") accessToken: String
+    ): List<FavoriteObject>
 }
