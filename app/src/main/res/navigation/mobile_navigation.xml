@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/login_fragment">
+    app:startDestination="@id/navigation_home">
 
     <fragment
         android:id="@+id/navigation_home"
@@ -23,15 +23,6 @@
         android:label="@string/title_search"
         tools:layout="@layout/fragment_search" />
     <fragment
-        android:id="@+id/login_fragment"
-        android:name="com.epitech.epicture.ui.LoginFragment"
-        android:label="Login"
-        tools:layout="@layout/fragment_login">
-        <action
-            android:id="@+id/action_loginFragment_to_navigation_home"
-            app:destination="@id/navigation_home" />
-    </fragment>
-    <fragment
         android:id="@+id/navigation_upload"
         android:name="com.epitech.epicture.ui.upload.UploadFragment"
         android:label="@string/title_upload"
@@ -40,11 +31,5 @@
         android:id="@+id/navigation_user"
         android:name="com.epitech.epicture.ui.user.UserFragment"
         android:label="@string/title_user"
-        tools:layout="@layout/fragment_user">
-        <action
-            android:id="@+id/action_navigation_user_to_login_fragment"
-            app:destination="@id/login_fragment"
-            app:popUpTo="@id/navigation_user"
-            app:popUpToInclusive="true" />
-    </fragment>
+        tools:layout="@layout/fragment_user" />
 </navigation>

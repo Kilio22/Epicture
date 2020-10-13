@@ -7,4 +7,8 @@ import androidx.lifecycle.ViewModel
 class UserViewModel : ViewModel() {
     private val _username = MutableLiveData<String>()
     val username: LiveData<String> = _username
+
+    fun setUsername(username: String) {
+        this._username.value = username
+    }
 }

@@ -4,65 +4,75 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import com.epitech.epicture.config.Config
+import com.epitech.epicture.config.Config.Companion.ACCESS_TOKEN_KEY
+import com.epitech.epicture.config.Config.Companion.ACCOUNT_ID_KEY
+import com.epitech.epicture.config.Config.Companion.ACCOUNT_USERNAME_KEY
+import com.epitech.epicture.config.Config.Companion.CLIENT_ID
+import com.epitech.epicture.config.Config.Companion.REFRESH_TOKEN_KEY
+import com.epitech.epicture.data.ImgurCredentials
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
 
 object ImgurService {
-    var credentials = mutableMapOf<String, String>()
+    private val retrofit = Retrofit.Builder()
+        .addConverterFactory(GsonConverterFactory.create())
+        .baseUrl("https://api.imgur.com")
+        .build()
+    private val retrofitImgurService: RetrofitImgurService =
+        retrofit.create(
+            RetrofitImgurService::
+            class.java
+        )
         get() = field
-        set(value) {
-            field = value
-        }
-    var isLogged: Boolean = false
-        get() = field
-        set(value) {
-            field = value
-        }
-
-    fun getCredentialValueByKey(key: String): String? {
-        return this.credentials[key]
-    }
 
     fun login(context: Context?) {
         if (context != null) {
             val intent = Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("https://api.imgur.com/oauth2/authorize?client_id=" + Config.CLIENT_ID + "&response_type=token")
+                Uri.parse("https://api.imgur.com/oauth2/authorize?client_id=$CLIENT_ID&response_type=token")
             )
             context.startActivity(intent)
         }
     }
 
-    fun logout() {
-        credentials = mutableMapOf()
-        isLogged = false
+    suspend fun getNewAccessToken(refreshToken: String): ImgurCredentials? {
+        return this.retrofitImgurService.getNewAccessToken(
+            refreshToken,
+            CLIENT_ID,
+            Config.CLIENT_SECRET,
+            Config.GRANT_TYPE
+        )
     }
 
-    fun handleLoginCallback(uri: Uri?): Boolean {
+    fun handleLoginCallback(uri: Uri?): ImgurCredentials? {
         if (uri == null) {
-            return false
-        }
-        if (this.isLogged) {
-            return true
+            return null
         }
         val uriString = uri.toString()
         if (uriString.startsWith(Config.REDIRECT_URI)) {
-            val urlFragment = uri.fragment ?: return false
+            val urlFragment = uri.fragment ?: return null
             val splittedFragment = urlFragment.split('&')
-            if (splittedFragment.size != 6) {
-                return false
+            if (splittedFragment.size < 4) {
+                return null
             }
 
-            val credentials = mutableMapOf<String, String>()
+            val credentialsMap = mutableMapOf<String, String>()
             for (param in splittedFragment) {
                 val splittedParam = param.split('=')
                 if (splittedParam.size != 2) {
                     continue
                 }
-                credentials[splittedParam[0]] = splittedParam[1]
+                credentialsMap[splittedParam[0]] = splittedParam[1]
             }
-            this.credentials = credentials
-            this.isLogged = true
-            return true
+
+            return ImgurCredentials(
+                credentialsMap[ACCESS_TOKEN_KEY] ?: return null,
+                credentialsMap[REFRESH_TOKEN_KEY] ?: return null,
+                credentialsMap[ACCOUNT_USERNAME_KEY] ?: return null,
+                credentialsMap[ACCOUNT_ID_KEY] ?: return null
+            )
         }
-        return false
+        return null
     }
 }
