@@ -7,7 +7,7 @@ import com.epitech.epicture.service.ImgurService
 import retrofit2.HttpException
 import java.io.IOException
 
-class ImgurFavoritePagingSource : PagingSource<Int, Image>() {
+class ImgurFavoritesPagingSource : PagingSource<Int, Image>() {
     private val PAGE_INITIAL_IDX = 0
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Image> {
