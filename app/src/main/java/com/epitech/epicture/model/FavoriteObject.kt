@@ -1,7 +1,7 @@
 package com.epitech.epicture.model
 
 import com.google.gson.annotations.SerializedName
-
+    
 data class FavoriteObject(
     @SerializedName("id") val id: String?,
     @SerializedName("title") val title: String?,
