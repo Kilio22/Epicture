@@ -18,7 +18,7 @@ class ImgurAccountFavoritesPagingSource : PagingSource<Int, Image>() {
                 HomeActivityData.imgurCredentials?.accountUsername ?: "",
                 position,
                 "newest"
-            )
+            ).data
             val imageList = mutableListOf<Image>()
 
             for (favoriteObject in favoriteObjects) {

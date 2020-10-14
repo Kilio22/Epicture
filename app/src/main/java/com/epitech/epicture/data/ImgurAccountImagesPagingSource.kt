@@ -14,7 +14,9 @@ class ImgurAccountImagesPagingSource : PagingSource<Int, Image>() {
         val position = params.key ?: PAGE_INITIAL_IDX
         return try {
             val images =
-                ImgurService.getAccountImages(HomeActivityData.imgurCredentials?.accessToken ?: "")
+                ImgurService.getAccountImages(
+                    HomeActivityData.imgurCredentials?.accessToken ?: ""
+                ).data
             val imageList = mutableListOf<Image>()
 
             for (image in images) {

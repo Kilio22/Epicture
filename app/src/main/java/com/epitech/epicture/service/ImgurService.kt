@@ -9,6 +9,7 @@ import com.epitech.epicture.config.Config.Companion.ACCOUNT_ID_KEY
 import com.epitech.epicture.config.Config.Companion.ACCOUNT_USERNAME_KEY
 import com.epitech.epicture.config.Config.Companion.CLIENT_ID
 import com.epitech.epicture.config.Config.Companion.REFRESH_TOKEN_KEY
+import com.epitech.epicture.model.BasicDataResponse
 import com.epitech.epicture.model.FavoriteObject
 import com.epitech.epicture.model.Image
 import com.epitech.epicture.model.ImgurCredentials
@@ -82,7 +83,7 @@ object ImgurService {
         username: String,
         page: Int,
         sort: String
-    ): List<FavoriteObject> {
+    ): BasicDataResponse<FavoriteObject> {
         return this.retrofitImgurService.getUserFavorites(
             username,
             page,
@@ -93,7 +94,7 @@ object ImgurService {
 
     suspend fun getAccountImages(
         accessToken: String,
-    ): List<Image> {
+    ): BasicDataResponse<Image> {
         return this.retrofitImgurService.getAccountImages("Bearer $accessToken")
     }
 
