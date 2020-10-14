@@ -89,4 +89,18 @@ object ImgurService {
             "Bearer $accessToken"
         )
     }
+
+    suspend fun favImage(
+        accessToken: String,
+        imageId: String
+    ) {
+        return this.retrofitImgurService.favImage(imageId, "Bearer $accessToken")
+    }
+
+    suspend fun favAlbum(
+        accessToken: String,
+        albumId: String
+    ) {
+        return this.retrofitImgurService.favImage(albumId, "Bearer $accessToken")
+    }
 }

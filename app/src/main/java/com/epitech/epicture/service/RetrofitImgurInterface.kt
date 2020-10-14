@@ -22,4 +22,16 @@ interface RetrofitImgurService {
         @Path("favoritesSort") favoritesSort: String,
         @Header("Authorization") accessToken: String
     ): List<FavoriteObject>
+
+    @POST("3/album/{albumId}/favorite")
+    suspend fun favAlbum(
+        @Path("albumId") albumId: String,
+        @Header("Authorization") accessToken: String
+    )
+
+    @POST("3/image/{imageId}/favorite")
+    suspend fun favImage(
+        @Path("imageId") imageId: String,
+        @Header("Authorization") accessToken: String
+    )
 }
