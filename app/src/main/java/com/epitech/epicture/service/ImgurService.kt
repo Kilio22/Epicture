@@ -13,6 +13,8 @@ import com.epitech.epicture.model.BasicDataResponse
 import com.epitech.epicture.model.FavoriteObject
 import com.epitech.epicture.model.Image
 import com.epitech.epicture.model.ImgurCredentials
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -94,8 +96,9 @@ object ImgurService {
 
     suspend fun getAccountImages(
         accessToken: String,
+        page: Int,
     ): BasicDataResponse<Image> {
-        return this.retrofitImgurService.getAccountImages("Bearer $accessToken")
+        return this.retrofitImgurService.getAccountImages("Bearer $accessToken", page)
     }
 
     suspend fun favImage(
@@ -110,5 +113,21 @@ object ImgurService {
         albumId: String
     ) {
         return this.retrofitImgurService.favImage(albumId, "Bearer $accessToken")
+    }
+
+    suspend fun uploadImage(
+        accessToken: String,
+        image: MultipartBody.Part,
+        title: RequestBody,
+        description: RequestBody,
+        type: RequestBody
+    ) {
+        return this.retrofitImgurService.uploadImage(
+            "Bearer $accessToken",
+            image,
+            title,
+            description,
+            type
+        )
     }
 }
