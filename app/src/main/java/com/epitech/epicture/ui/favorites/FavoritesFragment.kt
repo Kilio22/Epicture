@@ -12,22 +12,13 @@ import com.epitech.epicture.R
 import com.epitech.epicture.databinding.FragmentFavoritesBinding
 
 class FavoritesFragment : Fragment() {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val favoritesViewModel = ViewModelProvider(this).get(FavoritesViewModel::class.java)
+        val binding = DataBindingUtil.inflate<FragmentFavoritesBinding>(inflater, R.layout.fragment_favorites, container, false)
 
-    private lateinit var favoritesViewModel: FavoritesViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        favoritesViewModel =
-            ViewModelProvider(this).get(FavoritesViewModel::class.java)
-        val binding: FragmentFavoritesBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_favorites, container, false)
-        val textView: TextView = binding.textNotifications
-        favoritesViewModel.text.observe(viewLifecycleOwner, {
-            textView.text = it
-        })
+        binding.lifecycleOwner = this
+        binding.viewModel = favoritesViewModel
+        binding.favoritesList.adapter = FavoriteImageGridAdapter()
         return binding.root
     }
 }
