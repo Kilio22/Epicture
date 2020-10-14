@@ -13,5 +13,11 @@ class Config {
         const val REFRESH_TOKEN_KEY: String = "refresh_token"
         const val ACCOUNT_USERNAME_KEY: String = "account_username"
         const val ACCOUNT_ID_KEY: String = "account_id"
+        const val PAGE_INITIAL_IDX = 0
+        val FORMATS_EXTENSION = mapOf(
+            "image/jpeg" to ".jpg",
+            "image/gif" to ".gif",
+            "image/png" to ".png"
+        )
     }
 }

@@ -11,5 +11,5 @@ data class FavoriteObject(
     @SerializedName("ups") val ups: Int?,
     @SerializedName("downs") val downs: Int?,
     @SerializedName("cover") val cover: String?,
-    @SerializedName("type") val type: String?
+    @SerializedName("type") val type: String
 )

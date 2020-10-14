@@ -9,5 +9,6 @@ data class Image(
     @SerializedName("link") val link: String?,
     @SerializedName("ups") val ups: Int?,
     @SerializedName("downs") val downs: Int?,
-    @SerializedName("is_album") val isAlbum: Boolean
+    @SerializedName("is_album") val isAlbum: Boolean,
+    @SerializedName("type") val type: String
 )
