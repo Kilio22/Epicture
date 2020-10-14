@@ -1,13 +1,15 @@
 package com.epitech.epicture.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.paging.PagingData
+import com.epitech.epicture.data.ImgurPager
+import com.epitech.epicture.model.Image
+import kotlinx.coroutines.flow.Flow
 
 class HomeViewModel : ViewModel() {
+    private val pager = ImgurPager()
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+    fun searchUploads(): Flow<PagingData<Image>> {
+        return pager.getAccountUploadsStream()
     }
-    val text: LiveData<String> = _text
 }

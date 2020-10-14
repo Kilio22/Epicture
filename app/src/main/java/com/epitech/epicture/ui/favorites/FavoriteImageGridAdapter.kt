@@ -2,23 +2,26 @@ package com.epitech.epicture.ui.favorites
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.epitech.epicture.databinding.FavoriteImageBinding
+import com.epitech.epicture.databinding.ImageFavoriteBinding
 import com.epitech.epicture.model.Image
 
-class FavoriteImageGridAdapter(/*val clickListener: ClickListener*/) : ListAdapter<Image, FavoriteImageGridAdapter.ImageViewHolder>(PhotoDiffCallback) {
-    class ImageViewHolder(private val binding: FavoriteImageBinding) : RecyclerView.ViewHolder(binding.root) {
+enum class ImageType { UPLOAD, FAVORITE }
+
+class FavoriteImageGridAdapter(/*val clickListener: ClickListener*/) :
+    PagingDataAdapter<Image, FavoriteImageGridAdapter.ImageViewHolder>(PhotoDiffCallback) {
+    class ImageViewHolder(private val binding: ImageFavoriteBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(image: Image) {
-            binding.property = image
+            binding.innerImage.property = image
             binding.executePendingBindings()
         }
 
         companion object {
             fun from(parent: ViewGroup): ImageViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = FavoriteImageBinding.inflate(layoutInflater, parent, false)
+                val binding = ImageFavoriteBinding.inflate(layoutInflater, parent, false)
 
                 return ImageViewHolder(binding)
             }
@@ -46,6 +49,6 @@ class FavoriteImageGridAdapter(/*val clickListener: ClickListener*/) : ListAdapt
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         val item = getItem(position)
 
-        holder.bind(item)
+        item?.let { holder.bind(it) }
     }
 }

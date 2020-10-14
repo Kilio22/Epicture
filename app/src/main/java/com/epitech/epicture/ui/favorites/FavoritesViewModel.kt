@@ -1,15 +1,15 @@
 package com.epitech.epicture.ui.favorites
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.paging.PagingData
+import com.epitech.epicture.data.ImgurPager
+import com.epitech.epicture.model.Image
+import kotlinx.coroutines.flow.Flow
 
 class FavoritesViewModel : ViewModel() {
-    private val _text = MutableLiveData<String>()
-    val text: LiveData<String>
-        get() = _text
+    private val pager = ImgurPager()
 
-    init {
-        _text.value = "This is notifications Fragment"
+    fun searchFavorites(): Flow<PagingData<Image>> {
+        return pager.getAccountFavoritesStream()
     }
 }

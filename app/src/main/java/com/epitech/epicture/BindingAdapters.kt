@@ -1,5 +1,6 @@
 package com.epitech.epicture
 
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri

@@ -3,26 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="property"
-            type="com.epitech.epicture.model.Image" />
-    </data>
-
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="170dp">
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/imgur_image"
+        <include
+            android:id="@+id/inner_image"
+            layout="@layout/image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:padding="2dp"
-            android:scaleType="centerCrop"
-            app:imageUrl="@{property.link}"
-            tools:src="@tools:sample/backgrounds/scenic" />
+            android:layout_height="wrap_content" />
 
         <ImageView
             android:id="@+id/favorite_button"
@@ -36,5 +25,6 @@
             android:scaleType="fitCenter"
             android:src="@drawable/star_favorite"
             tools:src="@drawable/star_favorite" />
+
     </FrameLayout>
 </layout>
