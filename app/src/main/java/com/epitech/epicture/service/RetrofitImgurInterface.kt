@@ -5,6 +5,7 @@ import com.epitech.epicture.model.BasicDataResponse
 import com.epitech.epicture.model.FavoriteObject
 import com.epitech.epicture.model.Image
 import com.epitech.epicture.model.ImgurCredentials
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
 
@@ -38,19 +39,19 @@ interface RetrofitImgurService {
         @Header("Authorization") accessToken: String
     )
 
-    @GET("3/account/me/images")
+    @GET("3/account/me/images/{page}")
     suspend fun getAccountImages(
-        @Header("Authorization") accessToken: String
+        @Header("Authorization") accessToken: String,
+        @Path("page") page: Int,
     ): BasicDataResponse<Image>
 
     @Multipart
     @POST("3/upload")
     suspend fun uploadImage(
         @Header("Authorization") accessToken: String,
-        @Part("image") image: RequestBody,
+        @Part image: MultipartBody.Part,
         @Part("title") title: RequestBody,
-        @Part("description") description: RequestBody
-    ) {
-
-    }
+        @Part("description") description: RequestBody,
+        @Part("type") type: RequestBody,
+    )
 }
