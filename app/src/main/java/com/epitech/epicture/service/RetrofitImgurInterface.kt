@@ -2,6 +2,7 @@ package com.epitech.epicture.service
 
 import com.epitech.epicture.config.Config
 import com.epitech.epicture.model.FavoriteObject
+import com.epitech.epicture.model.Image
 import com.epitech.epicture.model.ImgurCredentials
 import retrofit2.http.*
 
@@ -34,4 +35,9 @@ interface RetrofitImgurService {
         @Path("imageId") imageId: String,
         @Header("Authorization") accessToken: String
     )
+
+    @GET("3/account/me/images")
+    suspend fun getAccountImages(
+        @Header("Authorization") accessToken: String
+    ): List<Image>
 }

@@ -10,6 +10,7 @@ import com.epitech.epicture.config.Config.Companion.ACCOUNT_USERNAME_KEY
 import com.epitech.epicture.config.Config.Companion.CLIENT_ID
 import com.epitech.epicture.config.Config.Companion.REFRESH_TOKEN_KEY
 import com.epitech.epicture.model.FavoriteObject
+import com.epitech.epicture.model.Image
 import com.epitech.epicture.model.ImgurCredentials
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -88,6 +89,12 @@ object ImgurService {
             sort,
             "Bearer $accessToken"
         )
+    }
+
+    suspend fun getAccountImages(
+        accessToken: String,
+    ): List<Image> {
+        return this.retrofitImgurService.getAccountImages("Bearer $accessToken")
     }
 
     suspend fun favImage(
