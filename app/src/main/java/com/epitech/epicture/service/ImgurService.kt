@@ -18,20 +18,20 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ImgurService {
     private val retrofit = Retrofit.Builder()
-        .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl("https://api.imgur.com")
-        .build()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl("https://api.imgur.com")
+            .build()
     private val retrofitImgurService: RetrofitImgurService =
-        retrofit.create(
-            RetrofitImgurService::
-            class.java
-        )
+            retrofit.create(
+                    RetrofitImgurService::
+                    class.java
+            )
 
     fun login(context: Context?) {
         if (context != null) {
             val intent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse("https://api.imgur.com/oauth2/authorize?client_id=$CLIENT_ID&response_type=token")
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://api.imgur.com/oauth2/authorize?client_id=$CLIENT_ID&response_type=token")
             )
             context.startActivity(intent)
         }
@@ -39,10 +39,10 @@ object ImgurService {
 
     suspend fun getNewAccessToken(refreshToken: String): ImgurCredentials? {
         return this.retrofitImgurService.getNewAccessToken(
-            refreshToken,
-            CLIENT_ID,
-            Config.CLIENT_SECRET,
-            Config.GRANT_TYPE
+                refreshToken,
+                CLIENT_ID,
+                Config.CLIENT_SECRET,
+                Config.GRANT_TYPE
         )
     }
 
@@ -68,98 +68,105 @@ object ImgurService {
             }
 
             return ImgurCredentials(
-                credentialsMap[ACCESS_TOKEN_KEY] ?: return null,
-                credentialsMap[REFRESH_TOKEN_KEY] ?: return null,
-                credentialsMap[ACCOUNT_USERNAME_KEY] ?: return null,
-                credentialsMap[ACCOUNT_ID_KEY] ?: return null
+                    credentialsMap[ACCESS_TOKEN_KEY] ?: return null,
+                    credentialsMap[REFRESH_TOKEN_KEY] ?: return null,
+                    credentialsMap[ACCOUNT_USERNAME_KEY] ?: return null,
+                    credentialsMap[ACCOUNT_ID_KEY] ?: return null
             )
         }
         return null
     }
 
     suspend fun getUserFavorites(
-        accessToken: String,
-        username: String,
-        page: Int,
-        sort: String
-    ): BasicDataResponse<FavoriteObject> {
+            accessToken: String,
+            username: String,
+            page: Int,
+            sort: String
+    ): BasicDataResponse<ImgurImage> {
         return this.retrofitImgurService.getUserFavorites(
-            "Bearer $accessToken",
-            username,
-            page,
-            sort,
+                "Bearer $accessToken",
+                username,
+                page,
+                sort,
         )
     }
 
     suspend fun getAccountImages(
-        accessToken: String,
-        page: Int,
+            accessToken: String,
+            page: Int,
     ): BasicDataResponse<Image> {
         return this.retrofitImgurService.getAccountImages("Bearer $accessToken", page)
     }
 
     suspend fun favImage(
-        accessToken: String,
-        imageId: String
+            accessToken: String,
+            imageId: String
     ) {
         return this.retrofitImgurService.favImage("Bearer $accessToken", imageId)
     }
 
     suspend fun favAlbum(
-        accessToken: String,
-        albumId: String
+            accessToken: String,
+            albumId: String
     ) {
         return this.retrofitImgurService.favAlbum("Bearer $accessToken", albumId)
     }
 
     suspend fun vote(
-        accessToken: String,
-        imageId: String,
-        vote: String
+            accessToken: String,
+            id: String,
+            vote: String
     ) {
-        return this.retrofitImgurService.vote("Bearer $accessToken", imageId, vote)
+        return this.retrofitImgurService.vote("Bearer $accessToken", id, vote)
     }
 
     suspend fun uploadImage(
-        accessToken: String,
-        image: MultipartBody.Part,
-        title: RequestBody,
-        description: RequestBody,
-        type: RequestBody
+            accessToken: String,
+            image: MultipartBody.Part,
+            title: RequestBody,
+            description: RequestBody,
+            type: RequestBody
     ) {
         return this.retrofitImgurService.uploadImage(
-            "Bearer $accessToken",
-            image,
-            title,
-            description,
-            type
+                "Bearer $accessToken",
+                image,
+                title,
+                description,
+                type
         )
     }
 
     suspend fun getComments(
-        accessToken: String,
-        id: String,
+            id: String
     ): BasicDataResponse<Comment> {
-        return this.retrofitImgurService.getComments("Bearer $accessToken", id)
+        return this.retrofitImgurService.getComments("Client-ID $CLIENT_ID", id)
     }
 
     suspend fun voteComment(
-        accessToken: String,
-        commentId: String,
-        vote: String
+            accessToken: String,
+            commentId: String,
+            vote: String
     ) {
         return this.retrofitImgurService.voteComment("Bearer $accessToken", commentId, vote)
     }
 
     suspend fun createComment(
-        accessToken: String,
-        imageId: RequestBody,
-        comment: RequestBody
+            accessToken: String,
+            id: RequestBody,
+            comment: RequestBody
     ) {
         return this.retrofitImgurService.createComment(
-            "Bearer $accessToken",
-            imageId,
-            comment
+                "Bearer $accessToken",
+                id,
+                comment
         )
+    }
+
+    suspend fun getImageById(imageId: String): BasicDataResponse<ImgurImage> {
+        return this.retrofitImgurService.getImage("Client-ID $CLIENT_ID", imageId)
+    }
+
+    suspend fun getAlbumById(albumId: String): BasicDataResponse<ImgurImage> {
+        return this.retrofitImgurService.getAlbum("Client-ID $CLIENT_ID", albumId)
     }
 }
