@@ -23,7 +23,15 @@ class UploadViewModel : ViewModel() {
         this._filePath.value = newFilePath
     }
 
+    fun setFilePathAsync(newFilePath: String) {
+        this._filePath.postValue(newFilePath)
+    }
+
     fun setStatus(newStatus: UploadStatus) {
         this._status.value = newStatus
+    }
+
+    fun setStatusAsync(newStatus: UploadStatus) {
+        this._status.postValue(newStatus)
     }
 }

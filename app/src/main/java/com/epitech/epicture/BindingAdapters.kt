@@ -1,14 +1,12 @@
 package com.epitech.epicture
 
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.epitech.epicture.ui.login.LoginViewModel
 import com.epitech.epicture.ui.upload.UploadViewModel
 
 @BindingAdapter("textStr")
@@ -50,9 +48,9 @@ fun chooseImageButtonStatus(button: Button,
     }
 }
 
-@BindingAdapter("informationFieldsStatus")
-fun informationFieldsStatus(imageView: ImageView,
-                            status: UploadViewModel.UploadStatus?) {
+@BindingAdapter("uploadFieldStatus")
+fun uploadFieldStatus(imageView: ImageView,
+                      status: UploadViewModel.UploadStatus?) {
     when (status) {
         UploadViewModel.UploadStatus.CHOOSE_IMAGE -> {
             imageView.visibility = View.GONE
@@ -66,9 +64,9 @@ fun informationFieldsStatus(imageView: ImageView,
     }
 }
 
-@BindingAdapter("informationFieldsStatus")
-fun informationFieldsStatus(editText: EditText,
-                            status: UploadViewModel.UploadStatus?) {
+@BindingAdapter("uploadFieldStatus")
+fun uploadFieldStatus(editText: EditText,
+                      status: UploadViewModel.UploadStatus?) {
     when (status) {
         UploadViewModel.UploadStatus.CHOOSE_IMAGE -> {
             editText.visibility = View.GONE
@@ -82,9 +80,9 @@ fun informationFieldsStatus(editText: EditText,
     }
 }
 
-@BindingAdapter("informationFieldsStatus")
-fun informationFieldsStatus(button: Button,
-                            status: UploadViewModel.UploadStatus?) {
+@BindingAdapter("uploadFieldStatus")
+fun uploadFieldStatus(button: Button,
+                      status: UploadViewModel.UploadStatus?) {
     when (status) {
         UploadViewModel.UploadStatus.CHOOSE_IMAGE -> {
             button.visibility = View.GONE
@@ -98,18 +96,44 @@ fun informationFieldsStatus(button: Button,
     }
 }
 
-@BindingAdapter("loadingAnimationStatus")
-fun loadingAnimationStatus(layout: ImageView,
-                           status: UploadViewModel.UploadStatus?) {
+@BindingAdapter("uploadAnimationStatus")
+fun uploadAnimationStatus(imageView: RelativeLayout,
+                          status: UploadViewModel.UploadStatus?) {
     when (status) {
         UploadViewModel.UploadStatus.CHOOSE_IMAGE -> {
-            layout.visibility = View.GONE
+            imageView.visibility = View.GONE
         }
         UploadViewModel.UploadStatus.INFORMATIONS -> {
-            layout.visibility = View.GONE
+            imageView.visibility = View.GONE
         }
         UploadViewModel.UploadStatus.UPLOADING -> {
-            layout.visibility = View.VISIBLE
+            imageView.visibility = View.VISIBLE
+        }
+    }
+}
+
+@BindingAdapter("loginAnimationStatus")
+fun loginAnimationStatus(relativeLayout: ProgressBar,
+                         status: LoginViewModel.LoginStatus?) {
+    when (status) {
+        LoginViewModel.LoginStatus.LOADING -> {
+            relativeLayout.visibility = View.VISIBLE
+        }
+        LoginViewModel.LoginStatus.MUST_LOGIN -> {
+            relativeLayout.visibility = View.GONE
+        }
+    }
+}
+
+@BindingAdapter("loginAnimationStatus")
+fun loginAnimationStatus(button: Button,
+                         status: LoginViewModel.LoginStatus?) {
+    when (status) {
+        LoginViewModel.LoginStatus.LOADING -> {
+            button.visibility = View.GONE
+        }
+        LoginViewModel.LoginStatus.MUST_LOGIN -> {
+            button.visibility = View.VISIBLE
         }
     }
 }

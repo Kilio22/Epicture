@@ -16,15 +16,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
-    lateinit var binding: ActivityLoginBinding
+    private lateinit var binding: ActivityLoginBinding
+    private lateinit var loginViewModel: LoginViewModel
     private val loginScope = CoroutineScope(Dispatchers.Default)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        loginViewModel = LoginViewModel()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
-        binding.loginButton.setOnClickListener { this.login() }
 
+        binding.loginButton.setOnClickListener { this.login() }
+        binding.viewModel = loginViewModel
+        binding.lifecycleOwner = this
         this.updateCredentials(this.loadCredentials())
     }
 
@@ -44,13 +48,17 @@ class LoginActivity : AppCompatActivity() {
 
     private fun updateCredentials(credentials: ImgurCredentials?) {
         if (credentials == null) {
+            loginViewModel.setStatus(LoginViewModel.LoginStatus.MUST_LOGIN)
             return
         }
+        loginViewModel.setStatus(LoginViewModel.LoginStatus.LOADING)
         loginScope.launch {
             try {
-                startHomeActivity(ImgurService.getNewAccessToken(credentials.refreshToken))
+                val newCredentials = ImgurService.getNewAccessToken(credentials.refreshToken)
+                startHomeActivity(newCredentials)
             } catch (e: Exception) {
                 println(e)
+                loginViewModel.setStatusAsync(LoginViewModel.LoginStatus.MUST_LOGIN)
             }
         }
     }
@@ -64,26 +72,26 @@ class LoginActivity : AppCompatActivity() {
 
     private fun loadCredentials(): ImgurCredentials? {
         val mPreferences = getSharedPreferences(
-            "credentials",
-            Context.MODE_PRIVATE
+                "credentials",
+                Context.MODE_PRIVATE
         )
 
         if (mPreferences != null) {
             val savedCredentialsMap: MutableMap<String, String> =
-                mutableMapOf(
-                    Config.ACCESS_TOKEN_KEY to (mPreferences.getString(Config.ACCESS_TOKEN_KEY, "")
-                        ?: ""),
-                    Config.REFRESH_TOKEN_KEY to (mPreferences.getString(
-                        Config.REFRESH_TOKEN_KEY,
-                        ""
-                    ) ?: ""),
-                    Config.ACCOUNT_ID_KEY to (mPreferences.getString(Config.ACCOUNT_ID_KEY, "")
-                        ?: ""),
-                    Config.ACCOUNT_USERNAME_KEY to (mPreferences.getString(
-                        Config.ACCOUNT_USERNAME_KEY,
-                        ""
-                    ) ?: "")
-                )
+                    mutableMapOf(
+                            Config.ACCESS_TOKEN_KEY to (mPreferences.getString(Config.ACCESS_TOKEN_KEY, "")
+                                    ?: ""),
+                            Config.REFRESH_TOKEN_KEY to (mPreferences.getString(
+                                    Config.REFRESH_TOKEN_KEY,
+                                    ""
+                            ) ?: ""),
+                            Config.ACCOUNT_ID_KEY to (mPreferences.getString(Config.ACCOUNT_ID_KEY, "")
+                                    ?: ""),
+                            Config.ACCOUNT_USERNAME_KEY to (mPreferences.getString(
+                                    Config.ACCOUNT_USERNAME_KEY,
+                                    ""
+                            ) ?: "")
+                    )
             for (credential in savedCredentialsMap) {
                 if (credential.value == "") {
                     return null
@@ -91,10 +99,10 @@ class LoginActivity : AppCompatActivity() {
             }
 
             return ImgurCredentials(
-                savedCredentialsMap[Config.ACCESS_TOKEN_KEY] ?: return null,
-                savedCredentialsMap[Config.REFRESH_TOKEN_KEY] ?: return null,
-                savedCredentialsMap[Config.ACCOUNT_USERNAME_KEY] ?: return null,
-                savedCredentialsMap[Config.ACCOUNT_ID_KEY] ?: return null
+                    savedCredentialsMap[Config.ACCESS_TOKEN_KEY] ?: return null,
+                    savedCredentialsMap[Config.REFRESH_TOKEN_KEY] ?: return null,
+                    savedCredentialsMap[Config.ACCOUNT_USERNAME_KEY] ?: return null,
+                    savedCredentialsMap[Config.ACCOUNT_ID_KEY] ?: return null
             )
         }
         return null

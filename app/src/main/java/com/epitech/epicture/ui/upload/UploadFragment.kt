@@ -18,20 +18,21 @@ import com.epitech.epicture.HomeActivityData
 import com.epitech.epicture.R
 import com.epitech.epicture.databinding.FragmentUploadBinding
 import com.epitech.epicture.service.ImgurService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.io.File
 
 
 class UploadFragment : Fragment() {
     private lateinit var uploadViewModel: UploadViewModel
     private lateinit var uploadBaseObservable: UploadBaseObservable
+    private val uploadScope = CoroutineScope(Dispatchers.Default)
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -42,7 +43,7 @@ class UploadFragment : Fragment() {
         uploadBaseObservable = UploadBaseObservable()
         val binding: FragmentUploadBinding =
                 DataBindingUtil.inflate(inflater, R.layout.fragment_upload, container, false)
-        
+
         binding.lifecycleOwner = this
         binding.viewModel = uploadViewModel
         binding.baseObservable = uploadBaseObservable
@@ -94,21 +95,20 @@ class UploadFragment : Fragment() {
         val requestType: RequestBody =
                 "file".toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
-        ImgurService.uploadImage(
-                HomeActivityData.imgurCredentials?.accessToken ?: "",
-                requestMultipartImageBody,
-                requestTitle,
-                requestDescription,
-                requestType
-        ).enqueue(object : Callback<Unit> {
-            override fun onResponse(call: Call<Unit>?, response: Response<Unit>?) {
-                resetFragment()
+        uploadScope.launch {
+            try {
+                ImgurService.uploadImage(
+                        HomeActivityData.imgurCredentials?.accessToken ?: "",
+                        requestMultipartImageBody,
+                        requestTitle,
+                        requestDescription,
+                        requestType
+                )
+            } catch (exception: Exception) {
+                println(exception)
             }
-
-            override fun onFailure(call: Call<Unit>?, t: Throwable?) {
-                resetFragment()
-            }
-        })
+            resetFragment()
+        }
     }
 
     private fun getImagePath(uri: Uri): String {
@@ -130,8 +130,8 @@ class UploadFragment : Fragment() {
     }
 
     private fun resetFragment() {
-        uploadViewModel.setStatus(UploadViewModel.UploadStatus.CHOOSE_IMAGE)
-        uploadViewModel.setFilePath("")
+        uploadViewModel.setStatusAsync(UploadViewModel.UploadStatus.CHOOSE_IMAGE)
+        uploadViewModel.setFilePathAsync("")
         uploadBaseObservable.setDescription("")
         uploadBaseObservable.setTitle("")
     }

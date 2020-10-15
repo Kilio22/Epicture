@@ -12,7 +12,6 @@ import com.epitech.epicture.config.Config.Companion.REFRESH_TOKEN_KEY
 import com.epitech.epicture.model.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -121,13 +120,13 @@ object ImgurService {
         return this.retrofitImgurService.vote("Bearer $accessToken", imageId, vote)
     }
 
-    fun uploadImage(
+    suspend fun uploadImage(
             accessToken: String,
             image: MultipartBody.Part,
             title: RequestBody,
             description: RequestBody,
             type: RequestBody
-    ): Call<Unit> {
+    ) {
         return this.retrofitImgurService.uploadImage(
                 "Bearer $accessToken",
                 image,

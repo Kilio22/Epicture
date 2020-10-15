@@ -4,7 +4,6 @@ import com.epitech.epicture.config.Config
 import com.epitech.epicture.model.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.Call
 import retrofit2.http.*
 
 interface RetrofitImgurService {
@@ -45,13 +44,13 @@ interface RetrofitImgurService {
 
     @Multipart
     @POST("3/upload")
-    fun uploadImage(
+    suspend fun uploadImage(
             @Header("Authorization") accessToken: String,
             @Part image: MultipartBody.Part,
             @Part("title") title: RequestBody,
             @Part("description") description: RequestBody,
             @Part("type") type: RequestBody,
-    ): Call<Unit>
+    )
 
     @POST("3/gallery/{id}/vote/{vote}")
     suspend fun vote(

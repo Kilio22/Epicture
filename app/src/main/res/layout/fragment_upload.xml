@@ -17,84 +17,109 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         tools:context=".ui.favorites.UploadFragment">
 
-        <Button
-            android:id="@+id/choose_image_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/choose_image"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:chooseImageButtonStatus="@{viewModel.status}" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="392dp"
-            android:layout_height="408dp"
-            android:contentDescription="@string/choosed_image"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars"
-            app:informationFieldsStatus="@{viewModel.status}"
-            app:choosedImageUrl="@{viewModel.filePath}" />
-
-        <EditText
-            android:id="@+id/title_input"
-            android:layout_width="382dp"
-            android:layout_height="53dp"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="@string/title"
-            android:text="@={baseObservable.title}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.517"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
-            app:informationFieldsStatus="@{viewModel.status}" />
-
-        <EditText
-            android:id="@+id/description_input"
-            android:layout_width="380dp"
-            android:layout_height="115dp"
-            android:layout_marginTop="24dp"
-            android:ems="10"
-            android:gravity="start|top"
-            android:hint="@string/description"
-            android:inputType="textMultiLine"
-            android:text="@={baseObservable.description}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.483"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title_input"
-            app:informationFieldsStatus="@{viewModel.status}" />
-
-        <Button
-            android:id="@+id/upload_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/title_upload"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/description_input"
-            app:informationFieldsStatus="@{viewModel.status}" />
-
-        <ImageView
-            android:id="@+id/loading_image_view"
-            android:contentDescription="@string/loading_image"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/loading_animation"
-            app:loadingAnimationStatus="@{viewModel.status}"
-            android:layout_height="match_parent"
+        <ScrollView
             android:layout_width="match_parent"
-            android:src="@drawable/loading_animation" />
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fillViewport="true"
+                tools:context=".ui.favorites.UploadFragment">
+
+                <Button
+                    android:id="@+id/choose_image_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/choose_image"
+                    app:chooseImageButtonStatus="@{viewModel.status}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="369dp"
+                    android:layout_height="384dp"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/choosed_image"
+                    android:scaleType="fitCenter"
+                    app:choosedImageUrl="@{viewModel.filePath}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:uploadFieldStatus="@{viewModel.status}"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+                <EditText
+                    android:id="@+id/title_input"
+                    android:layout_width="382dp"
+                    android:layout_height="53dp"
+                    android:layout_marginTop="16dp"
+                    android:ems="10"
+                    android:hint="@string/title"
+                    android:importantForAutofill="no"
+                    android:inputType="textPersonName"
+                    android:text="@={baseObservable.title}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.517"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView"
+                    app:uploadFieldStatus="@{viewModel.status}" />
+
+                <EditText
+                    android:id="@+id/description_input"
+                    android:layout_width="380dp"
+                    android:layout_height="115dp"
+                    android:layout_marginTop="24dp"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:hint="@string/description"
+                    android:importantForAutofill="no"
+                    android:inputType="textMultiLine"
+                    android:text="@={baseObservable.description}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.483"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/title_input"
+                    app:uploadFieldStatus="@{viewModel.status}" />
+
+                <Button
+                    android:id="@+id/upload_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_upload"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/description_input"
+                    app:uploadFieldStatus="@{viewModel.status}" />
+
+                <RelativeLayout
+                    android:id="@+id/loadingPanel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    app:uploadAnimationStatus="@{viewModel.status}"
+                    tools:layout_editor_absoluteX="-14dp"
+                    tools:layout_editor_absoluteY="0dp">
+
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:indeterminate="true" />
+                </RelativeLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
