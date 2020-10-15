@@ -18,20 +18,20 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ImgurService {
     private val retrofit = Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("https://api.imgur.com")
-            .build()
+        .addConverterFactory(GsonConverterFactory.create())
+        .baseUrl("https://api.imgur.com")
+        .build()
     private val retrofitImgurService: RetrofitImgurService =
-            retrofit.create(
-                    RetrofitImgurService::
-                    class.java
-            )
+        retrofit.create(
+            RetrofitImgurService::
+            class.java
+        )
 
     fun login(context: Context?) {
         if (context != null) {
             val intent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://api.imgur.com/oauth2/authorize?client_id=$CLIENT_ID&response_type=token")
+                Intent.ACTION_VIEW,
+                Uri.parse("https://api.imgur.com/oauth2/authorize?client_id=$CLIENT_ID&response_type=token")
             )
             context.startActivity(intent)
         }
@@ -39,10 +39,10 @@ object ImgurService {
 
     suspend fun getNewAccessToken(refreshToken: String): ImgurCredentials? {
         return this.retrofitImgurService.getNewAccessToken(
-                refreshToken,
-                CLIENT_ID,
-                Config.CLIENT_SECRET,
-                Config.GRANT_TYPE
+            refreshToken,
+            CLIENT_ID,
+            Config.CLIENT_SECRET,
+            Config.GRANT_TYPE
         )
     }
 
@@ -68,98 +68,98 @@ object ImgurService {
             }
 
             return ImgurCredentials(
-                    credentialsMap[ACCESS_TOKEN_KEY] ?: return null,
-                    credentialsMap[REFRESH_TOKEN_KEY] ?: return null,
-                    credentialsMap[ACCOUNT_USERNAME_KEY] ?: return null,
-                    credentialsMap[ACCOUNT_ID_KEY] ?: return null
+                credentialsMap[ACCESS_TOKEN_KEY] ?: return null,
+                credentialsMap[REFRESH_TOKEN_KEY] ?: return null,
+                credentialsMap[ACCOUNT_USERNAME_KEY] ?: return null,
+                credentialsMap[ACCOUNT_ID_KEY] ?: return null
             )
         }
         return null
     }
 
     suspend fun getUserFavorites(
-            accessToken: String,
-            username: String,
-            page: Int,
-            sort: String
+        accessToken: String,
+        username: String,
+        page: Int,
+        sort: String
     ): BasicDataResponse<FavoriteObject> {
         return this.retrofitImgurService.getUserFavorites(
-                "Bearer $accessToken",
-                username,
-                page,
-                sort,
+            "Bearer $accessToken",
+            username,
+            page,
+            sort,
         )
     }
 
     suspend fun getAccountImages(
-            accessToken: String,
-            page: Int,
+        accessToken: String,
+        page: Int,
     ): BasicDataResponse<Image> {
         return this.retrofitImgurService.getAccountImages("Bearer $accessToken", page)
     }
 
     suspend fun favImage(
-            accessToken: String,
-            imageId: String
+        accessToken: String,
+        imageId: String
     ) {
         return this.retrofitImgurService.favImage("Bearer $accessToken", imageId)
     }
 
     suspend fun favAlbum(
-            accessToken: String,
-            albumId: String
+        accessToken: String,
+        albumId: String
     ) {
-        return this.retrofitImgurService.favImage("Bearer $accessToken", albumId)
+        return this.retrofitImgurService.favAlbum("Bearer $accessToken", albumId)
     }
 
     suspend fun vote(
-            accessToken: String,
-            imageId: String,
-            vote: String
+        accessToken: String,
+        imageId: String,
+        vote: String
     ) {
         return this.retrofitImgurService.vote("Bearer $accessToken", imageId, vote)
     }
 
     suspend fun uploadImage(
-            accessToken: String,
-            image: MultipartBody.Part,
-            title: RequestBody,
-            description: RequestBody,
-            type: RequestBody
+        accessToken: String,
+        image: MultipartBody.Part,
+        title: RequestBody,
+        description: RequestBody,
+        type: RequestBody
     ) {
         return this.retrofitImgurService.uploadImage(
-                "Bearer $accessToken",
-                image,
-                title,
-                description,
-                type
+            "Bearer $accessToken",
+            image,
+            title,
+            description,
+            type
         )
     }
 
     suspend fun getComments(
-            accessToken: String,
-            id: String,
+        accessToken: String,
+        id: String,
     ): BasicDataResponse<Comment> {
         return this.retrofitImgurService.getComments("Bearer $accessToken", id)
     }
 
     suspend fun voteComment(
-            accessToken: String,
-            commentId: String,
-            vote: String
+        accessToken: String,
+        commentId: String,
+        vote: String
     ) {
         return this.retrofitImgurService.voteComment("Bearer $accessToken", commentId, vote)
     }
 
     suspend fun createComment(
-            accessToken: String,
-            imageId: RequestBody,
-            comment: RequestBody
+        accessToken: String,
+        imageId: RequestBody,
+        comment: RequestBody
     ) {
         return this.retrofitImgurService.createComment(
-                "Bearer $accessToken",
-                imageId,
-                comment
+            "Bearer $accessToken",
+            imageId,
+            comment
         )
     }
 }
