@@ -3,30 +3,98 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.epitech.epicture.ui.upload.UploadViewModel" />
+
+        <variable
+            name="baseObservable"
+            type="com.epitech.epicture.ui.upload.UploadBaseObservable" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.favorites.UploadFragment">
 
         <Button
-            android:id="@+id/upload_button"
+            android:id="@+id/choose_image_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/upload_image"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <!--<ImageView
-            android:id="@+id/status_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:src="@drawable/loading_animation"
+            android:text="@string/choose_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="loading" />-->
+            app:chooseImageButtonStatus="@{viewModel.status}" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="392dp"
+            android:layout_height="408dp"
+            android:contentDescription="@string/choosed_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars"
+            app:informationFieldsStatus="@{viewModel.status}"
+            app:choosedImageUrl="@{viewModel.filePath}" />
+
+        <EditText
+            android:id="@+id/title_input"
+            android:layout_width="382dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="@string/title"
+            android:text="@={baseObservable.title}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.517"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:informationFieldsStatus="@{viewModel.status}" />
+
+        <EditText
+            android:id="@+id/description_input"
+            android:layout_width="380dp"
+            android:layout_height="115dp"
+            android:layout_marginTop="24dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="@string/description"
+            android:inputType="textMultiLine"
+            android:text="@={baseObservable.description}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.483"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_input"
+            app:informationFieldsStatus="@{viewModel.status}" />
+
+        <Button
+            android:id="@+id/upload_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_upload"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description_input"
+            app:informationFieldsStatus="@{viewModel.status}" />
+
+        <ImageView
+            android:id="@+id/loading_image_view"
+            android:contentDescription="@string/loading_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/loading_animation"
+            app:loadingAnimationStatus="@{viewModel.status}"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:src="@drawable/loading_animation" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

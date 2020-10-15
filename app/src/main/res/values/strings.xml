@@ -20,5 +20,10 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="imgur_image">Imgur image</string>
-    <string name="upload_image">Upload image</string>
+    <string name="choose_image">Choose image</string>
+    <string name="choosed_image">choosed image</string>
+    <string name="description">Description</string>
+    <string name="loading">loading</string>
+    <string name="title">Title</string>
+    <string name="loading_image">loading image</string>
 </resources>

@@ -14,9 +14,9 @@ class ImgurAccountImagesPagingSource : PagingSource<Int, Image>() {
         val position = params.key ?: PAGE_INITIAL_IDX
         return try {
             val images =
-                ImgurService.getAccountImages(
-                    HomeActivityData.imgurCredentials?.accessToken ?: "", position
-                ).data
+                    ImgurService.getAccountImages(
+                            HomeActivityData.imgurCredentials?.accessToken ?: "", position
+                    ).data
             val imageList = mutableListOf<Image>()
 
             for (image in images) {
@@ -24,22 +24,23 @@ class ImgurAccountImagesPagingSource : PagingSource<Int, Image>() {
                     continue
                 }
                 imageList.add(
-                    Image(
-                        image.id,
-                        image.title,
-                        image.description,
-                        "https://i.imgur.com/" + image.id + FORMATS_EXTENSION[image.type],
-                        image.ups,
-                        image.downs,
-                        image.isAlbum,
-                        image.type
-                    )
+                        Image(
+                                image.id,
+                                image.title,
+                                image.description,
+                                "https://i.imgur.com/" + image.id + FORMATS_EXTENSION[image.type],
+                                image.ups,
+                                image.downs,
+                                image.isAlbum,
+                                image.type,
+                                image.vote
+                        )
                 )
             }
             LoadResult.Page(
-                data = imageList,
-                prevKey = if (position == PAGE_INITIAL_IDX) null else position - 1,
-                nextKey = if (imageList.isEmpty()) null else position + 1
+                    data = imageList,
+                    prevKey = if (position == PAGE_INITIAL_IDX) null else position - 1,
+                    nextKey = if (imageList.isEmpty()) null else position + 1
             )
         } catch (exception: IOException) {
             return LoadResult.Error(exception)

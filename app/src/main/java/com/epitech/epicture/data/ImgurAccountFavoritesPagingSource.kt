@@ -14,10 +14,10 @@ class ImgurAccountFavoritesPagingSource : PagingSource<Int, Image>() {
         val position = params.key ?: PAGE_INITIAL_IDX
         return try {
             val favoriteObjects = ImgurService.getUserFavorites(
-                HomeActivityData.imgurCredentials?.accessToken ?: "",
-                HomeActivityData.imgurCredentials?.accountUsername ?: "",
-                position,
-                "newest"
+                    HomeActivityData.imgurCredentials?.accessToken ?: "",
+                    HomeActivityData.imgurCredentials?.accountUsername ?: "",
+                    position,
+                    "newest"
             ).data
             val imageList = mutableListOf<Image>()
 
@@ -25,38 +25,30 @@ class ImgurAccountFavoritesPagingSource : PagingSource<Int, Image>() {
                 if (!FORMATS_EXTENSION.containsKey(favoriteObject.type)) {
                     continue
                 }
+                var imageLink: String
                 if (favoriteObject.isAlbum) {
-                    imageList.add(
-                        Image(
-                            favoriteObject.id,
-                            favoriteObject.title,
-                            favoriteObject.description,
-                            "https://i.imgur.com/" + favoriteObject.cover + FORMATS_EXTENSION[favoriteObject.type],
-                            favoriteObject.ups,
-                            favoriteObject.downs,
-                            favoriteObject.isAlbum,
-                            favoriteObject.type
-                        )
-                    )
+                    imageLink = "https://i.imgur.com/" + favoriteObject.cover + FORMATS_EXTENSION[favoriteObject.type]
                 } else {
-                    imageList.add(
-                        Image(
-                            favoriteObject.id,
-                            favoriteObject.title,
-                            favoriteObject.description,
-                            "https://i.imgur.com/" + favoriteObject.id + FORMATS_EXTENSION[favoriteObject.type],
-                            favoriteObject.ups,
-                            favoriteObject.downs,
-                            favoriteObject.isAlbum,
-                            favoriteObject.type
-                        )
-                    )
+                    imageLink = "https://i.imgur.com/" + favoriteObject.id + FORMATS_EXTENSION[favoriteObject.type]
                 }
+                imageList.add(
+                        Image(
+                                favoriteObject.id,
+                                favoriteObject.title,
+                                favoriteObject.description,
+                                imageLink,
+                                favoriteObject.ups,
+                                favoriteObject.downs,
+                                favoriteObject.isAlbum,
+                                favoriteObject.type,
+                                favoriteObject.vote
+                        )
+                )
             }
             LoadResult.Page(
-                data = imageList,
-                prevKey = if (position == PAGE_INITIAL_IDX) null else position - 1,
-                nextKey = if (imageList.isEmpty()) null else position + 1
+                    data = imageList,
+                    prevKey = if (position == PAGE_INITIAL_IDX) null else position - 1,
+                    nextKey = if (imageList.isEmpty()) null else position + 1
             )
         } catch (exception: IOException) {
             return LoadResult.Error(exception)
