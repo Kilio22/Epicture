@@ -85,10 +85,30 @@ interface RetrofitImgurService {
     )
 
     @Multipart
-    @POST("3/gallery/{id}/comment\n")
+    @POST("3/gallery/{id}/comment")
     suspend fun createComment(
             @Header("Authorization") accessToken: String,
             @Path("id") id: RequestBody,
             @Part("comment") comment: RequestBody
     )
+
+    @GET("3/gallery/search/top/all/{page}")
+    suspend fun simpleSearch(
+            @Header("Authorization") clientId: String,
+            @Path("page") page: Int,
+            @Query("q") query: String
+    ): BasicDataResponse<ImgurImage>
+
+    @GET("3/gallery/search/{sort}/{window}/{page}")
+    suspend fun advancedSearch(
+            @Header("Authorization") clientId: String,
+            @Path("sort") sort: String,
+            @Path("window") window: String,
+            @Path("page") page: Int,
+            @Query("q_all") qAll: String,
+            @Query("q_any") qAny: String,
+            @Query("q_exactly") qExactly: String,
+            @Query("q_not") qNot: String,
+            @Query("q_type") qType: String
+    ): BasicDataResponse<ImgurImage>
 }

@@ -169,4 +169,21 @@ object ImgurService {
     suspend fun getAlbumById(albumId: String): BasicDataResponse<ImgurImage> {
         return this.retrofitImgurService.getAlbum("Client-ID $CLIENT_ID", albumId)
     }
+
+    suspend fun simpleSearch(page: Int,
+                             query: String): BasicDataResponse<ImgurImage> {
+        return this.retrofitImgurService.simpleSearch("Client-ID $CLIENT_ID", page, query)
+    }
+
+    suspend fun advancedSearch(
+            sort: String = "time",
+            window: String = "all",
+            page: Int,
+            qAll: String,
+            qAny: String,
+            qExactly: String,
+            qNot: String,
+            qType: String): BasicDataResponse<ImgurImage> {
+        return this.retrofitImgurService.advancedSearch("Client-ID $CLIENT_ID", sort, window, page, qAll, qAny, qExactly, qNot, qType)
+    }
 }

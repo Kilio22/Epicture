@@ -5,20 +5,18 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import com.epitech.epicture.HomeActivity
 import com.epitech.epicture.R
 import com.epitech.epicture.config.Config
 import com.epitech.epicture.databinding.ActivityLoginBinding
 import com.epitech.epicture.model.ImgurCredentials
 import com.epitech.epicture.service.ImgurService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var loginViewModel: LoginViewModel
-    private val loginScope = CoroutineScope(Dispatchers.Default)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
             return
         }
         loginViewModel.setStatus(LoginViewModel.LoginStatus.LOADING)
-        loginScope.launch {
+        lifecycleScope.launch {
             try {
                 val newCredentials = ImgurService.getNewAccessToken(credentials.refreshToken)
                 startHomeActivity(newCredentials)

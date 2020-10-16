@@ -14,12 +14,11 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.epitech.epicture.HomeActivityData
 import com.epitech.epicture.R
 import com.epitech.epicture.databinding.FragmentUploadBinding
 import com.epitech.epicture.service.ImgurService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -32,7 +31,6 @@ import java.io.File
 class UploadFragment : Fragment() {
     private lateinit var uploadViewModel: UploadViewModel
     private lateinit var uploadBaseObservable: UploadBaseObservable
-    private val uploadScope = CoroutineScope(Dispatchers.Default)
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -95,7 +93,7 @@ class UploadFragment : Fragment() {
         val requestType: RequestBody =
                 "file".toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
-        uploadScope.launch {
+        lifecycleScope.launch {
             try {
                 ImgurService.uploadImage(
                         HomeActivityData.imgurCredentials?.accessToken ?: "",
