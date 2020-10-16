@@ -12,10 +12,10 @@ class ImgurGallerySimpleSearchPagingSource(private val query: String) : PagingSo
         val position = params.key ?: Config.PAGE_INITIAL_IDX
         return try {
             val images =
-                    ImgurService.simpleSearch(
-                            position,
-                            query
-                    ).data
+                ImgurService.simpleSearch(
+                    position,
+                    query
+                ).data
             val imageList = mutableListOf<Image>()
 
             for (image in images) {
@@ -28,25 +28,26 @@ class ImgurGallerySimpleSearchPagingSource(private val query: String) : PagingSo
                     "https://i.imgur.com/" + image.id + Config.FORMATS_EXTENSION[image.type]
                 }
                 imageList.add(
-                        Image(
-                                image.id,
-                                image.title,
-                                image.description,
-                                imageLink,
-                                image.ups,
-                                image.downs,
-                                image.isAlbum,
-                                image.type,
-                                image.vote,
-                                image.commentCount,
-                                image.favoriteCount
-                        )
+                    Image(
+                        image.id,
+                        image.title,
+                        image.description,
+                        imageLink,
+                        image.ups,
+                        image.downs,
+                        image.isAlbum,
+                        image.type,
+                        image.vote,
+                        image.commentCount,
+                        image.favoriteCount,
+                        image.isFavorite
+                    )
                 )
             }
             LoadResult.Page(
-                    data = imageList,
-                    prevKey = if (position == Config.PAGE_INITIAL_IDX) null else position - 1,
-                    nextKey = if (imageList.isEmpty()) null else position + 1
+                data = imageList,
+                prevKey = if (position == Config.PAGE_INITIAL_IDX) null else position - 1,
+                nextKey = if (imageList.isEmpty()) null else position + 1
             )
         } catch (exception: IOException) {
             return LoadResult.Error(exception)
