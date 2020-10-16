@@ -52,17 +52,77 @@
             app:layout_constraintTop_toBottomOf="@id/details_image"
             tools:text="This is the image's description text view." />
 
-        <ImageView
-            android:id="@+id/upvote_arrow"
+        <TextView
+            android:id="@+id/details_comment_msg"
             android:layout_width="0dp"
-
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_star"
-            app:layout_constraintEnd_toStartOf="@+id/repo_stars"
-            app:layout_constraintBottom_toBottomOf="@+id/repo_stars"
-            app:layout_constraintTop_toTopOf="@+id/repo_stars"
-            />
+            android:layout_marginStart="0dp"
+            android:paddingVertical="8dp"
+            android:text="Comments: %d"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/details_description" />
 
+        <ImageView
+            android:id="@+id/details_favorite_ic"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:src="@drawable/star_favorite"
+            app:layout_constraintBottom_toBottomOf="@+id/details_favorite_count"
+            app:layout_constraintEnd_toStartOf="@+id/details_favorite_count"
+            app:layout_constraintTop_toTopOf="@+id/details_favorite_count" />
+
+        <TextView
+            android:id="@+id/details_favorite_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="8dp"
+            android:textSize="16sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/details_downvote_count"
+            app:layout_constraintEnd_toStartOf="@id/details_upvote_ic"
+            tools:text="56" />
+
+        <ImageView
+            android:id="@+id/details_upvote_ic"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:src="@drawable/ic_baseline_arrow_upward_24"
+            app:layout_constraintBottom_toBottomOf="@+id/details_upvote_count"
+            app:layout_constraintEnd_toStartOf="@+id/details_upvote_count"
+            app:layout_constraintTop_toTopOf="@+id/details_upvote_count" />
+
+        <TextView
+            android:id="@+id/details_upvote_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="8dp"
+            android:textSize="16sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/details_downvote_count"
+            app:layout_constraintEnd_toStartOf="@id/details_downvote_ic"
+            tools:text="198" />
+
+        <ImageView
+            android:id="@+id/details_downvote_ic"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:src="@drawable/ic_baseline_arrow_downward_24"
+            app:layout_constraintBottom_toBottomOf="@+id/details_downvote_count"
+            app:layout_constraintEnd_toStartOf="@+id/details_downvote_count"
+            app:layout_constraintTop_toTopOf="@+id/details_downvote_count" />
+
+        <TextView
+            android:id="@+id/details_downvote_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="8dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/details_description"
+            tools:text="21" />
+        
         <!--<androidx.recyclerview.widget.RecyclerView
             android:id="@+id/details_comments"
             android:layout_width="0dp"
