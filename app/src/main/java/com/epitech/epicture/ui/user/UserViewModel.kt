@@ -8,7 +8,14 @@ class UserViewModel : ViewModel() {
     private val _username = MutableLiveData<String>()
     val username: LiveData<String> = _username
 
+    private val _avatarUrl = MutableLiveData<String>()
+    val avatarUrl: LiveData<String> = _avatarUrl
+
     fun setUsername(username: String) {
         this._username.value = username
+    }
+
+    fun setAvatarUrl(newAvatarUrl: String) {
+        this._avatarUrl.value = newAvatarUrl
     }
 }

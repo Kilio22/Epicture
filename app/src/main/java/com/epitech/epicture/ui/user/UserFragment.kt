@@ -9,10 +9,13 @@ import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.epitech.epicture.HomeActivityData
 import com.epitech.epicture.R
 import com.epitech.epicture.databinding.FragmentUserBinding
+import com.epitech.epicture.service.ImgurService
 import com.epitech.epicture.ui.login.LoginActivity
+import kotlinx.coroutines.launch
 
 class UserFragment : Fragment() {
     private lateinit var userViewModel: UserViewModel
@@ -27,10 +30,12 @@ class UserFragment : Fragment() {
 
         userViewModel =
             ViewModelProvider(this).get(UserViewModel::class.java)
-        
+
         binding.signOutButton.setOnClickListener { signOut() }
         binding.viewModel = userViewModel
+        binding.lifecycleOwner = this
         userViewModel.setUsername(HomeActivityData.imgurCredentials!!.accountUsername)
+        getAvatar()
         return binding.root
     }
 
@@ -49,6 +54,20 @@ class UserFragment : Fragment() {
             val editor = mPreferences.edit()
             editor.clear()
             editor.apply()
+        }
+    }
+
+    private fun getAvatar() {
+        lifecycleScope.launch {
+            try {
+                val response = ImgurService.getAvatar(
+                    HomeActivityData.imgurCredentials!!.accessToken,
+                    HomeActivityData.imgurCredentials!!.accountUsername
+                )
+                userViewModel.setAvatarUrl(response.data.avatar ?: "")
+            } catch (e: Exception) {
+                println(e)
+            }
         }
     }
 }

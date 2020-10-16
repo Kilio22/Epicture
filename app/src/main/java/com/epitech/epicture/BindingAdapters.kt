@@ -22,19 +22,21 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
         val imgUri = it.toUri().buildUpon().scheme("https").build()
 
         Glide.with(imgView.context)
-                .load(imgUri)
-                .apply(
-                        RequestOptions()
-                                .placeholder(R.drawable.loading_animation)
-                                .error(R.drawable.broken_image)
-                )
-                .into(imgView)
+            .load(imgUri)
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.loading_animation)
+                    .error(R.drawable.broken_image)
+            )
+            .into(imgView)
     }
 }
 
 @BindingAdapter("chooseImageButtonStatus")
-fun chooseImageButtonStatus(button: Button,
-                            status: UploadViewModel.UploadStatus?) {
+fun chooseImageButtonStatus(
+    button: Button,
+    status: UploadViewModel.UploadStatus?
+) {
     when (status) {
         UploadViewModel.UploadStatus.CHOOSE_IMAGE -> {
             button.visibility = View.VISIBLE
@@ -49,8 +51,10 @@ fun chooseImageButtonStatus(button: Button,
 }
 
 @BindingAdapter("uploadFieldStatus")
-fun uploadFieldStatus(imageView: ImageView,
-                      status: UploadViewModel.UploadStatus?) {
+fun uploadFieldStatus(
+    imageView: ImageView,
+    status: UploadViewModel.UploadStatus?
+) {
     when (status) {
         UploadViewModel.UploadStatus.CHOOSE_IMAGE -> {
             imageView.visibility = View.GONE
@@ -65,8 +69,10 @@ fun uploadFieldStatus(imageView: ImageView,
 }
 
 @BindingAdapter("uploadFieldStatus")
-fun uploadFieldStatus(editText: EditText,
-                      status: UploadViewModel.UploadStatus?) {
+fun uploadFieldStatus(
+    editText: EditText,
+    status: UploadViewModel.UploadStatus?
+) {
     when (status) {
         UploadViewModel.UploadStatus.CHOOSE_IMAGE -> {
             editText.visibility = View.GONE
@@ -81,8 +87,10 @@ fun uploadFieldStatus(editText: EditText,
 }
 
 @BindingAdapter("uploadFieldStatus")
-fun uploadFieldStatus(button: Button,
-                      status: UploadViewModel.UploadStatus?) {
+fun uploadFieldStatus(
+    button: Button,
+    status: UploadViewModel.UploadStatus?
+) {
     when (status) {
         UploadViewModel.UploadStatus.CHOOSE_IMAGE -> {
             button.visibility = View.GONE
@@ -97,8 +105,10 @@ fun uploadFieldStatus(button: Button,
 }
 
 @BindingAdapter("uploadAnimationStatus")
-fun uploadAnimationStatus(imageView: RelativeLayout,
-                          status: UploadViewModel.UploadStatus?) {
+fun uploadAnimationStatus(
+    imageView: RelativeLayout,
+    status: UploadViewModel.UploadStatus?
+) {
     when (status) {
         UploadViewModel.UploadStatus.CHOOSE_IMAGE -> {
             imageView.visibility = View.GONE
@@ -113,8 +123,10 @@ fun uploadAnimationStatus(imageView: RelativeLayout,
 }
 
 @BindingAdapter("loginAnimationStatus")
-fun loginAnimationStatus(relativeLayout: ProgressBar,
-                         status: LoginViewModel.LoginStatus?) {
+fun loginAnimationStatus(
+    relativeLayout: ProgressBar,
+    status: LoginViewModel.LoginStatus?
+) {
     when (status) {
         LoginViewModel.LoginStatus.LOADING -> {
             relativeLayout.visibility = View.VISIBLE
@@ -126,8 +138,10 @@ fun loginAnimationStatus(relativeLayout: ProgressBar,
 }
 
 @BindingAdapter("loginAnimationStatus")
-fun loginAnimationStatus(button: Button,
-                         status: LoginViewModel.LoginStatus?) {
+fun loginAnimationStatus(
+    button: Button,
+    status: LoginViewModel.LoginStatus?
+) {
     when (status) {
         LoginViewModel.LoginStatus.LOADING -> {
             button.visibility = View.GONE
@@ -142,12 +156,12 @@ fun loginAnimationStatus(button: Button,
 fun bindChosenImage(imgView: ImageView, imgUrl: String?) {
     imgUrl?.let {
         Glide.with(imgView.context)
-                .load(imgUrl)
-                .apply(
-                        RequestOptions()
-                                .placeholder(R.drawable.loading_animation)
-                                .error(R.drawable.broken_image)
-                )
-                .into(imgView)
+            .load(imgUrl)
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.loading_animation)
+                    .error(R.drawable.broken_image)
+            )
+            .into(imgView)
     }
 }

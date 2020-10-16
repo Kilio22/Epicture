@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import com.epitech.epicture.R
 import com.epitech.epicture.databinding.FragmentSearchBinding
 import com.epitech.epicture.ui.favorites.FavoriteImageGridAdapter
@@ -29,15 +30,15 @@ class SearchFragment : Fragment() {
     private var searchJob: Job? = null
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         searchViewModel =
-                ViewModelProvider(this).get(SearchViewModel::class.java)
+            ViewModelProvider(this).get(SearchViewModel::class.java)
         searchBaseObservable = SearchBaseObservable()
         binding =
-                DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
+            DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
         binding.lifecycleOwner = this
         binding.searchList.adapter = adapter
         binding.baseObservable = this.searchBaseObservable
@@ -65,9 +66,9 @@ class SearchFragment : Fragment() {
         updateImageListFromQuery()
         lifecycleScope.launch {
             adapter.loadStateFlow
-                    .distinctUntilChangedBy { it.refresh }
-                    .filter { it.refresh is LoadState.NotLoading }
-                    .collect { binding.searchList.scrollToPosition(0) }
+                .distinctUntilChangedBy { it.refresh }
+                .filter { it.refresh is LoadState.NotLoading }
+                .collect { binding.searchList.scrollToPosition(0) }
         }
     }
 
@@ -75,6 +76,8 @@ class SearchFragment : Fragment() {
         searchBaseObservable.getQuery().trim().let {
             if (it.isNotEmpty()) {
                 search(it)
+            } else {
+                adapter.submitData(lifecycle, PagingData.empty())
             }
         }
     }
