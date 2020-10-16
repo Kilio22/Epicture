@@ -9,21 +9,31 @@ import kotlinx.coroutines.flow.Flow
 class ImgurPager {
     fun getAccountFavoritesStream(): Flow<PagingData<Image>> {
         return Pager(
-            config = PagingConfig(
-                pageSize = NETWORK_PAGE_SIZE,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = { ImgurAccountFavoritesPagingSource() }
+                config = PagingConfig(
+                        pageSize = NETWORK_PAGE_SIZE,
+                        enablePlaceholders = false
+                ),
+                pagingSourceFactory = { ImgurAccountFavoritesPagingSource() }
         ).flow
     }
 
     fun getAccountUploadsStream(): Flow<PagingData<Image>> {
         return Pager(
-            config = PagingConfig(
-                pageSize = NETWORK_PAGE_SIZE,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = { ImgurAccountImagesPagingSource() }
+                config = PagingConfig(
+                        pageSize = NETWORK_PAGE_SIZE,
+                        enablePlaceholders = false
+                ),
+                pagingSourceFactory = { ImgurAccountImagesPagingSource() }
+        ).flow
+    }
+
+    fun simpleSearchStream(query: String): Flow<PagingData<Image>> {
+        return Pager(
+                config = PagingConfig(
+                        pageSize = NETWORK_PAGE_SIZE,
+                        enablePlaceholders = false
+                ),
+                pagingSourceFactory = { ImgurGallerySimpleSearchPagingSource(query) }
         ).flow
     }
 

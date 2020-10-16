@@ -138,8 +138,8 @@ fun loginAnimationStatus(button: Button,
     }
 }
 
-@BindingAdapter("choosedImageUrl")
-fun bindChoosedImage(imgView: ImageView, imgUrl: String?) {
+@BindingAdapter("chosenImageUrl")
+fun bindChosenImage(imgView: ImageView, imgUrl: String?) {
     imgUrl?.let {
         Glide.with(imgView.context)
                 .load(imgUrl)

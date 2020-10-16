@@ -25,11 +25,10 @@ class ImgurAccountFavoritesPagingSource : PagingSource<Int, Image>() {
                 if (!FORMATS_EXTENSION.containsKey(favoriteObject.type)) {
                     continue
                 }
-                var imageLink: String
-                if (favoriteObject.isAlbum) {
-                    imageLink = "https://i.imgur.com/" + favoriteObject.cover + FORMATS_EXTENSION[favoriteObject.type]
+                val imageLink = if (favoriteObject.isAlbum) {
+                    "https://i.imgur.com/" + favoriteObject.cover + FORMATS_EXTENSION[favoriteObject.type]
                 } else {
-                    imageLink = "https://i.imgur.com/" + favoriteObject.id + FORMATS_EXTENSION[favoriteObject.type]
+                    "https://i.imgur.com/" + favoriteObject.id + FORMATS_EXTENSION[favoriteObject.type]
                 }
                 imageList.add(
                         Image(
@@ -41,7 +40,9 @@ class ImgurAccountFavoritesPagingSource : PagingSource<Int, Image>() {
                                 favoriteObject.downs,
                                 favoriteObject.isAlbum,
                                 favoriteObject.type,
-                                favoriteObject.vote
+                                favoriteObject.vote,
+                                favoriteObject.commentCount,
+                                favoriteObject.favoriteCount
                         )
                 )
             }

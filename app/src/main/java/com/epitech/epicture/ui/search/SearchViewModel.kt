@@ -1,13 +1,15 @@
 package com.epitech.epicture.ui.search
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.paging.PagingData
+import com.epitech.epicture.data.ImgurPager
+import com.epitech.epicture.model.Image
+import kotlinx.coroutines.flow.Flow
 
 class SearchViewModel : ViewModel() {
+    private val pager = ImgurPager()
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
+    fun simpleSearch(query: String): Flow<PagingData<Image>> {
+        return pager.simpleSearchStream(query)
     }
-    val text: LiveData<String> = _text
 }
