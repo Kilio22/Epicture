@@ -2,6 +2,7 @@ package com.epitech.epicture.data
 
 import androidx.paging.PagingSource
 import com.epitech.epicture.config.Config
+import com.epitech.epicture.config.Config.Companion.FORMATS_EXTENSION
 import com.epitech.epicture.model.Image
 import com.epitech.epicture.model.ImgurImage
 import com.epitech.epicture.service.ImgurService
@@ -9,14 +10,24 @@ import okhttp3.internal.toImmutableList
 import retrofit2.HttpException
 import java.io.IOException
 
-class ImgurGallerySimpleSearchPagingSource(private val query: String) : PagingSource<Int, Image>() {
+class ImgurGalleryAdvancedSearchPagingSource(
+    private val qAll: String,
+    private val qAny: String,
+    private val qExactly: String,
+    private val qType: String,
+    private val sort: String
+) : PagingSource<Int, Image>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Image> {
         val position = params.key ?: Config.PAGE_INITIAL_IDX
         return try {
             val imgurImages =
-                ImgurService.simpleSearch(
+                ImgurService.advancedSearch(
                     position,
-                    query
+                    qAll,
+                    qAny,
+                    qExactly,
+                    if (qType == "all") "" else qType,
+                    sort
                 ).data
             val imageList = this.getImageList(imgurImages)
 
@@ -38,16 +49,16 @@ class ImgurGallerySimpleSearchPagingSource(private val query: String) : PagingSo
         for (imgurImage in imgurImages) {
             if (imgurImage.isAlbum && imgurImage.images != null) {
                 for (image in imgurImage.images) {
-                    if (image.type != null && Config.FORMATS_EXTENSION.containsKey(image.type)) {
+                    if (image.type != null && FORMATS_EXTENSION.containsKey(image.type)) {
                         imageList.add(image)
                     }
                 }
             }
-            if (imgurImage.type != null && Config.FORMATS_EXTENSION.containsKey(imgurImage.type)) {
+            if (imgurImage.type != null && FORMATS_EXTENSION.containsKey(imgurImage.type)) {
                 val imageLink = if (imgurImage.isAlbum) {
-                    "https://i.imgur.com/" + imgurImage.cover + Config.FORMATS_EXTENSION[imgurImage.type]
+                    "https://i.imgur.com/" + imgurImage.cover + FORMATS_EXTENSION[imgurImage.type]
                 } else {
-                    "https://i.imgur.com/" + imgurImage.id + Config.FORMATS_EXTENSION[imgurImage.type]
+                    "https://i.imgur.com/" + imgurImage.id + FORMATS_EXTENSION[imgurImage.type]
                 }
                 imageList.add(
                     Image(

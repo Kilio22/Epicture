@@ -6,6 +6,7 @@ import com.epitech.epicture.config.Config.Companion.FORMATS_EXTENSION
 import com.epitech.epicture.config.Config.Companion.PAGE_INITIAL_IDX
 import com.epitech.epicture.model.Image
 import com.epitech.epicture.service.ImgurService
+import okhttp3.internal.toImmutableList
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -17,29 +18,8 @@ class ImgurAccountImagesPagingSource : PagingSource<Int, Image>() {
                 ImgurService.getAccountImages(
                     HomeActivityData.imgurCredentials?.accessToken ?: "", position
                 ).data
-            val imageList = mutableListOf<Image>()
-
-            for (image in images) {
-                if (!FORMATS_EXTENSION.containsKey(image.type)) {
-                    continue
-                }
-                imageList.add(
-                    Image(
-                        image.id,
-                        image.title,
-                        image.description,
-                        "https://i.imgur.com/" + image.id + FORMATS_EXTENSION[image.type],
-                        image.ups,
-                        image.downs,
-                        image.isAlbum,
-                        image.type,
-                        image.vote,
-                        image.commentCount,
-                        image.favoriteCount,
-                        image.isFavorite
-                    )
-                )
-            }
+            val imageList = this.getImageList(images)
+            
             LoadResult.Page(
                 data = imageList,
                 prevKey = if (position == PAGE_INITIAL_IDX) null else position - 1,
@@ -50,5 +30,32 @@ class ImgurAccountImagesPagingSource : PagingSource<Int, Image>() {
         } catch (exception: HttpException) {
             return LoadResult.Error(exception)
         }
+    }
+
+    private fun getImageList(images: List<Image>): List<Image> {
+        val imageList = mutableListOf<Image>()
+
+        for (image in images) {
+            if (!FORMATS_EXTENSION.containsKey(image.type)) {
+                continue
+            }
+            imageList.add(
+                Image(
+                    image.id,
+                    image.title,
+                    image.description,
+                    "https://i.imgur.com/" + image.id + FORMATS_EXTENSION[image.type],
+                    image.ups,
+                    image.downs,
+                    image.isAlbum,
+                    image.type,
+                    image.vote,
+                    image.commentCount,
+                    image.favoriteCount,
+                    image.isFavorite
+                )
+            )
+        }
+        return imageList.toImmutableList()
     }
 }

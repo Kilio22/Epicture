@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -42,28 +45,39 @@ class SearchFragment : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
         binding.lifecycleOwner = this
         binding.searchList.adapter = adapter
-        binding.baseObservable = this.searchBaseObservable
+        binding.baseObservable = searchBaseObservable
+        binding.viewModel = searchViewModel
+
+        initSwitch()
+        initSpinner()
         initSearch()
         return binding.root
     }
 
+    private val onEditorActionListener = TextView.OnEditorActionListener { _, actionId, _ ->
+        if (actionId == EditorInfo.IME_ACTION_GO) {
+            updateImageListFromQuery()
+            true
+        } else {
+            false
+        }
+    }
+
+    private val onKeyListener = View.OnKeyListener { _, keyCode, event ->
+        if (keyCode == KeyEvent.KEYCODE_ENTER) {
+            if (event.action == KeyEvent.ACTION_DOWN) {
+                updateImageListFromQuery()
+            }
+            true
+        } else {
+            false
+        }
+    }
+
     private fun initSearch() {
-        binding.queryInput.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_GO) {
-                updateImageListFromQuery()
-                true
-            } else {
-                false
-            }
-        }
-        binding.queryInput.setOnKeyListener { _, keyCode, event ->
-            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                updateImageListFromQuery()
-                true
-            } else {
-                false
-            }
-        }
+        binding.baseQueryInput.setOnEditorActionListener(onEditorActionListener)
+        binding.baseQueryInput.setOnKeyListener(onKeyListener)
+        binding.searchButton.setOnClickListener { updateImageListFromQuery() }
         updateImageListFromQuery()
         lifecycleScope.launch {
             adapter.loadStateFlow
@@ -75,20 +89,94 @@ class SearchFragment : Fragment() {
 
     private fun updateImageListFromQuery() {
         searchBaseObservable.getQuery().trim().let {
-            if (it.isNotEmpty()) {
-                search(it)
+            if (it.isNotEmpty() && searchViewModel.advancedSearch.value != true) {
+                simpleSearch(it)
+            } else if (it.isNotEmpty()) {
+                advancedSearch(it)
             } else {
                 adapter.submitData(lifecycle, PagingData.empty())
             }
         }
     }
 
-    private fun search(query: String) {
+    private fun simpleSearch(query: String) {
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
             searchViewModel.simpleSearch(query).collectLatest {
                 adapter.submitData(it)
             }
         }
+    }
+
+    private fun advancedSearch(query: String) {
+        searchJob?.cancel()
+        searchJob = lifecycleScope.launch {
+            searchViewModel.advancedSearch(
+                query,
+                searchBaseObservable.getQAny().trim(),
+                searchBaseObservable.getQExactly().trim(),
+                searchViewModel.fileType.value?.trim() ?: "all",
+                searchViewModel.sort.value?.trim() ?: "time"
+            ).collectLatest {
+                adapter.submitData(it)
+            }
+        }
+    }
+
+    private fun initSpinner() {
+        ArrayAdapter.createFromResource(
+            this.requireContext(),
+            R.array.type_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.fileTypeSpinner.adapter = adapter
+        }
+        binding.fileTypeSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val stringArray = resources.getStringArray(R.array.type_array)
+                    searchViewModel.setFileType(stringArray[position])
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    searchViewModel.setFileType("all")
+                }
+            }
+        ArrayAdapter.createFromResource(
+            this.requireContext(),
+            R.array.sort_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.sortBySpinner.adapter = adapter
+        }
+        binding.sortBySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val stringArray = resources.getStringArray(R.array.sort_array)
+                searchViewModel.setSort(stringArray[position])
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                searchViewModel.setSort("")
+            }
+        }
+    }
+
+    private fun initSwitch() {
+        binding.advancedSearchSwitch.setOnCheckedChangeListener { _, isChecked ->
+            searchViewModel.setAdvancedSearch(isChecked)
+        }
+        binding.advancedSearchSwitch.isChecked = false
     }
 }

@@ -47,9 +47,10 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="369dp"
-                    android:layout_height="384dp"
+                    android:id="@+id/chosen_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/chosen_image"
                     android:scaleType="fitCenter"
@@ -73,7 +74,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.517"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView"
+                    app:layout_constraintTop_toBottomOf="@+id/chosen_image"
                     app:uploadFieldStatus="@{viewModel.status}" />
 
                 <EditText

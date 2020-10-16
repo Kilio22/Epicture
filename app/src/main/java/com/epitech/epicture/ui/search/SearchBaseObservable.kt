@@ -14,4 +14,26 @@ class SearchBaseObservable : BaseObservable() {
     fun setQuery(value: String) {
         this.query = value
     }
+
+    private var qAny = ""
+
+    @Bindable
+    fun getQAny(): String {
+        return this.query
+    }
+
+    fun setQAny(value: String) {
+        this.query = value
+    }
+
+    private var qExactly = ""
+
+    @Bindable
+    fun getQExactly(): String {
+        return this.query
+    }
+
+    fun setQExactly(value: String) {
+        this.query = value
+    }
 }

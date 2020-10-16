@@ -13,7 +13,7 @@ data class Image(
     @SerializedName("ups") val ups: Int,
     @SerializedName("downs") val downs: Int,
     @SerializedName("is_album") val isAlbum: Boolean,
-    @SerializedName("type") val type: String,
+    @SerializedName("type") val type: String?,
     @SerializedName("vote") val vote: String?,
     @SerializedName("comment_count") val commentCount: Int,
     @SerializedName("favorite_count") val favoriteCount: Int,

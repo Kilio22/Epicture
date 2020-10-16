@@ -179,14 +179,13 @@ object ImgurService {
     }
 
     suspend fun advancedSearch(
-        sort: String = "time",
-        window: String = "all",
         page: Int,
         qAll: String,
         qAny: String,
         qExactly: String,
-        qNot: String,
-        qType: String
+        qType: String,
+        sort: String,
+        window: String = "all"
     ): BasicDataResponse<ImgurImage> {
         return this.retrofitImgurService.advancedSearch(
             "Client-ID $CLIENT_ID",
@@ -196,7 +195,6 @@ object ImgurService {
             qAll,
             qAny,
             qExactly,
-            qNot,
             qType
         )
     }

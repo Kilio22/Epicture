@@ -31,4 +31,21 @@
     <string name="upload_image">Upload image</string>
     <string name="title_details">Details</string>
     <string name="comment_count">Comments: %d</string>
+    <string name="base_query_input">Image, album…</string>
+    <string name="file_type">File type:</string>
+    <string name="exactly">Exactly</string>
+    <string name="any_of">Any of</string>
+    <string name="advanced_search">Advanced search</string>
+    <string name="sort_by">Sort by:</string>
+    <string-array name="type_array">
+        <item>all</item>
+        <item>jpg</item>
+        <item>png</item>
+        <item>gif</item>
+    </string-array>
+    <string-array name="sort_array">
+        <item>time</item>
+        <item>viral</item>
+        <item>top</item>
+    </string-array>
 </resources>

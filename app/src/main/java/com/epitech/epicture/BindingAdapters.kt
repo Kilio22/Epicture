@@ -198,3 +198,35 @@ fun bindChosenImage(imgView: ImageView, imgUrl: String?) {
             .into(imgView)
     }
 }
+
+@BindingAdapter("advancedSearchStatus")
+fun advancedSearchStatus(editText: EditText, value: Boolean) {
+    when (value) {
+        true -> editText.visibility = View.VISIBLE
+        false -> editText.visibility = View.GONE
+    }
+}
+
+@BindingAdapter("advancedSearchStatus")
+fun advancedSearchStatus(textView: TextView, value: Boolean) {
+    when (value) {
+        true -> textView.visibility = View.VISIBLE
+        false -> textView.visibility = View.GONE
+    }
+}
+
+@BindingAdapter("advancedSearchStatus")
+fun advancedSearchStatus(spinner: Spinner, value: Boolean) {
+    when (value) {
+        true -> spinner.visibility = View.VISIBLE
+        false -> spinner.visibility = View.GONE
+    }
+}
+
+@BindingAdapter("advancedSearchStatus")
+fun advancedSearchStatus(button: Button, value: Boolean) {
+    when (value) {
+        true -> button.visibility = View.VISIBLE
+        false -> button.visibility = View.GONE
+    }
+}

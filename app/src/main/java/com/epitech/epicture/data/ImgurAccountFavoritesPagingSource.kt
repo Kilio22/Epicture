@@ -5,7 +5,9 @@ import com.epitech.epicture.HomeActivityData
 import com.epitech.epicture.config.Config.Companion.FORMATS_EXTENSION
 import com.epitech.epicture.config.Config.Companion.PAGE_INITIAL_IDX
 import com.epitech.epicture.model.Image
+import com.epitech.epicture.model.ImgurImage
 import com.epitech.epicture.service.ImgurService
+import okhttp3.internal.toImmutableList
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -13,40 +15,14 @@ class ImgurAccountFavoritesPagingSource : PagingSource<Int, Image>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Image> {
         val position = params.key ?: PAGE_INITIAL_IDX
         return try {
-            val favoriteObjects = ImgurService.getUserFavorites(
+            val imgurImages = ImgurService.getUserFavorites(
                 HomeActivityData.imgurCredentials?.accessToken ?: "",
                 HomeActivityData.imgurCredentials?.accountUsername ?: "",
                 position,
                 "newest"
             ).data
-            val imageList = mutableListOf<Image>()
-
-            for (favoriteObject in favoriteObjects) {
-                if (!FORMATS_EXTENSION.containsKey(favoriteObject.type)) {
-                    continue
-                }
-                val imageLink = if (favoriteObject.isAlbum) {
-                    "https://i.imgur.com/" + favoriteObject.cover + FORMATS_EXTENSION[favoriteObject.type]
-                } else {
-                    "https://i.imgur.com/" + favoriteObject.id + FORMATS_EXTENSION[favoriteObject.type]
-                }
-                imageList.add(
-                    Image(
-                        favoriteObject.id,
-                        favoriteObject.title,
-                        favoriteObject.description,
-                        imageLink,
-                        favoriteObject.ups,
-                        favoriteObject.downs,
-                        favoriteObject.isAlbum,
-                        favoriteObject.type,
-                        favoriteObject.vote,
-                        favoriteObject.commentCount,
-                        favoriteObject.favoriteCount,
-                        favoriteObject.isFavorite
-                    )
-                )
-            }
+            val imageList = this.getImageList(imgurImages)
+            
             LoadResult.Page(
                 data = imageList,
                 prevKey = if (position == PAGE_INITIAL_IDX) null else position - 1,
@@ -57,5 +33,43 @@ class ImgurAccountFavoritesPagingSource : PagingSource<Int, Image>() {
         } catch (exception: HttpException) {
             return LoadResult.Error(exception)
         }
+    }
+
+    private fun getImageList(imgurImages: List<ImgurImage>): List<Image> {
+        val imageList = mutableListOf<Image>()
+
+        for (imgurImage in imgurImages) {
+            if (imgurImage.isAlbum && imgurImage.images != null) {
+                for (image in imgurImage.images) {
+                    if (image.type != null && FORMATS_EXTENSION.containsKey(image.type)) {
+                        imageList.add(image)
+                    }
+                }
+            }
+            if (imgurImage.type != null && FORMATS_EXTENSION.containsKey(imgurImage.type)) {
+                val imageLink = if (imgurImage.isAlbum) {
+                    "https://i.imgur.com/" + imgurImage.cover + FORMATS_EXTENSION[imgurImage.type]
+                } else {
+                    "https://i.imgur.com/" + imgurImage.id + FORMATS_EXTENSION[imgurImage.type]
+                }
+                imageList.add(
+                    Image(
+                        imgurImage.id,
+                        imgurImage.title,
+                        imgurImage.description,
+                        imageLink,
+                        imgurImage.ups,
+                        imgurImage.downs,
+                        imgurImage.isAlbum,
+                        imgurImage.type,
+                        imgurImage.vote,
+                        imgurImage.commentCount,
+                        imgurImage.favoriteCount,
+                        imgurImage.isFavorite
+                    )
+                )
+            }
+        }
+        return imageList.toImmutableList()
     }
 }

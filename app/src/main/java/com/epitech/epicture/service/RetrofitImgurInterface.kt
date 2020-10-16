@@ -115,7 +115,6 @@ interface RetrofitImgurService {
         @Query("q_all") qAll: String,
         @Query("q_any") qAny: String,
         @Query("q_exactly") qExactly: String,
-        @Query("q_not") qNot: String,
         @Query("q_type") qType: String
     ): BasicDataResponse<ImgurImage>
 }
