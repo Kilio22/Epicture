@@ -28,4 +28,6 @@
     <string name="loading_image">loading image</string>
     <string name="type_something">Type something</string>
     <string name="avatar">avatar</string>
+    <string name="upload_image">Upload image</string>
+    <string name="title_details">Details</string>
 </resources>

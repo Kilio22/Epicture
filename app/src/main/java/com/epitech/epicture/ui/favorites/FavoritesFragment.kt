@@ -7,9 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.Observable
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.epitech.epicture.R
 import com.epitech.epicture.databinding.FragmentFavoritesBinding
@@ -24,12 +27,21 @@ class FavoritesFragment : Fragment() {
 
     private lateinit var binding: FragmentFavoritesBinding
     private lateinit var viewModel: FavoritesViewModel
-    private val adapter = FavoriteImageGridAdapter()
+    private val adapter = FavoriteImageGridAdapter(FavoriteImageGridAdapter.ClickListener {
+        viewModel.selectImage(it)
+    })
     private var searchJob: Job? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewModel = ViewModelProvider(this).get(FavoritesViewModel::class.java)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favorites, container, false)
+
+        viewModel.selectedImage.observe(viewLifecycleOwner, Observer { selectedImage ->
+            selectedImage?.let {
+                this.findNavController().navigate(FavoritesFragmentDirections.actionNavigationFavoritesToImageDetailsFragment(it))
+                viewModel.selectImageDone()
+            }
+        })
 
         binding.lifecycleOwner = this
         binding.favoritesList.adapter = adapter

@@ -1,7 +1,10 @@
 package com.epitech.epicture.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Image(
     @SerializedName("id") val id: String,
     @SerializedName("title") val title: String?,
@@ -15,4 +18,4 @@ data class Image(
     @SerializedName("comment_count") val commentCount: Int,
     @SerializedName("favorite_count") val favoriteCount: Int,
     @SerializedName("favorite") val isFavorite: Boolean
-)
+) : Parcelable

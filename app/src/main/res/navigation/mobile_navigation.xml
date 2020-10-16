@@ -15,7 +15,11 @@
         android:id="@+id/navigation_favorites"
         android:name="com.epitech.epicture.ui.favorites.FavoritesFragment"
         android:label="@string/title_favorites"
-        tools:layout="@layout/fragment_favorites" />
+        tools:layout="@layout/fragment_favorites" >
+        <action
+            android:id="@+id/action_navigation_favorites_to_imageDetailsFragment"
+            app:destination="@id/imageDetailsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_search"
@@ -32,4 +36,13 @@
         android:name="com.epitech.epicture.ui.user.UserFragment"
         android:label="@string/title_user"
         tools:layout="@layout/fragment_user" />
+    <fragment
+        android:id="@+id/imageDetailsFragment"
+        android:name="com.epitech.epicture.ui.image_details.ImageDetailsFragment"
+        android:label="@string/title_details"
+        tools:layout="@layout/fragment_image_details">
+        <argument
+            android:name="selectedImage"
+            app:argType="com.epitech.epicture.model.Image" />
+    </fragment>
 </navigation>

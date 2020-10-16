@@ -22,7 +22,8 @@ import kotlinx.coroutines.launch
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewModel: HomeViewModel
-    private val adapter = FavoriteImageGridAdapter()
+    private val adapter = FavoriteImageGridAdapter(FavoriteImageGridAdapter.ClickListener {
+    })
     private var searchJob: Job? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

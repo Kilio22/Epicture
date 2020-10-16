@@ -6,8 +6,12 @@
     <data>
 
         <variable
-            name="property"
+            name="image"
             type="com.epitech.epicture.model.Image" />
+
+        <variable
+            name="clickListener"
+            type="com.epitech.epicture.ui.favorites.FavoriteImageGridAdapter.ClickListener" />
     </data>
 
     <ImageView
@@ -16,8 +20,7 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:contentDescription="@string/imgur_image"
-        app:imageUrl="@{property.link}"
-        tools:src="@tools:sample/backgrounds/scenic">
-
-    </ImageView>
+        android:onClick="@{() -> clickListener.onClick(image)}"
+        app:imageUrl="@{image.link}"
+        tools:src="@tools:sample/backgrounds/scenic" />
 </layout>

@@ -1,5 +1,7 @@
 package com.epitech.epicture.ui.favorites
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagingData
 import com.epitech.epicture.data.ImgurPager
@@ -7,9 +9,22 @@ import com.epitech.epicture.model.Image
 import kotlinx.coroutines.flow.Flow
 
 class FavoritesViewModel : ViewModel() {
+
+    private val _selectedImage = MutableLiveData<Image?>()
+    val selectedImage: LiveData<Image?>
+        get() = _selectedImage
+
     private val pager = ImgurPager()
 
     fun searchFavorites(): Flow<PagingData<Image>> {
         return pager.getAccountFavoritesStream()
+    }
+
+    fun selectImage(image: Image) {
+        _selectedImage.value = image
+    }
+
+    fun selectImageDone() {
+        _selectedImage.value = null
     }
 }
