@@ -1,9 +1,11 @@
 package com.epitech.epicture.ui.search
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -39,11 +41,28 @@ class SearchFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.searchList.adapter = adapter
         binding.baseObservable = this.searchBaseObservable
+        initSearch()
         return binding.root
     }
 
     private fun initSearch() {
-        search()
+        binding.queryInput.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_GO) {
+                updateImageListFromQuery()
+                true
+            } else {
+                false
+            }
+        }
+        binding.queryInput.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                updateImageListFromQuery()
+                true
+            } else {
+                false
+            }
+        }
+        updateImageListFromQuery()
         lifecycleScope.launch {
             adapter.loadStateFlow
                     .distinctUntilChangedBy { it.refresh }
@@ -52,10 +71,18 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun search() {
+    private fun updateImageListFromQuery() {
+        searchBaseObservable.getQuery().trim().let {
+            if (it.isNotEmpty()) {
+                search(it)
+            }
+        }
+    }
+
+    private fun search(query: String) {
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
-            searchViewModel.simpleSearch(searchBaseObservable.getQuery()).collectLatest {
+            searchViewModel.simpleSearch(query).collectLatest {
                 adapter.submitData(it)
             }
         }

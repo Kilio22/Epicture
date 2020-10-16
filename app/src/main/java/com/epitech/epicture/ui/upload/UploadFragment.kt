@@ -87,9 +87,9 @@ class UploadFragment : Fragment() {
         val requestMultipartImageBody =
                 MultipartBody.Part.createFormData("image", file.name, requestImage)
         val requestTitle: RequestBody =
-                this.uploadBaseObservable.getTitle().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+                this.uploadBaseObservable.getTitle().trim().toRequestBody("multipart/form-data".toMediaTypeOrNull())
         val requestDescription: RequestBody =
-                this.uploadBaseObservable.getDescription().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+                this.uploadBaseObservable.getDescription().trim().toRequestBody("multipart/form-data".toMediaTypeOrNull())
         val requestType: RequestBody =
                 "file".toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
