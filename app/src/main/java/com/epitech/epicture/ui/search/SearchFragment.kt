@@ -26,7 +26,8 @@ class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private lateinit var searchViewModel: SearchViewModel
     private lateinit var searchBaseObservable: SearchBaseObservable
-    private val adapter = FavoriteImageGridAdapter()
+    private val adapter = FavoriteImageGridAdapter(FavoriteImageGridAdapter.ClickListener {
+    })
     private var searchJob: Job? = null
 
     override fun onCreateView(

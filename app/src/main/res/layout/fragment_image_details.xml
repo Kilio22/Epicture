@@ -5,135 +5,154 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.epitech.epicture.ui.image_details.ImageDetailsViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="6dp">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/details_title"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="6dp"
-            android:text="@{viewModel.image.title}"
-            android:textColor="@color/titleColor"
-            android:textSize="24sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="What an image that is." />
+            android:paddingHorizontal="6dp">
 
-        <ImageView
-            android:id="@+id/details_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/imgur_image"
-            app:imageUrl="@{viewModel.image.link}"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/details_title"
-            tools:src="@tools:sample/backgrounds/scenic" />
+            <TextView
+                android:id="@+id/details_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="6dp"
+                android:text="@{viewModel.title}"
+                android:textColor="@color/titleColor"
+                android:textSize="24sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="What an image that is." />
 
-        <TextView
-            android:id="@+id/details_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@{viewModel.image.description}"
-            android:textColor="?android:textColorPrimary"
-            android:textSize="16sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/details_image"
-            tools:text="This is the image's description text view." />
+            <ImageView
+                android:id="@+id/details_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:background="@drawable/black_outline_1"
+                android:contentDescription="@string/imgur_image"
+                app:imageUrl="@{viewModel.link}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/details_title"
+                tools:src="@tools:sample/backgrounds/scenic" />
 
-        <TextView
-            android:id="@+id/details_comment_msg"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="0dp"
-            android:paddingVertical="8dp"
-            android:text="Comments: %d"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/details_description" />
+            <TextView
+                android:id="@+id/details_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.desc}"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="16sp"
+                android:visibility="@{viewModel.desc.isEmpty() ? View.GONE : View.VISIBLE}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/details_image"
+                tools:text="This is the image's description text view." />
 
-        <ImageView
-            android:id="@+id/details_favorite_ic"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"
-            android:src="@drawable/star_favorite"
-            app:layout_constraintBottom_toBottomOf="@+id/details_favorite_count"
-            app:layout_constraintEnd_toStartOf="@+id/details_favorite_count"
-            app:layout_constraintTop_toTopOf="@+id/details_favorite_count" />
+            <TextView
+                android:id="@+id/details_comment_msg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:paddingVertical="8dp"
+                android:text="@{viewModel.commentCount}"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/details_description"
+                tools:text="@string/comment_count" />
 
-        <TextView
-            android:id="@+id/details_favorite_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingVertical="8dp"
-            android:textSize="16sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/details_downvote_count"
-            app:layout_constraintEnd_toStartOf="@id/details_upvote_ic"
-            tools:text="56" />
+            <ImageView
+                android:id="@+id/details_favorite_ic"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:onClick="@{() -> viewModel.onClickFavorite()}"
+                app:imageFavorite="@{viewModel.isFav}"
+                app:layout_constraintBottom_toBottomOf="@+id/details_favorite_count"
+                app:layout_constraintEnd_toStartOf="@+id/details_favorite_count"
+                app:layout_constraintTop_toTopOf="@+id/details_favorite_count"
+                tools:src="@drawable/star_favorite" />
 
-        <ImageView
-            android:id="@+id/details_upvote_ic"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"
-            android:src="@drawable/ic_baseline_arrow_upward_24"
-            app:layout_constraintBottom_toBottomOf="@+id/details_upvote_count"
-            app:layout_constraintEnd_toStartOf="@+id/details_upvote_count"
-            app:layout_constraintTop_toTopOf="@+id/details_upvote_count" />
+            <TextView
+                android:id="@+id/details_favorite_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="8dp"
+                android:text="@{viewModel.favs}"
+                android:textSize="16sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/details_downvote_count"
+                app:layout_constraintEnd_toStartOf="@id/details_upvote_ic"
+                tools:text="56" />
 
-        <TextView
-            android:id="@+id/details_upvote_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingVertical="8dp"
-            android:textSize="16sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/details_downvote_count"
-            app:layout_constraintEnd_toStartOf="@id/details_downvote_ic"
-            tools:text="198" />
+            <ImageView
+                android:id="@+id/details_upvote_ic"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:onClick="@{() -> viewModel.onClickUpvote()}"
+                app:imageUpvote="@{viewModel.isUp}"
+                app:layout_constraintBottom_toBottomOf="@+id/details_upvote_count"
+                app:layout_constraintEnd_toStartOf="@+id/details_upvote_count"
+                app:layout_constraintTop_toTopOf="@+id/details_upvote_count"
+                tools:src="@drawable/ic_baseline_arrow_upward_24" />
 
-        <ImageView
-            android:id="@+id/details_downvote_ic"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"
-            android:src="@drawable/ic_baseline_arrow_downward_24"
-            app:layout_constraintBottom_toBottomOf="@+id/details_downvote_count"
-            app:layout_constraintEnd_toStartOf="@+id/details_downvote_count"
-            app:layout_constraintTop_toTopOf="@+id/details_downvote_count" />
+            <TextView
+                android:id="@+id/details_upvote_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="8dp"
+                android:text="@{viewModel.ups}"
+                android:textSize="16sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/details_downvote_count"
+                app:layout_constraintEnd_toStartOf="@id/details_downvote_ic"
+                tools:text="198" />
 
-        <TextView
-            android:id="@+id/details_downvote_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingVertical="8dp"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/details_description"
-            tools:text="21" />
-        
-        <!--<androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/details_comments"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scrollbars="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />-->
-        <!--tools:listitem="@layout/image_favorite" />-->
+            <ImageView
+                android:id="@+id/details_downvote_ic"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:onClick="@{() -> viewModel.onClickDownvote()}"
+                android:src="@drawable/ic_baseline_arrow_downward_24"
+                app:imageDownvote="@{viewModel.isDown}"
+                app:layout_constraintBottom_toBottomOf="@+id/details_downvote_count"
+                app:layout_constraintEnd_toStartOf="@+id/details_downvote_count"
+                app:layout_constraintTop_toTopOf="@+id/details_downvote_count" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/details_downvote_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="8dp"
+                android:text="@{viewModel.downs}"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/details_description"
+                tools:text="21" />
+
+            <!--<androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/details_comments"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scrollbars="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />-->
+            <!--tools:listitem="@layout/image_favorite" />-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

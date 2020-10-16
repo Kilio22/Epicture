@@ -32,6 +32,39 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
     }
 }
 
+@BindingAdapter("imageFavorite")
+fun bindImageFavorite(imageView: ImageView, isFav: Boolean?)
+{
+    isFav?.let {
+        if (isFav)
+            imageView.setImageResource(R.drawable.star_favorite)
+        else
+            imageView.setImageResource(R.drawable.star_favorite_black)
+    }
+}
+
+@BindingAdapter("imageUpvote")
+fun bindImageUpvote(imageView: ImageView, isUp: Boolean?)
+{
+    isUp?.let {
+        if (isUp)
+            imageView.setImageResource(R.drawable.ic_baseline_arrow_upward_highlight_24)
+        else
+            imageView.setImageResource(R.drawable.ic_baseline_arrow_upward_24)
+    }
+}
+
+@BindingAdapter("imageDownvote")
+fun bindImageDownvote(imageView: ImageView, isUp: Boolean?)
+{
+    isUp?.let {
+        if (isUp)
+            imageView.setImageResource(R.drawable.ic_baseline_arrow_downward_highlight_24)
+        else
+            imageView.setImageResource(R.drawable.ic_baseline_arrow_downward_24)
+    }
+}
+
 @BindingAdapter("chooseImageButtonStatus")
 fun chooseImageButtonStatus(
     button: Button,
