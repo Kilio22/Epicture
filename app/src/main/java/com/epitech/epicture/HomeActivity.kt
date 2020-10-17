@@ -13,9 +13,15 @@ import com.epitech.epicture.databinding.ActivityHomeBinding
 import com.epitech.epicture.model.ImgurCredentials
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
+/**
+ * Home activity
+ */
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
 
+    /**
+     * Creates activity
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,6 +45,9 @@ class HomeActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
+    /**
+     * Called when the app is put in background and used to store user credentials
+     */
     override fun onPause() {
         super.onPause()
 

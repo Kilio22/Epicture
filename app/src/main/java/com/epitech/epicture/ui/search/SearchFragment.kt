@@ -1,11 +1,13 @@
 package com.epitech.epicture.ui.search
 
+import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
@@ -25,6 +27,9 @@ import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 
+/**
+ * Search fragment
+ */
 class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private lateinit var searchViewModel: SearchViewModel
@@ -33,6 +38,9 @@ class SearchFragment : Fragment() {
     })
     private var searchJob: Job? = null
 
+    /**
+     * Creates fragment
+     */
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -74,6 +82,9 @@ class SearchFragment : Fragment() {
         }
     }
 
+    /**
+     * Initializes search
+     */
     private fun initSearch() {
         binding.baseQueryInput.setOnEditorActionListener(onEditorActionListener)
         binding.baseQueryInput.setOnKeyListener(onKeyListener)
@@ -87,8 +98,12 @@ class SearchFragment : Fragment() {
         }
     }
 
+    /**
+     * Makes an HTTP request to imgur api and updates displayed image list
+     */
     private fun updateImageListFromQuery() {
         searchBaseObservable.getQuery().trim().let {
+            view?.hideKeyboard()
             if (it.isNotEmpty() && searchViewModel.advancedSearch.value != true) {
                 simpleSearch(it)
             } else if (it.isNotEmpty()) {
@@ -99,6 +114,17 @@ class SearchFragment : Fragment() {
         }
     }
 
+    /**
+     * Hides keyboard
+     */
+    private fun View.hideKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
+    }
+
+    /**
+     * Makes a simple search
+     */
     private fun simpleSearch(query: String) {
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
@@ -108,6 +134,9 @@ class SearchFragment : Fragment() {
         }
     }
 
+    /**
+     * Makes an advanced search
+     */
     private fun advancedSearch(query: String) {
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
@@ -123,6 +152,9 @@ class SearchFragment : Fragment() {
         }
     }
 
+    /**
+     * Initializes search spinners
+     */
     private fun initSpinner() {
         ArrayAdapter.createFromResource(
                 this.requireContext(),
@@ -173,6 +205,9 @@ class SearchFragment : Fragment() {
         }
     }
 
+    /**
+     * Initializes search switch
+     */
     private fun initSwitch() {
         binding.advancedSearchSwitch.setOnCheckedChangeListener { _, isChecked ->
             searchViewModel.setAdvancedSearch(isChecked)

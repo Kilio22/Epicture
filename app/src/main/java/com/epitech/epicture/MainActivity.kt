@@ -7,10 +7,15 @@ import androidx.databinding.DataBindingUtil
 import com.epitech.epicture.databinding.ActivityMainBinding
 import com.epitech.epicture.ui.login.LoginActivity
 
-
+/**
+ * Main activity
+ */
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
+    /**
+     * Creates activity
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

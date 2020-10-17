@@ -17,19 +17,25 @@ import com.epitech.epicture.service.ImgurService
 import com.epitech.epicture.ui.login.LoginActivity
 import kotlinx.coroutines.launch
 
+/**
+ * User fragment
+ */
 class UserFragment : Fragment() {
     private lateinit var userViewModel: UserViewModel
 
+    /**
+     * Creates fragment
+     */
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentUserBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_user, container, false)
+                DataBindingUtil.inflate(inflater, R.layout.fragment_user, container, false)
 
         userViewModel =
-            ViewModelProvider(this).get(UserViewModel::class.java)
+                ViewModelProvider(this).get(UserViewModel::class.java)
 
         binding.signOutButton.setOnClickListener { signOut() }
         binding.viewModel = userViewModel
@@ -39,6 +45,9 @@ class UserFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Signs out user
+     */
     private fun signOut() {
         this.clearSharedPreferences()
 
@@ -47,6 +56,9 @@ class UserFragment : Fragment() {
         startActivity(intent)
     }
 
+    /**
+     * Clears shared preferences
+     */
     private fun clearSharedPreferences() {
         val mPreferences = activity?.getPreferences(MODE_PRIVATE)
 
@@ -57,12 +69,15 @@ class UserFragment : Fragment() {
         }
     }
 
+    /**
+     * Gets user avatar
+     */
     private fun getAvatar() {
         lifecycleScope.launch {
             try {
                 val response = ImgurService.getAvatar(
-                    HomeActivityData.imgurCredentials!!.accessToken,
-                    HomeActivityData.imgurCredentials!!.accountUsername
+                        HomeActivityData.imgurCredentials!!.accessToken,
+                        HomeActivityData.imgurCredentials!!.accountUsername
                 )
                 userViewModel.setAvatarUrl(response.data.avatar ?: "")
             } catch (e: Exception) {

@@ -1,3 +1,6 @@
 package com.epitech.epicture.model
 
-data class BasicDataResponse<T>(val data: List<T>)
+/**
+ * Basic data wrapper used when receiving only one T object
+ */
+data class BasicDataResponse<T>(val data: T)

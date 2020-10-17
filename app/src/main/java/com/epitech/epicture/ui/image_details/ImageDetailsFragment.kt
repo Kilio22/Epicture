@@ -1,12 +1,11 @@
 package com.epitech.epicture.ui.image_details
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.epitech.epicture.HomeActivityData
 import com.epitech.epicture.R
@@ -14,6 +13,9 @@ import com.epitech.epicture.databinding.FragmentImageDetailsBinding
 import com.epitech.epicture.service.ImgurService
 import kotlinx.coroutines.launch
 
+/**
+ * Image details fragment
+ */
 class ImageDetailsFragment : Fragment() {
 
     private lateinit var viewModel: ImageDetailsViewModel
@@ -23,6 +25,9 @@ class ImageDetailsFragment : Fragment() {
     private var isFav = false
     private var isAlbum = false
 
+    /**
+     * Creates fragment
+     */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val arguments = ImageDetailsFragmentArgs.fromBundle(requireArguments())
         val viewModelFactory = ImageDetailsViewModelFactory(arguments.selectedImage, getString(R.string.comment_count))
@@ -45,18 +50,21 @@ class ImageDetailsFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Updates favorite status of an image / an album
+     */
     private fun updateFavStatus(id: String) {
         lifecycleScope.launch {
             try {
                 if (isAlbum) {
                     ImgurService.favAlbum(
-                        HomeActivityData.imgurCredentials?.accessToken ?: "",
-                        id
+                            HomeActivityData.imgurCredentials?.accessToken ?: "",
+                            id
                     )
                 } else {
                     ImgurService.favImage(
-                        HomeActivityData.imgurCredentials?.accessToken ?: "",
-                        id
+                            HomeActivityData.imgurCredentials?.accessToken ?: "",
+                            id
                     )
                 }
             } catch (exception: Exception) {
@@ -65,13 +73,16 @@ class ImageDetailsFragment : Fragment() {
         }
     }
 
+    /**
+     * Updates vote status of an image / an album
+     */
     private fun updateVoteStatus(id: String, newStatus: VoteStatus) {
         lifecycleScope.launch {
             try {
                 ImgurService.vote(
-                    HomeActivityData.imgurCredentials?.accessToken ?: "",
-                    id,
-                    newStatus.value
+                        HomeActivityData.imgurCredentials?.accessToken ?: "",
+                        id,
+                        newStatus.value
                 )
             } catch (exception: Exception) {
                 println(exception)

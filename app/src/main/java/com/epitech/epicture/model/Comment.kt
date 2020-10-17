@@ -2,6 +2,9 @@ package com.epitech.epicture.model
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Comment DAO
+ */
 data class Comment(@SerializedName("id") val id: Int,
                    @SerializedName("comment") val comment: String,
                    @SerializedName("ups") val ups: Int,

@@ -14,10 +14,16 @@ import com.epitech.epicture.model.ImgurCredentials
 import com.epitech.epicture.service.ImgurService
 import kotlinx.coroutines.launch
 
+/**
+ * Login activity
+ */
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var loginViewModel: LoginViewModel
 
+    /**
+     * Creates activity
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -30,6 +36,10 @@ class LoginActivity : AppCompatActivity() {
         this.updateCredentials(this.loadCredentials())
     }
 
+    /**
+     * Called when application is re-opened after stating web view to connect using OAUTH2
+     * It handles callback uri
+     */
     override fun onResume() {
         super.onResume()
 
@@ -40,10 +50,16 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Starts a web intent to connect using OAUTH2
+     */
     private fun login() {
         ImgurService.login(this)
     }
 
+    /**
+     * Check if restored credentials are valid
+     */
     private fun updateCredentials(credentials: ImgurCredentials?) {
         if (credentials == null) {
             loginViewModel.setStatus(LoginViewModel.LoginStatus.MUST_LOGIN)
@@ -61,6 +77,9 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Starts home activity
+     */
     private fun startHomeActivity(newCredentials: ImgurCredentials?) {
         val intent = Intent(this, HomeActivity::class.java)
         intent.putExtra("credentials", newCredentials)
@@ -68,6 +87,9 @@ class LoginActivity : AppCompatActivity() {
         finish()
     }
 
+    /**
+     * Loads saved credentials
+     */
     private fun loadCredentials(): ImgurCredentials? {
         val mPreferences = getSharedPreferences(
                 "credentials",

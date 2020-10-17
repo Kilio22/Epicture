@@ -1,6 +1,7 @@
 package com.epitech.epicture.ui.upload
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -27,11 +29,16 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
-
+/**
+ * Upload fragment
+ */
 class UploadFragment : Fragment() {
     private lateinit var uploadViewModel: UploadViewModel
     private lateinit var uploadBaseObservable: UploadBaseObservable
 
+    /**
+     * Create fragment
+     */
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -50,6 +57,9 @@ class UploadFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Checks if the app has the authorization to access gallery
+     */
     private fun checkPermission() {
         if (ContextCompat.checkSelfPermission(
                         this.requireContext(),
@@ -60,6 +70,14 @@ class UploadFragment : Fragment() {
         } else {
             requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
+    }
+
+    /**
+     * Hides keyboard
+     */
+    private fun View.hideKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
     }
 
     private val requestPermissionLauncher =
@@ -78,8 +96,12 @@ class UploadFragment : Fragment() {
                 }
             }
 
+    /**
+     * Uploads an images
+     */
     private fun uploadImage() {
         this.uploadViewModel.setStatus(UploadViewModel.UploadStatus.UPLOADING)
+        view?.hideKeyboard()
 
         val file = File(this.uploadViewModel.filePath.value ?: "")
         val requestImage: RequestBody =
@@ -109,6 +131,9 @@ class UploadFragment : Fragment() {
         }
     }
 
+    /**
+     * Gets image real path from given uri
+     */
     private fun getImagePath(uri: Uri): String {
         val id = DocumentsContract.getDocumentId(uri).split(":".toRegex()).toTypedArray()[1]
         val cursor = requireContext().contentResolver.query(
@@ -127,6 +152,9 @@ class UploadFragment : Fragment() {
         return filePath
     }
 
+    /**
+     * Resets chosen informations
+     */
     private fun resetFragment() {
         uploadViewModel.setStatusAsync(UploadViewModel.UploadStatus.CHOOSE_IMAGE)
         uploadViewModel.setFilePathAsync("")

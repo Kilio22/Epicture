@@ -19,6 +19,9 @@ import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 
+/**
+ * Home fragment
+ */
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewModel: HomeViewModel
@@ -26,6 +29,9 @@ class HomeFragment : Fragment() {
     })
     private var searchJob: Job? = null
 
+    /**
+     * Creates fragment
+     */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
@@ -36,6 +42,9 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Initializes search
+     */
     private fun initSearch() {
         search()
         lifecycleScope.launch {
@@ -46,6 +55,9 @@ class HomeFragment : Fragment() {
         }
     }
 
+    /**
+     * Starts search
+     */
     private fun search() {
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {

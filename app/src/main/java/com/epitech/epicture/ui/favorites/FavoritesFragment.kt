@@ -21,6 +21,9 @@ import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 
+/**
+ * Favorite fragment
+ */
 class FavoritesFragment : Fragment() {
 
     private lateinit var binding: FragmentFavoritesBinding
@@ -30,6 +33,9 @@ class FavoritesFragment : Fragment() {
     })
     private var searchJob: Job? = null
 
+    /**
+     * Creates fragment
+     */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewModel = ViewModelProvider(this).get(FavoritesViewModel::class.java)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favorites, container, false)
@@ -48,6 +54,9 @@ class FavoritesFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Initializes search
+     */
     private fun initSearch() {
         search()
         lifecycleScope.launch {
@@ -58,15 +67,9 @@ class FavoritesFragment : Fragment() {
         }
     }
 
-    private fun search() {
-        searchJob?.cancel()
-        searchJob = lifecycleScope.launch {
-            viewModel.searchFavorites(viewModel.sort.value ?: "newest").collectLatest {
-                adapter.submitData(it)
-            }
-        }
-    }
-
+    /**
+     * Initializes spinner
+     */
     private fun initSpinner() {
         ArrayAdapter.createFromResource(
                 this.requireContext(),
@@ -94,5 +97,17 @@ class FavoritesFragment : Fragment() {
                         search()
                     }
                 }
+    }
+
+    /**
+     * Starts search depending on query string
+     */
+    private fun search() {
+        searchJob?.cancel()
+        searchJob = lifecycleScope.launch {
+            viewModel.searchFavorites(viewModel.sort.value ?: "newest").collectLatest {
+                adapter.submitData(it)
+            }
+        }
     }
 }
