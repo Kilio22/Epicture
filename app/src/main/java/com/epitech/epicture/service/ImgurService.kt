@@ -185,6 +185,14 @@ object ImgurService {
         )
     }
 
+    /**
+     * Shares an image
+     * @param accessToken The user access token
+     * @param id The id of the image
+     * @param title The title of the image
+     * @param terms If the user has not accepted Imgur terms, this endpoint will return an error. To by-pass the terms in general simply set this value to 1
+     * @param mature If the post is mature, set this value to 1 (https://imgur.com/rules)
+     */
     suspend fun shareImage(
         accessToken: String,
         id: String,
