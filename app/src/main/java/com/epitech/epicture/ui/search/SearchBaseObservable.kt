@@ -19,21 +19,21 @@ class SearchBaseObservable : BaseObservable() {
 
     @Bindable
     fun getQAny(): String {
-        return this.query
+        return this.qAny
     }
 
     fun setQAny(value: String) {
-        this.query = value
+        this.qAny = value
     }
 
     private var qExactly = ""
 
     @Bindable
     fun getQExactly(): String {
-        return this.query
+        return this.qExactly
     }
 
     fun setQExactly(value: String) {
-        this.query = value
+        this.qExactly = value
     }
 }
