@@ -1,15 +1,13 @@
 package com.epitech.epicture.ui.favorites
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.Observable
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -36,7 +34,7 @@ class FavoritesFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(FavoritesViewModel::class.java)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favorites, container, false)
 
-        viewModel.selectedImage.observe(viewLifecycleOwner, Observer { selectedImage ->
+        viewModel.selectedImage.observe(viewLifecycleOwner, { selectedImage ->
             selectedImage?.let {
                 this.findNavController().navigate(FavoritesFragmentDirections.actionNavigationFavoritesToImageDetailsFragment(it))
                 viewModel.selectImageDone()
@@ -46,6 +44,7 @@ class FavoritesFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.favoritesList.adapter = adapter
         initSearch()
+        initSpinner()
         return binding.root
     }
 
@@ -53,18 +52,47 @@ class FavoritesFragment : Fragment() {
         search()
         lifecycleScope.launch {
             adapter.loadStateFlow
-                .distinctUntilChangedBy { it.refresh }
-                .filter { it.refresh is LoadState.NotLoading }
-                .collect { binding.favoritesList.scrollToPosition(0) }
+                    .distinctUntilChangedBy { it.refresh }
+                    .filter { it.refresh is LoadState.NotLoading }
+                    .collect { binding.favoritesList.scrollToPosition(0) }
         }
     }
 
     private fun search() {
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
-            viewModel.searchFavorites().collectLatest {
+            viewModel.searchFavorites(viewModel.sort.value ?: "newest").collectLatest {
                 adapter.submitData(it)
             }
         }
+    }
+
+    private fun initSpinner() {
+        ArrayAdapter.createFromResource(
+                this.requireContext(),
+                R.array.fav_sort_array,
+                android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.favSortBySpinner.adapter = adapter
+        }
+        binding.favSortBySpinner.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                    ) {
+                        val stringArray = resources.getStringArray(R.array.fav_sort_array)
+                        viewModel.setSort(stringArray[position])
+                        search()
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        viewModel.setSort("newest")
+                        search()
+                    }
+                }
     }
 }

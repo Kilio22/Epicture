@@ -14,10 +14,13 @@ class FavoritesViewModel : ViewModel() {
     val selectedImage: LiveData<Image?>
         get() = _selectedImage
 
+    private val _sort = MutableLiveData<String>()
+    val sort: LiveData<String> = _sort
+
     private val pager = ImgurPager()
 
-    fun searchFavorites(): Flow<PagingData<Image>> {
-        return pager.getAccountFavoritesStream()
+    fun searchFavorites(sort: String): Flow<PagingData<Image>> {
+        return pager.getAccountFavoritesStream(sort)
     }
 
     fun selectImage(image: Image) {
@@ -26,5 +29,9 @@ class FavoritesViewModel : ViewModel() {
 
     fun selectImageDone() {
         _selectedImage.value = null
+    }
+
+    fun setSort(newSort: String) {
+        this._sort.value = newSort
     }
 }

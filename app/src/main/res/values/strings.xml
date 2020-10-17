@@ -43,9 +43,13 @@
         <item>png</item>
         <item>gif</item>
     </string-array>
-    <string-array name="sort_array">
+    <string-array name="search_sort_array">
         <item>time</item>
         <item>viral</item>
         <item>top</item>
+    </string-array>
+    <string-array name="fav_sort_array">
+        <item>newest</item>
+        <item>oldest</item>
     </string-array>
 </resources>

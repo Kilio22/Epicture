@@ -34,15 +34,15 @@ class SearchFragment : Fragment() {
     private var searchJob: Job? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         searchViewModel =
-            ViewModelProvider(this).get(SearchViewModel::class.java)
+                ViewModelProvider(this).get(SearchViewModel::class.java)
         searchBaseObservable = SearchBaseObservable()
         binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
+                DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
         binding.lifecycleOwner = this
         binding.searchList.adapter = adapter
         binding.baseObservable = searchBaseObservable
@@ -81,9 +81,9 @@ class SearchFragment : Fragment() {
         updateImageListFromQuery()
         lifecycleScope.launch {
             adapter.loadStateFlow
-                .distinctUntilChangedBy { it.refresh }
-                .filter { it.refresh is LoadState.NotLoading }
-                .collect { binding.searchList.scrollToPosition(0) }
+                    .distinctUntilChangedBy { it.refresh }
+                    .filter { it.refresh is LoadState.NotLoading }
+                    .collect { binding.searchList.scrollToPosition(0) }
         }
     }
 
@@ -112,11 +112,11 @@ class SearchFragment : Fragment() {
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
             searchViewModel.advancedSearch(
-                query,
-                searchBaseObservable.getQAny().trim(),
-                searchBaseObservable.getQExactly().trim(),
-                searchViewModel.fileType.value?.trim() ?: "all",
-                searchViewModel.sort.value?.trim() ?: "time"
+                    query,
+                    searchBaseObservable.getQAny().trim(),
+                    searchBaseObservable.getQExactly().trim(),
+                    searchViewModel.fileType.value?.trim() ?: "all",
+                    searchViewModel.sort.value?.trim() ?: "time"
             ).collectLatest {
                 adapter.submitData(it)
             }
@@ -125,45 +125,45 @@ class SearchFragment : Fragment() {
 
     private fun initSpinner() {
         ArrayAdapter.createFromResource(
-            this.requireContext(),
-            R.array.type_array,
-            android.R.layout.simple_spinner_item
+                this.requireContext(),
+                R.array.type_array,
+                android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.fileTypeSpinner.adapter = adapter
         }
         binding.fileTypeSpinner.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    val stringArray = resources.getStringArray(R.array.type_array)
-                    searchViewModel.setFileType(stringArray[position])
-                }
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                    ) {
+                        val stringArray = resources.getStringArray(R.array.type_array)
+                        searchViewModel.setFileType(stringArray[position])
+                    }
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    searchViewModel.setFileType("all")
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        searchViewModel.setFileType("all")
+                    }
                 }
-            }
         ArrayAdapter.createFromResource(
-            this.requireContext(),
-            R.array.sort_array,
-            android.R.layout.simple_spinner_item
+                this.requireContext(),
+                R.array.search_sort_array,
+                android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.sortBySpinner.adapter = adapter
         }
         binding.sortBySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
             ) {
-                val stringArray = resources.getStringArray(R.array.sort_array)
+                val stringArray = resources.getStringArray(R.array.search_sort_array)
                 searchViewModel.setSort(stringArray[position])
             }
 

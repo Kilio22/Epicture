@@ -7,57 +7,57 @@ import com.epitech.epicture.model.Image
 import kotlinx.coroutines.flow.Flow
 
 class ImgurPager {
-    fun getAccountFavoritesStream(): Flow<PagingData<Image>> {
+    fun getAccountFavoritesStream(sort: String): Flow<PagingData<Image>> {
         return Pager(
-            config = PagingConfig(
-                pageSize = NETWORK_PAGE_SIZE,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = { ImgurAccountFavoritesPagingSource() }
+                config = PagingConfig(
+                        pageSize = NETWORK_PAGE_SIZE,
+                        enablePlaceholders = false
+                ),
+                pagingSourceFactory = { ImgurAccountFavoritesPagingSource(sort) }
         ).flow
     }
 
     fun getAccountUploadsStream(): Flow<PagingData<Image>> {
         return Pager(
-            config = PagingConfig(
-                pageSize = NETWORK_PAGE_SIZE,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = { ImgurAccountImagesPagingSource() }
+                config = PagingConfig(
+                        pageSize = NETWORK_PAGE_SIZE,
+                        enablePlaceholders = false
+                ),
+                pagingSourceFactory = { ImgurAccountImagesPagingSource() }
         ).flow
     }
 
     fun simpleSearchStream(query: String): Flow<PagingData<Image>> {
         return Pager(
-            config = PagingConfig(
-                pageSize = NETWORK_PAGE_SIZE,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = { ImgurGallerySimpleSearchPagingSource(query) }
+                config = PagingConfig(
+                        pageSize = NETWORK_PAGE_SIZE,
+                        enablePlaceholders = false
+                ),
+                pagingSourceFactory = { ImgurGallerySimpleSearchPagingSource(query) }
         ).flow
     }
 
     fun advancedSearchStream(
-        qAll: String,
-        qAny: String,
-        qExactly: String,
-        qType: String,
-        sort: String
+            qAll: String,
+            qAny: String,
+            qExactly: String,
+            qType: String,
+            sort: String
     ): Flow<PagingData<Image>> {
         return Pager(
-            config = PagingConfig(
-                pageSize = NETWORK_PAGE_SIZE,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = {
-                ImgurGalleryAdvancedSearchPagingSource(
-                    qAll,
-                    qAny,
-                    qExactly,
-                    qType,
-                    sort
-                )
-            }
+                config = PagingConfig(
+                        pageSize = NETWORK_PAGE_SIZE,
+                        enablePlaceholders = false
+                ),
+                pagingSourceFactory = {
+                    ImgurGalleryAdvancedSearchPagingSource(
+                            qAll,
+                            qAny,
+                            qExactly,
+                            qType,
+                            sort
+                    )
+                }
         ).flow
     }
 
