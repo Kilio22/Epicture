@@ -20,14 +20,14 @@ import retrofit2.converter.gson.GsonConverterFactory
  */
 object ImgurService {
     private val retrofit = Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("https://api.imgur.com")
-            .build()
+        .addConverterFactory(GsonConverterFactory.create())
+        .baseUrl("https://api.imgur.com")
+        .build()
     private val retrofitImgurService: RetrofitImgurService =
-            retrofit.create(
-                    RetrofitImgurService::
-                    class.java
-            )
+        retrofit.create(
+            RetrofitImgurService::
+            class.java
+        )
 
     /**
      * Starts new browser activity in order to be logged in
@@ -36,8 +36,8 @@ object ImgurService {
     fun login(context: Context?) {
         if (context != null) {
             val intent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://api.imgur.com/oauth2/authorize?client_id=$CLIENT_ID&response_type=token")
+                Intent.ACTION_VIEW,
+                Uri.parse("https://api.imgur.com/oauth2/authorize?client_id=$CLIENT_ID&response_type=token")
             )
             context.startActivity(intent)
         }
@@ -49,10 +49,10 @@ object ImgurService {
      */
     suspend fun getNewAccessToken(refreshToken: String): ImgurCredentials? {
         return this.retrofitImgurService.getNewAccessToken(
-                refreshToken,
-                CLIENT_ID,
-                Config.CLIENT_SECRET,
-                Config.GRANT_TYPE
+            refreshToken,
+            CLIENT_ID,
+            Config.CLIENT_SECRET,
+            Config.GRANT_TYPE
         )
     }
 
@@ -82,10 +82,10 @@ object ImgurService {
             }
 
             return ImgurCredentials(
-                    credentialsMap[ACCESS_TOKEN_KEY] ?: return null,
-                    credentialsMap[REFRESH_TOKEN_KEY] ?: return null,
-                    credentialsMap[ACCOUNT_USERNAME_KEY] ?: return null,
-                    credentialsMap[ACCOUNT_ID_KEY] ?: return null
+                credentialsMap[ACCESS_TOKEN_KEY] ?: return null,
+                credentialsMap[REFRESH_TOKEN_KEY] ?: return null,
+                credentialsMap[ACCOUNT_USERNAME_KEY] ?: return null,
+                credentialsMap[ACCOUNT_ID_KEY] ?: return null
             )
         }
         return null
@@ -99,16 +99,16 @@ object ImgurService {
      * @param sort The way data is sorted
      */
     suspend fun getUserFavorites(
-            accessToken: String,
-            username: String,
-            page: Int,
-            sort: String
+        accessToken: String,
+        username: String,
+        page: Int,
+        sort: String
     ): ListDataResponse<ImgurImage> {
         return this.retrofitImgurService.getUserFavorites(
-                "Bearer $accessToken",
-                username,
-                page,
-                sort,
+            "Bearer $accessToken",
+            username,
+            page,
+            sort,
         )
     }
 
@@ -118,8 +118,8 @@ object ImgurService {
      * @param page The page number
      */
     suspend fun getAccountImages(
-            accessToken: String,
-            page: Int,
+        accessToken: String,
+        page: Int,
     ): ListDataResponse<Image> {
         return this.retrofitImgurService.getAccountImages("Bearer $accessToken", page)
     }
@@ -130,8 +130,8 @@ object ImgurService {
      * @param imageId Id of the image to fav or unfav
      */
     suspend fun favImage(
-            accessToken: String,
-            imageId: String
+        accessToken: String,
+        imageId: String
     ) {
         return this.retrofitImgurService.favImage("Bearer $accessToken", imageId)
     }
@@ -142,8 +142,8 @@ object ImgurService {
      * @param imageId Id of the album to fav or unfav
      */
     suspend fun favAlbum(
-            accessToken: String,
-            albumId: String
+        accessToken: String,
+        albumId: String
     ) {
         return this.retrofitImgurService.favAlbum("Bearer $accessToken", albumId)
     }
@@ -154,9 +154,9 @@ object ImgurService {
      * @param vote The vote type: up, down or veto (unvote)
      */
     suspend fun vote(
-            accessToken: String,
-            id: String,
-            vote: String
+        accessToken: String,
+        id: String,
+        vote: String
     ) {
         return this.retrofitImgurService.vote("Bearer $accessToken", id, vote)
     }
@@ -170,18 +170,34 @@ object ImgurService {
      * @param type The type of the image to upload (jpg, png, gif)
      */
     suspend fun uploadImage(
-            accessToken: String,
-            image: MultipartBody.Part,
-            title: RequestBody,
-            description: RequestBody,
-            type: RequestBody
-    ) {
+        accessToken: String,
+        image: MultipartBody.Part,
+        title: RequestBody,
+        description: RequestBody,
+        type: RequestBody
+    ): BasicDataResponse<Image> {
         return this.retrofitImgurService.uploadImage(
-                "Bearer $accessToken",
-                image,
-                title,
-                description,
-                type
+            "Bearer $accessToken",
+            image,
+            title,
+            description,
+            type
+        )
+    }
+
+    suspend fun shareImage(
+        accessToken: String,
+        id: String,
+        title: String,
+        terms: Int,
+        mature: Int
+    ) {
+        return this.retrofitImgurService.shareImage(
+            "Bearer $accessToken",
+            id,
+            title,
+            terms,
+            mature
         )
     }
 
@@ -190,7 +206,7 @@ object ImgurService {
      * @param id The id of the image / album
      */
     suspend fun getComments(
-            id: String
+        id: String
     ): ListDataResponse<Comment> {
         return this.retrofitImgurService.getComments("Client-ID $CLIENT_ID", id)
     }
@@ -202,9 +218,9 @@ object ImgurService {
      * @param vote The vote type: up, down or veto (unvote)
      */
     suspend fun voteComment(
-            accessToken: String,
-            commentId: String,
-            vote: String
+        accessToken: String,
+        commentId: String,
+        vote: String
     ) {
         return this.retrofitImgurService.voteComment("Bearer $accessToken", commentId, vote)
     }
@@ -216,14 +232,14 @@ object ImgurService {
      * @param comment The comment
      */
     suspend fun createComment(
-            accessToken: String,
-            id: RequestBody,
-            comment: RequestBody
+        accessToken: String,
+        id: RequestBody,
+        comment: RequestBody
     ) {
         return this.retrofitImgurService.createComment(
-                "Bearer $accessToken",
-                id,
-                comment
+            "Bearer $accessToken",
+            id,
+            comment
         )
     }
 
@@ -249,8 +265,8 @@ object ImgurService {
      * @param query The query string
      */
     suspend fun simpleSearch(
-            page: Int,
-            query: String
+        page: Int,
+        query: String
     ): ListDataResponse<ImgurImage> {
         return this.retrofitImgurService.simpleSearch("Client-ID $CLIENT_ID", page, query)
     }
@@ -264,23 +280,23 @@ object ImgurService {
      * @param qType Show results for any file type, jpg | png | gif
      */
     suspend fun advancedSearch(
-            page: Int,
-            qAll: String,
-            qAny: String,
-            qExactly: String,
-            qType: String,
-            sort: String,
-            window: String = "all"
+        page: Int,
+        qAll: String,
+        qAny: String,
+        qExactly: String,
+        qType: String,
+        sort: String,
+        window: String = "all"
     ): ListDataResponse<ImgurImage> {
         return this.retrofitImgurService.advancedSearch(
-                "Client-ID $CLIENT_ID",
-                sort,
-                window,
-                page,
-                qAll,
-                qAny,
-                qExactly,
-                qType
+            "Client-ID $CLIENT_ID",
+            sort,
+            window,
+            page,
+            qAll,
+            qAny,
+            qExactly,
+            qType
         )
     }
 

@@ -40,14 +40,14 @@ class UploadFragment : Fragment() {
      * Create fragment
      */
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         uploadViewModel = ViewModelProvider(this).get(UploadViewModel::class.java)
         uploadBaseObservable = UploadBaseObservable()
         val binding: FragmentUploadBinding =
-                DataBindingUtil.inflate(inflater, R.layout.fragment_upload, container, false)
+            DataBindingUtil.inflate(inflater, R.layout.fragment_upload, container, false)
 
         binding.lifecycleOwner = this
         binding.viewModel = uploadViewModel
@@ -62,9 +62,9 @@ class UploadFragment : Fragment() {
      */
     private fun checkPermission() {
         if (ContextCompat.checkSelfPermission(
-                        this.requireContext(),
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                ) == PackageManager.PERMISSION_GRANTED
+                this.requireContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
         ) {
             this.getContent.launch("image/*")
         } else {
@@ -81,20 +81,20 @@ class UploadFragment : Fragment() {
     }
 
     private val requestPermissionLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-                if (isGranted) {
-                    this.getContent.launch("image/*")
-                }
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                this.getContent.launch("image/*")
             }
+        }
 
     private val getContent =
-            registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-                if (uri != null) {
-                    val filePath = this.getImagePath(uri)
-                    this.uploadViewModel.setFilePath(filePath)
-                    this.uploadViewModel.setStatus(UploadViewModel.UploadStatus.INFORMATIONS)
-                }
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            if (uri != null) {
+                val filePath = this.getImagePath(uri)
+                this.uploadViewModel.setFilePath(filePath)
+                this.uploadViewModel.setStatus(UploadViewModel.UploadStatus.INFORMATIONS)
             }
+        }
 
     /**
      * Uploads an images
@@ -105,24 +105,33 @@ class UploadFragment : Fragment() {
 
         val file = File(this.uploadViewModel.filePath.value ?: "")
         val requestImage: RequestBody =
-                file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+            file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
         val requestMultipartImageBody =
-                MultipartBody.Part.createFormData("image", file.name, requestImage)
+            MultipartBody.Part.createFormData("image", file.name, requestImage)
         val requestTitle: RequestBody =
-                this.uploadBaseObservable.getTitle().trim().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            this.uploadBaseObservable.getTitle().trim()
+                .toRequestBody("multipart/form-data".toMediaTypeOrNull())
         val requestDescription: RequestBody =
-                this.uploadBaseObservable.getDescription().trim().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            this.uploadBaseObservable.getDescription().trim()
+                .toRequestBody("multipart/form-data".toMediaTypeOrNull())
         val requestType: RequestBody =
-                "file".toRequestBody("multipart/form-data".toMediaTypeOrNull())
+            "file".toRequestBody("multipart/form-data".toMediaTypeOrNull())
 
         lifecycleScope.launch {
             try {
-                ImgurService.uploadImage(
-                        HomeActivityData.imgurCredentials?.accessToken ?: "",
-                        requestMultipartImageBody,
-                        requestTitle,
-                        requestDescription,
-                        requestType
+                val response = ImgurService.uploadImage(
+                    HomeActivityData.imgurCredentials?.accessToken ?: "",
+                    requestMultipartImageBody,
+                    requestTitle,
+                    requestDescription,
+                    requestType
+                )
+                ImgurService.shareImage(
+                    HomeActivityData.imgurCredentials?.accessToken ?: "",
+                    response.data.id,
+                    uploadBaseObservable.getTitle().trim(),
+                    1,
+                    0
                 )
             } catch (exception: Exception) {
                 println(exception)
@@ -137,8 +146,8 @@ class UploadFragment : Fragment() {
     private fun getImagePath(uri: Uri): String {
         val id = DocumentsContract.getDocumentId(uri).split(":".toRegex()).toTypedArray()[1]
         val cursor = requireContext().contentResolver.query(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                arrayOf("_data"), MediaStore.Images.Media._ID + "=?", arrayOf(id), null
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            arrayOf("_data"), MediaStore.Images.Media._ID + "=?", arrayOf(id), null
         )
         var filePath = ""
 
