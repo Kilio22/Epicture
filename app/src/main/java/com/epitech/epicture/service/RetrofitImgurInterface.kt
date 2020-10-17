@@ -72,7 +72,7 @@ interface RetrofitImgurService {
     suspend fun shareImage(
         @Header("Authorization") accessToken: String,
         @Path("id") id: String,
-        @Part("title") title: String,
+        @Part("title") title: RequestBody,
         @Part("terms") terms: Int,
         @Part("mature") mature: Int,
     )

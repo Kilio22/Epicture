@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -100,8 +101,12 @@ class UploadFragment : Fragment() {
      * Uploads an images
      */
     private fun uploadImage() {
-        this.uploadViewModel.setStatus(UploadViewModel.UploadStatus.UPLOADING)
         view?.hideKeyboard()
+        if (this.uploadBaseObservable.getTitle().trim().isEmpty()) {
+            Toast.makeText(requireContext(), "You must provide a title", Toast.LENGTH_LONG).show()
+            return
+        }
+        this.uploadViewModel.setStatus(UploadViewModel.UploadStatus.UPLOADING)
 
         val file = File(this.uploadViewModel.filePath.value ?: "")
         val requestImage: RequestBody =
@@ -129,7 +134,7 @@ class UploadFragment : Fragment() {
                 ImgurService.shareImage(
                     HomeActivityData.imgurCredentials?.accessToken ?: "",
                     response.data.id,
-                    uploadBaseObservable.getTitle().trim(),
+                    requestTitle,
                     1,
                     0
                 )

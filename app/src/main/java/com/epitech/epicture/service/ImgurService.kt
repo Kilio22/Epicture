@@ -196,7 +196,7 @@ object ImgurService {
     suspend fun shareImage(
         accessToken: String,
         id: String,
-        title: String,
+        title: RequestBody,
         terms: Int,
         mature: Int
     ) {
