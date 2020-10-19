@@ -28,6 +28,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import timber.log.Timber
 import java.io.File
 
 /**
@@ -141,7 +142,7 @@ class UploadFragment : Fragment() {
                 Toast.makeText(requireContext(), "Image uploaded and published", Toast.LENGTH_LONG).show()
             } catch (exception: Exception) {
                 Toast.makeText(requireContext(), "Couldn't upload image", Toast.LENGTH_LONG).show()
-                println(exception)
+                Timber.tag("Upload fragment").e(exception.toString())
             }
             resetFragment()
         }

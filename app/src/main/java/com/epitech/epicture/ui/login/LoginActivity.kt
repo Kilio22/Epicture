@@ -13,6 +13,7 @@ import com.epitech.epicture.databinding.ActivityLoginBinding
 import com.epitech.epicture.model.ImgurCredentials
 import com.epitech.epicture.service.ImgurService
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 /**
  * Login activity
@@ -71,7 +72,7 @@ class LoginActivity : AppCompatActivity() {
                 val newCredentials = ImgurService.getNewAccessToken(credentials.refreshToken)
                 startHomeActivity(newCredentials)
             } catch (e: Exception) {
-                println(e)
+                Timber.tag("Login activity").e(e.toString())
                 loginViewModel.setStatusAsync(LoginViewModel.LoginStatus.MUST_LOGIN)
             }
         }
