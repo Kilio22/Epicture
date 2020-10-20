@@ -1,11 +1,16 @@
 package com.epitech.epicture
 
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.epitech.epicture.model.Comment
+import com.epitech.epicture.ui.image_details.CommentGridAdapter
+import com.epitech.epicture.ui.image_details.ImageDetailsViewModel
 import com.epitech.epicture.ui.login.LoginViewModel
 import com.epitech.epicture.ui.upload.UploadViewModel
 
@@ -229,4 +234,36 @@ fun advancedSearchStatus(button: Button, value: Boolean) {
         true -> button.visibility = View.VISIBLE
         false -> button.visibility = View.GONE
     }
+}
+
+@BindingAdapter("commentListData")
+fun bindCommentRecyclerView(recyclerView: RecyclerView, data: List<Comment>?) {
+    val adapter = recyclerView.adapter as CommentGridAdapter
+
+    adapter.submitList(data)
+}
+
+@BindingAdapter("loadingStatus")
+fun bindLoadingAnimation(imageView: ImageView, status: LoadingStatus) {
+    when (status) {
+        LoadingStatus.LOADING -> {
+            imageView.visibility = View.VISIBLE
+            imageView.setImageResource(R.drawable.loading_animation)
+        }
+        LoadingStatus.ERROR -> {
+            imageView.visibility = View.VISIBLE
+            imageView.setImageResource(R.drawable.ic_connection_error)
+        }
+        LoadingStatus.DONE -> {
+            imageView.visibility = View.GONE
+        }
+    }
+}
+
+@BindingAdapter("visibleIfDone")
+fun bindVisibleIfDone(view: View, status: LoadingStatus) {
+    if (status == LoadingStatus.DONE)
+        view.visibility = View.VISIBLE
+    else
+        view.visibility = View.GONE
 }

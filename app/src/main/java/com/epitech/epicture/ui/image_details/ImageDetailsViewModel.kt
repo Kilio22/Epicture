@@ -5,47 +5,65 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.epitech.epicture.model.Image
+import androidx.lifecycle.viewModelScope
+import com.epitech.epicture.HomeActivityData
+import com.epitech.epicture.LoadingStatus
+import com.epitech.epicture.config.Config
+import com.epitech.epicture.model.Comment
+import com.epitech.epicture.model.GalleryImage
+import com.epitech.epicture.service.ImgurService
+import kotlinx.coroutines.launch
 
 @SuppressLint("LogNotTimber")
-class ImageDetailsViewModel(private val image: Image, private val commentCountFormat: String) : ViewModel() {
+class ImageDetailsViewModel(private val imageId: String, private val commentCountFormat: String) : ViewModel() {
 
-    val title: String
-        get() = image.title ?: "[Missing title]"
+    var image: GalleryImage? = null
+        private set
 
-    val link: String?
-        get() = image.link
+    private val _loadingStatus = MutableLiveData<LoadingStatus>()
+    val loadingStatus: LiveData<LoadingStatus>
+        get() = _loadingStatus
 
-    val desc: String
-        get() = image.description ?: ""
+    private val _title = MutableLiveData<String>()
+    val title: LiveData<String>
+        get() = _title
 
-    val commentCount: String
-        get () = commentCountFormat.format(image.commentCount)
+    private val _link = MutableLiveData<String>()
+    val link: LiveData<String>
+        get() = _link
 
-    private var originFavCount = image.favoriteCount
-    private val _favs = MutableLiveData(image.favoriteCount.toString())
-    val favs: LiveData<String>
-        get() = _favs
+    private val _desc = MutableLiveData<String>()
+    val desc: LiveData<String>
+        get() = _desc
 
-    private val _isFav = MutableLiveData(image.isFavorite)
+    private val _commentCount = MutableLiveData<String>()
+    val commentCount: LiveData<String>
+        get() = _commentCount
+
+    private val _isFav = MutableLiveData<Boolean>()
     val isFav: LiveData<Boolean>
         get() = _isFav
 
-    private var originUpCount = image.ups
-    private val _isUp = MutableLiveData(image.vote == VoteStatus.UP.value)
+    private var originFavCount = -1
+    private val _favs = MutableLiveData<String>()
+    val favs: LiveData<String>
+        get() = _favs
+
+    private val _isUp = MutableLiveData<Boolean>()
     val isUp: LiveData<Boolean>
         get() = _isUp
 
-    private val _ups = MutableLiveData(image.ups.toString())
+    private var originUpCount = -1
+    private val _ups = MutableLiveData<String>()
     val ups: LiveData<String>
         get() = _ups
 
-    private var originDownCount = image.downs
-    private val _isDown = MutableLiveData(image.vote == VoteStatus.DOWN.value)
+    private val _isDown = MutableLiveData<Boolean>()
     val isDown: LiveData<Boolean>
         get() = _isDown
 
-    private val _downs = MutableLiveData(image.downs.toString())
+    private var originDownCount = -1
+    private val _downs = MutableLiveData<String>()
     val downs: LiveData<String>
         get() = _downs
 
@@ -53,9 +71,61 @@ class ImageDetailsViewModel(private val image: Image, private val commentCountFo
     val voteStatus: LiveData<VoteStatus>
         get() = _voteStatus
 
+    private val _sort = MutableLiveData(SortTypes.BEST)
+    val sort: LiveData<SortTypes>
+        get() = _sort
+
+    private val _commentLoadingStatus = MutableLiveData<LoadingStatus>()
+    val commentLoadingStatus: LiveData<LoadingStatus>
+        get() = _commentLoadingStatus
+
+    private val _commentList = MutableLiveData<List<Comment>>()
+    val commentList: LiveData<List<Comment>>
+        get() = _commentList
+
     init {
+        Log.i(null, imageId)
+        viewModelScope.launch {
+            try {
+                _loadingStatus.value = LoadingStatus.LOADING
+                fromImage(
+                    ImgurService.getImageById(
+                        HomeActivityData.imgurCredentials?.accessToken ?: "",
+                        imageId
+                    ).data
+                )
+                _loadingStatus.value = LoadingStatus.DONE
+            } catch (e: Exception) {
+                Log.e(null, "${e.message} ${e.localizedMessage}")
+                _loadingStatus.value = LoadingStatus.ERROR
+            }
+        }
+    }
+
+    private fun fromImage(image: GalleryImage) {
+        Log.i(null, "Got: ${image.id} ${image.isFavorite} ${image.vote}")
+        this.image = image
+        _title.value = image.title ?: ""
+        if (_title.value.isNullOrEmpty())
+            _title.value = "[Missing or empty title]"
+        _link.value = if (image.isAlbum && image.images != null) {
+            image.images.first { it.id == image.cover && Config.FORMATS_EXTENSION.containsKey(it.type) }.link
+        } else {
+            image.link
+        }
+        _desc.value = image.description ?: ""
+        _commentCount.value = commentCountFormat.format(image.commentCount)
+        _isFav.value = image.isFavorite
+        originFavCount = image.favoriteCount
         if (_isFav.value == true)
             originFavCount -= 1
+        _favs.value = image.favoriteCount.toString()
+        _isUp.value = image.vote == VoteStatus.UP.value
+        originUpCount = image.ups
+        _ups.value = image.ups.toString()
+        _isDown.value = image.vote == VoteStatus.DOWN.value
+        originDownCount = image.downs
+        _downs.value = image.downs.toString()
         when (image.vote) {
             VoteStatus.UP.value -> {
                 _voteStatus.value = VoteStatus.UP
@@ -66,6 +136,27 @@ class ImageDetailsViewModel(private val image: Image, private val commentCountFo
                 originDownCount -= 1
             }
             else -> _voteStatus.value = VoteStatus.VETO
+        }
+    }
+
+    fun getImageComments(sort: SortTypes) {
+        viewModelScope.launch {
+            _commentLoadingStatus.value = LoadingStatus.LOADING
+            try {
+                _commentList.value = ImgurService.getComments(imageId, sort.value).data
+                _commentLoadingStatus.value = LoadingStatus.DONE
+            } catch (e: Exception) {
+                _commentLoadingStatus.value = LoadingStatus.ERROR
+                _commentList.value = ArrayList()
+            }
+        }
+    }
+
+    fun setCommentSort(sort: String) {
+        when (sort) {
+            SortTypes.TOP.value -> _sort.value = SortTypes.TOP
+            SortTypes.NEW.value -> _sort.value = SortTypes.NEW
+            else -> _sort.value = SortTypes.BEST
         }
     }
 

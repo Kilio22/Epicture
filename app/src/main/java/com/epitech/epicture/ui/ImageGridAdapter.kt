@@ -1,30 +1,28 @@
-package com.epitech.epicture.ui.favorites
+package com.epitech.epicture.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.epitech.epicture.databinding.ImageFavoriteBinding
+import com.epitech.epicture.databinding.ImageBinding
 import com.epitech.epicture.model.Image
 
-//enum class ImageType { UPLOAD, FAVORITE }
+class ImageGridAdapter(private val clickListener: ClickListener) : PagingDataAdapter<Image, ImageGridAdapter.ImageViewHolder>(PhotoDiffCallback) {
 
-class FavoriteImageGridAdapter(private val clickListener: ClickListener) :
-    PagingDataAdapter<Image, FavoriteImageGridAdapter.FavoriteImageViewHolder>(PhotoDiffCallback) {
-    class FavoriteImageViewHolder(private val binding: ImageFavoriteBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ImageViewHolder(private val binding: ImageBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(image: Image, clickListener: ClickListener) {
-            binding.innerImage.image = image
-            binding.innerImage.clickListener = clickListener
+            binding.image = image
+            binding.clickListener = clickListener
             binding.executePendingBindings()
         }
 
         companion object {
-            fun from(parent: ViewGroup): FavoriteImageViewHolder {
+            fun from(parent: ViewGroup): ImageViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ImageFavoriteBinding.inflate(layoutInflater, parent, false)
+                val binding = ImageBinding.inflate(layoutInflater, parent, false)
 
-                return FavoriteImageViewHolder(binding)
+                return ImageViewHolder(binding)
             }
         }
     }
@@ -43,11 +41,11 @@ class FavoriteImageGridAdapter(private val clickListener: ClickListener) :
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteImageViewHolder {
-        return FavoriteImageViewHolder.from(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
+        return ImageViewHolder.from(parent)
     }
 
-    override fun onBindViewHolder(holder: FavoriteImageViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         val item = getItem(position)
 
         item?.let { holder.bind(it, clickListener) }

@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import com.epitech.epicture.config.Config
 import com.epitech.epicture.config.Config.Companion.FORMATS_EXTENSION
 import com.epitech.epicture.model.Image
-import com.epitech.epicture.model.ImgurImage
+import com.epitech.epicture.model.GalleryImage
 import com.epitech.epicture.service.ImgurService
 import okhttp3.internal.toImmutableList
 import retrofit2.HttpException
@@ -43,7 +43,7 @@ class ImgurGalleryAdvancedSearchPagingSource(
         }
     }
 
-    private fun getImageList(imgurImages: List<ImgurImage>): List<Image> {
+    private fun getImageList(imgurImages: List<GalleryImage>): List<Image> {
         val imageList = mutableListOf<Image>()
 
         for (imgurImage in imgurImages) {

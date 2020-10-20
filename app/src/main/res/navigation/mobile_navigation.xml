@@ -9,7 +9,12 @@
         android:id="@+id/navigation_home"
         android:name="com.epitech.epicture.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_imageDetailsFragment"
+            app:destination="@id/imageDetailsFragment"
+            app:popUpTo="@id/navigation_home" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_favorites"
@@ -18,14 +23,20 @@
         tools:layout="@layout/fragment_favorites" >
         <action
             android:id="@+id/action_navigation_favorites_to_imageDetailsFragment"
-            app:destination="@id/imageDetailsFragment" />
+            app:destination="@id/imageDetailsFragment"
+            app:popUpTo="@id/navigation_favorites" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_search"
         android:name="com.epitech.epicture.ui.search.SearchFragment"
         android:label="@string/title_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_navigation_search_to_imageDetailsFragment"
+            app:destination="@id/imageDetailsFragment"
+            app:popUpTo="@id/navigation_search" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_upload"
         android:name="com.epitech.epicture.ui.upload.UploadFragment"
@@ -42,7 +53,7 @@
         android:label="@string/title_details"
         tools:layout="@layout/fragment_image_details">
         <argument
-            android:name="selectedImage"
-            app:argType="com.epitech.epicture.model.Image" />
+            android:name="imageId"
+            app:argType="string" />
     </fragment>
 </navigation>

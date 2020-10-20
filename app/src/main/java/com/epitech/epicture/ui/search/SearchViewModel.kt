@@ -20,6 +20,10 @@ class SearchViewModel : ViewModel() {
     private val _advancedSearch = MutableLiveData(false)
     val advancedSearch: LiveData<Boolean> = _advancedSearch
 
+    private val _selectedImage = MutableLiveData<Image?>()
+    val selectedImage: LiveData<Image?>
+        get() = _selectedImage
+
     fun setFileType(newFileType: String) {
         this._fileType.value = newFileType
     }
@@ -44,5 +48,13 @@ class SearchViewModel : ViewModel() {
 
     fun setAdvancedSearch(value: Boolean) {
         this._advancedSearch.value = value
+    }
+
+    fun selectImage(image: Image) {
+        _selectedImage.value = image
+    }
+
+    fun selectImageDone() {
+        _selectedImage.value = null
     }
 }

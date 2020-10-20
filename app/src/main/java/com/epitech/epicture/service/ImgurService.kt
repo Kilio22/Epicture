@@ -3,6 +3,7 @@ package com.epitech.epicture.service
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import com.epitech.epicture.config.Config
 import com.epitech.epicture.config.Config.Companion.ACCESS_TOKEN_KEY
 import com.epitech.epicture.config.Config.Companion.ACCOUNT_ID_KEY
@@ -103,7 +104,7 @@ object ImgurService {
         username: String,
         page: Int,
         sort: String
-    ): ListDataResponse<ImgurImage> {
+    ): ListDataResponse<GalleryImage> {
         return this.retrofitImgurService.getUserFavorites(
             "Bearer $accessToken",
             username,
@@ -214,9 +215,10 @@ object ImgurService {
      * @param id The id of the image / album
      */
     suspend fun getComments(
-        id: String
+        id: String,
+        sort: String
     ): ListDataResponse<Comment> {
-        return this.retrofitImgurService.getComments("Client-ID $CLIENT_ID", id)
+        return this.retrofitImgurService.getComments("Client-ID $CLIENT_ID", id, sort)
     }
 
     /**
@@ -255,16 +257,9 @@ object ImgurService {
      * Gets image informations thanks to its id
      * @param imageId The id of the image
      */
-    suspend fun getImageById(imageId: String): ListDataResponse<ImgurImage> {
-        return this.retrofitImgurService.getImage("Client-ID $CLIENT_ID", imageId)
-    }
-
-    /**
-     * Gets album informations thanks to its id
-     * @param imageId The id of the album
-     */
-    suspend fun getAlbumById(albumId: String): ListDataResponse<ImgurImage> {
-        return this.retrofitImgurService.getAlbum("Client-ID $CLIENT_ID", albumId)
+    suspend fun getImageById(accessToken: String, imageId: String): BasicDataResponse<GalleryImage> {
+        Log.i(null, "$accessToken $imageId")
+        return this.retrofitImgurService.getImage("Bearer $accessToken", imageId)
     }
 
     /**
@@ -275,7 +270,7 @@ object ImgurService {
     suspend fun simpleSearch(
         page: Int,
         query: String
-    ): ListDataResponse<ImgurImage> {
+    ): ListDataResponse<GalleryImage> {
         return this.retrofitImgurService.simpleSearch("Client-ID $CLIENT_ID", page, query)
     }
 
@@ -295,7 +290,7 @@ object ImgurService {
         qType: String,
         sort: String,
         window: String = "all"
-    ): ListDataResponse<ImgurImage> {
+    ): ListDataResponse<GalleryImage> {
         return this.retrofitImgurService.advancedSearch(
             "Client-ID $CLIENT_ID",
             sort,

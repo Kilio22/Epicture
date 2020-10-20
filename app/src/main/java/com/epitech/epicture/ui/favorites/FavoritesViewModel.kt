@@ -10,14 +10,15 @@ import kotlinx.coroutines.flow.Flow
 
 class FavoritesViewModel : ViewModel() {
 
+    private val pager = ImgurPager()
+
     private val _selectedImage = MutableLiveData<Image?>()
     val selectedImage: LiveData<Image?>
         get() = _selectedImage
 
     private val _sort = MutableLiveData<String>()
-    val sort: LiveData<String> = _sort
-
-    private val pager = ImgurPager()
+    val sort: LiveData<String>
+        get() = _sort
 
     fun searchFavorites(sort: String): Flow<PagingData<Image>> {
         return pager.getAccountFavoritesStream(sort)

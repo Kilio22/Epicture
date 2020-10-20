@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="comment"
+            type="com.epitech.epicture.model.Comment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/comment_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{comment.author}"
+            android:textColor="@color/authorColor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="brianglass10" />
+
+        <ImageView
+            android:id="@+id/comment_upvote_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX=".75"
+            android:scaleY=".75"
+            android:src="@drawable/ic_baseline_arrow_upward_24"
+            app:layout_constraintBottom_toBottomOf="@id/comment_author"
+            app:layout_constraintEnd_toStartOf="@+id/comment_upvote_count"
+            app:layout_constraintTop_toTopOf="@id/comment_author" />
+
+        <TextView
+            android:id="@+id/comment_upvote_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(comment.ups)}"
+            app:layout_constraintBottom_toBottomOf="@id/comment_author"
+            app:layout_constraintEnd_toStartOf="@id/comment_downvote_ic"
+            app:layout_constraintTop_toTopOf="@id/comment_author"
+            tools:text="9" />
+
+        <ImageView
+            android:id="@+id/comment_downvote_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX=".75"
+            android:scaleY=".75"
+            android:src="@drawable/ic_baseline_arrow_downward_24"
+            app:layout_constraintBottom_toBottomOf="@id/comment_author"
+            app:layout_constraintEnd_toStartOf="@+id/comment_downvote_count"
+            app:layout_constraintTop_toTopOf="@id/comment_author" />
+
+        <TextView
+            android:id="@+id/comment_downvote_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(comment.downs)}"
+            app:layout_constraintBottom_toBottomOf="@id/comment_author"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/comment_author"
+            tools:text="2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{comment.comment}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/comment_author"
+            tools:text="What are they doing with the ballots they collect?" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

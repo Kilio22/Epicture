@@ -1,6 +1,7 @@
 package com.epitech.epicture.ui.favorites
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.epitech.epicture.R
 import com.epitech.epicture.databinding.FragmentFavoritesBinding
+import com.epitech.epicture.ui.ImageGridAdapter
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -28,7 +30,7 @@ class FavoritesFragment : Fragment() {
 
     private lateinit var binding: FragmentFavoritesBinding
     private lateinit var viewModel: FavoritesViewModel
-    private val adapter = FavoriteImageGridAdapter(FavoriteImageGridAdapter.ClickListener {
+    private val adapter = ImageGridAdapter(ImageGridAdapter.ClickListener {
         viewModel.selectImage(it)
     })
     private var searchJob: Job? = null
@@ -42,7 +44,8 @@ class FavoritesFragment : Fragment() {
 
         viewModel.selectedImage.observe(viewLifecycleOwner, { selectedImage ->
             selectedImage?.let {
-                this.findNavController().navigate(FavoritesFragmentDirections.actionNavigationFavoritesToImageDetailsFragment(it))
+                Log.i(null, "Selecting image: ${it.id} ${it.title} ${it.isAlbum}")
+                this.findNavController().navigate(FavoritesFragmentDirections.actionNavigationFavoritesToImageDetailsFragment(it.id))
                 viewModel.selectImageDone()
             }
         })

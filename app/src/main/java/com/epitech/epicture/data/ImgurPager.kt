@@ -3,6 +3,7 @@ package com.epitech.epicture.data
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.epitech.epicture.model.Comment
 import com.epitech.epicture.model.Image
 import kotlinx.coroutines.flow.Flow
 
@@ -60,7 +61,6 @@ class ImgurPager {
                 }
         ).flow
     }
-
 
     companion object {
         private const val NETWORK_PAGE_SIZE = 50

@@ -15,11 +15,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import com.epitech.epicture.R
 import com.epitech.epicture.databinding.FragmentSearchBinding
-import com.epitech.epicture.ui.favorites.FavoriteImageGridAdapter
+import com.epitech.epicture.ui.ImageGridAdapter
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -34,7 +35,8 @@ class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private lateinit var searchViewModel: SearchViewModel
     private lateinit var searchBaseObservable: SearchBaseObservable
-    private val adapter = FavoriteImageGridAdapter(FavoriteImageGridAdapter.ClickListener {
+    private val adapter = ImageGridAdapter(ImageGridAdapter.ClickListener {
+        searchViewModel.selectImage(it)
     })
     private var searchJob: Job? = null
 
@@ -55,6 +57,13 @@ class SearchFragment : Fragment() {
         binding.searchList.adapter = adapter
         binding.baseObservable = searchBaseObservable
         binding.viewModel = searchViewModel
+
+        searchViewModel.selectedImage.observe(viewLifecycleOwner, { selectedImage ->
+            selectedImage?.let {
+                this.findNavController().navigate(SearchFragmentDirections.actionNavigationSearchToImageDetailsFragment(it.id))
+                searchViewModel.selectImageDone()
+            }
+        })
 
         initSwitch()
         initSpinner()

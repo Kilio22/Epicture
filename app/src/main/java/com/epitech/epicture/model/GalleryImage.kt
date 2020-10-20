@@ -1,11 +1,14 @@
 package com.epitech.epicture.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Fetched DAO representing an image / an album when making HTTP requests to imgur
  */
-data class ImgurImage(
+@Parcelize
+data class GalleryImage(
         @SerializedName("id") val id: String,
         @SerializedName("title") val title: String?,
         @SerializedName("description") val description: String?,
@@ -19,5 +22,6 @@ data class ImgurImage(
         @SerializedName("comment_count") val commentCount: Int,
         @SerializedName("favorite_count") val favoriteCount: Int,
         @SerializedName("favorite") val isFavorite: Boolean,
-        @SerializedName("images") val images: List<Image>?
-)
+        @SerializedName("images") val images: List<Image>?,
+        @SerializedName("in_gallery") val inGallery: Boolean?
+) : Parcelable

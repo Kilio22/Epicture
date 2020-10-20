@@ -5,7 +5,7 @@ import com.epitech.epicture.HomeActivityData
 import com.epitech.epicture.config.Config.Companion.FORMATS_EXTENSION
 import com.epitech.epicture.config.Config.Companion.PAGE_INITIAL_IDX
 import com.epitech.epicture.model.Image
-import com.epitech.epicture.model.ImgurImage
+import com.epitech.epicture.model.GalleryImage
 import com.epitech.epicture.service.ImgurService
 import okhttp3.internal.toImmutableList
 import retrofit2.HttpException
@@ -35,10 +35,11 @@ class ImgurAccountFavoritesPagingSource(private val sort: String) : PagingSource
         }
     }
 
-    private fun getImageList(imgurImages: List<ImgurImage>): List<Image> {
+    private fun getImageList(imgurImages: List<GalleryImage>): List<Image> {
         val imageList = mutableListOf<Image>()
 
         for (imgurImage in imgurImages) {
+//            TODO: Remove below if (or review)
             if (imgurImage.isAlbum && imgurImage.images != null) {
                 for (image in imgurImage.images) {
                     if (image.type != null && FORMATS_EXTENSION.containsKey(image.type)) {
@@ -46,7 +47,7 @@ class ImgurAccountFavoritesPagingSource(private val sort: String) : PagingSource
                     }
                 }
             }
-            if (imgurImage.type != null && FORMATS_EXTENSION.containsKey(imgurImage.type)) {
+            if (imgurImage.inGallery == true && imgurImage.type != null && FORMATS_EXTENSION.containsKey(imgurImage.type)) {
                 val imageLink = if (imgurImage.isAlbum) {
                     "https://i.imgur.com/" + imgurImage.cover + FORMATS_EXTENSION[imgurImage.type]
                 } else {

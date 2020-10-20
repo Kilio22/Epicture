@@ -2,6 +2,7 @@ package com.epitech.epicture
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
@@ -44,6 +45,8 @@ class HomeActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+//        navView.selectedItemId = R.id.navigation_home
+        Log.i(null, HomeActivityData.imgurCredentials?.accessToken ?: "")
     }
 
     /**

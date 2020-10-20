@@ -12,147 +12,194 @@
             type="com.epitech.epicture.ui.image_details.ImageDetailsViewModel" />
     </data>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="6dp">
-
-            <TextView
-                android:id="@+id/details_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingVertical="6dp"
-                android:text="@{viewModel.title}"
-                android:textColor="@color/titleColor"
-                android:textSize="24sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="What an image that is." />
+            android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/details_image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:background="@drawable/black_outline_1"
-                android:contentDescription="@string/imgur_image"
-                app:imageUrl="@{viewModel.link}"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/details_title"
-                tools:src="@tools:sample/backgrounds/scenic" />
-
-            <TextView
-                android:id="@+id/details_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.desc}"
-                android:textColor="?android:textColorPrimary"
-                android:textSize="16sp"
-                android:visibility="@{viewModel.desc.isEmpty() ? View.GONE : View.VISIBLE}"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/details_image"
-                tools:text="This is the image's description text view." />
-
-            <TextView
-                android:id="@+id/details_comment_msg"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="0dp"
-                android:paddingVertical="8dp"
-                android:text="@{viewModel.commentCount}"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/details_description"
-                tools:text="@string/comment_count" />
-
-            <ImageView
-                android:id="@+id/details_favorite_ic"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:onClick="@{() -> viewModel.onClickFavorite()}"
-                app:imageFavorite="@{viewModel.isFav}"
-                app:layout_constraintBottom_toBottomOf="@+id/details_favorite_count"
-                app:layout_constraintEnd_toStartOf="@+id/details_favorite_count"
-                app:layout_constraintTop_toTopOf="@+id/details_favorite_count"
-                tools:src="@drawable/star_favorite" />
-
-            <TextView
-                android:id="@+id/details_favorite_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingVertical="8dp"
-                android:text="@{viewModel.favs}"
-                android:textSize="16sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/details_downvote_count"
-                app:layout_constraintEnd_toStartOf="@id/details_upvote_ic"
-                tools:text="56" />
-
-            <ImageView
-                android:id="@+id/details_upvote_ic"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:onClick="@{() -> viewModel.onClickUpvote()}"
-                app:imageUpvote="@{viewModel.isUp}"
-                app:layout_constraintBottom_toBottomOf="@+id/details_upvote_count"
-                app:layout_constraintEnd_toStartOf="@+id/details_upvote_count"
-                app:layout_constraintTop_toTopOf="@+id/details_upvote_count"
-                tools:src="@drawable/ic_baseline_arrow_upward_24" />
-
-            <TextView
-                android:id="@+id/details_upvote_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingVertical="8dp"
-                android:text="@{viewModel.ups}"
-                android:textSize="16sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/details_downvote_count"
-                app:layout_constraintEnd_toStartOf="@id/details_downvote_ic"
-                tools:text="198" />
-
-            <ImageView
-                android:id="@+id/details_downvote_ic"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:onClick="@{() -> viewModel.onClickDownvote()}"
-                android:src="@drawable/ic_baseline_arrow_downward_24"
-                app:imageDownvote="@{viewModel.isDown}"
-                app:layout_constraintBottom_toBottomOf="@+id/details_downvote_count"
-                app:layout_constraintEnd_toStartOf="@+id/details_downvote_count"
-                app:layout_constraintTop_toTopOf="@+id/details_downvote_count" />
-
-            <TextView
-                android:id="@+id/details_downvote_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingVertical="8dp"
-                android:text="@{viewModel.downs}"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/details_description"
-                tools:text="21" />
-
-            <!--<androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/details_comments"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:scrollbars="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />-->
-            <!--tools:listitem="@layout/image_favorite" />-->
+                app:layout_constraintTop_toTopOf="parent"
+                app:loadingStatus="@{viewModel.loadingStatus}" />
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="6dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:visibleIfDone="@{viewModel.loadingStatus}">
+
+                <TextView
+                    android:id="@+id/details_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="6dp"
+                    android:text="@{viewModel.title}"
+                    android:textColor="@color/titleColor"
+                    android:textSize="24sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="What an image that is." />
+
+                <ImageView
+                    android:id="@+id/details_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/black_outline_1"
+                    android:contentDescription="@string/imgur_image"
+                    app:imageUrl="@{viewModel.link}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/details_title"
+                    tools:src="@tools:sample/backgrounds/scenic" />
+
+                <TextView
+                    android:id="@+id/details_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.desc}"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="16sp"
+                    android:visibility="@{viewModel.desc.isEmpty() ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/details_image"
+                    tools:text="This is the image's description text view." />
+
+                <TextView
+                    android:id="@+id/details_comment_msg"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:paddingVertical="8dp"
+                    android:text="@{viewModel.commentCount}"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/details_description"
+                    tools:text="@string/comment_count" />
+
+                <ImageView
+                    android:id="@+id/details_favorite_ic"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    app:imageFavorite="@{viewModel.isFav}"
+                    app:layout_constraintBottom_toBottomOf="@+id/details_favorite_count"
+                    app:layout_constraintEnd_toStartOf="@+id/details_favorite_count"
+                    app:layout_constraintTop_toTopOf="@+id/details_favorite_count"
+                    tools:src="@drawable/star_favorite" />
+
+                <TextView
+                    android:id="@+id/details_favorite_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="8dp"
+                    android:text="@{viewModel.favs}"
+                    android:textSize="16sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/details_downvote_count"
+                    app:layout_constraintEnd_toStartOf="@id/details_upvote_ic"
+                    tools:text="56" />
+
+                <ImageView
+                    android:id="@+id/details_upvote_ic"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    app:imageUpvote="@{viewModel.isUp}"
+                    app:layout_constraintBottom_toBottomOf="@+id/details_upvote_count"
+                    app:layout_constraintEnd_toStartOf="@+id/details_upvote_count"
+                    app:layout_constraintTop_toTopOf="@+id/details_upvote_count"
+                    tools:src="@drawable/ic_baseline_arrow_upward_24" />
+
+                <TextView
+                    android:id="@+id/details_upvote_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="8dp"
+                    android:text="@{viewModel.ups}"
+                    android:textSize="16sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/details_downvote_count"
+                    app:layout_constraintEnd_toStartOf="@id/details_downvote_ic"
+                    tools:text="198" />
+
+                <ImageView
+                    android:id="@+id/details_downvote_ic"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:src="@drawable/ic_baseline_arrow_downward_24"
+                    app:imageDownvote="@{viewModel.isDown}"
+                    app:layout_constraintBottom_toBottomOf="@+id/details_downvote_count"
+                    app:layout_constraintEnd_toStartOf="@+id/details_downvote_count"
+                    app:layout_constraintTop_toTopOf="@+id/details_downvote_count"
+                    tools:src="@drawable/ic_baseline_arrow_downward_highlight_24" />
+
+                <TextView
+                    android:id="@+id/details_downvote_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="8dp"
+                    android:text="@{viewModel.downs}"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/details_description"
+                    tools:text="21" />
+
+                <TextView
+                    android:id="@+id/details_sort_by_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sort_by"
+                    app:layout_constraintBottom_toBottomOf="@id/details_sort_by_spinner"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/details_sort_by_spinner" />
+
+                <Spinner
+                    android:id="@+id/details_sort_by_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@id/details_sort_by_text_view"
+                    app:layout_constraintTop_toBottomOf="@id/details_comment_msg" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/details_comments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:nestedScrollingEnabled="false"
+                    android:scrollbars="none"
+                    app:commentListData="@{viewModel.commentList}"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/details_sort_by_text_view"
+                    tools:itemCount="10"
+                    tools:listitem="@layout/comment" />
+
+                <!--            <ImageView-->
+                <!--                android:id="@+id/status_image"-->
+                <!--                android:layout_width="wrap_content"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--                app:layout_constraintLeft_toLeftOf="parent"-->
+                <!--                app:layout_constraintRight_toRightOf="parent"-->
+                <!--                app:layout_constraintTop_toTopOf="parent"-->
+                <!--                app:marsApiStatus="@{viewModel.status}" />-->
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </layout>

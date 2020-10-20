@@ -25,19 +25,13 @@ interface RetrofitImgurService {
         @Path("username") username: String,
         @Path("page") page: Int,
         @Path("favoritesSort") favoritesSort: String,
-    ): ListDataResponse<ImgurImage>
+    ): ListDataResponse<GalleryImage>
 
-    @GET("3/gallery/album/{albumId}")
-    suspend fun getAlbum(
-        @Header("Authorization") clientId: String,
-        @Path("albumId") albumId: String
-    ): ListDataResponse<ImgurImage>
-
-    @GET("3/gallery/image/{imageId}")
+    @GET("3/gallery/{imageId}")
     suspend fun getImage(
-        @Header("Authorization") clientId: String,
+        @Header("Authorization") accessToken: String,
         @Path("imageId") imageId: String
-    ): ListDataResponse<ImgurImage>
+    ): BasicDataResponse<GalleryImage>
 
     @POST("3/album/{albumId}/favorite")
     suspend fun favAlbum(
@@ -84,10 +78,11 @@ interface RetrofitImgurService {
         @Path("vote") vote: String
     )
 
-    @GET("3/gallery/{commentId}/comments")
+    @GET("3/gallery/{imageId}/comments/{commentSort}")
     suspend fun getComments(
         @Header("Authorization") clientId: String,
-        @Path("commentId") commentId: String,
+        @Path("imageId") imageId: String,
+        @Path("commentSort") commentSort: String
     ): ListDataResponse<Comment>
 
     @POST("3/comment/{commentId}/vote/{vote}")
@@ -110,7 +105,7 @@ interface RetrofitImgurService {
         @Header("Authorization") clientId: String,
         @Path("page") page: Int,
         @Query("q") query: String
-    ): ListDataResponse<ImgurImage>
+    ): ListDataResponse<GalleryImage>
 
     @GET("3/account/{username}/avatar")
     suspend fun getAvatar(
@@ -128,5 +123,5 @@ interface RetrofitImgurService {
         @Query("q_any") qAny: String,
         @Query("q_exactly") qExactly: String,
         @Query("q_type") qType: String
-    ): ListDataResponse<ImgurImage>
+    ): ListDataResponse<GalleryImage>
 }
