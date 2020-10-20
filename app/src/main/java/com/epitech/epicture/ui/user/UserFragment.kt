@@ -16,6 +16,7 @@ import com.epitech.epicture.databinding.FragmentUserBinding
 import com.epitech.epicture.service.ImgurService
 import com.epitech.epicture.ui.login.LoginActivity
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 /**
  * User fragment
@@ -81,7 +82,7 @@ class UserFragment : Fragment() {
                 )
                 userViewModel.setAvatarUrl(response.data.avatar ?: "")
             } catch (e: Exception) {
-                println(e)
+                Timber.tag("User fragment").e(e.toString())
             }
         }
     }

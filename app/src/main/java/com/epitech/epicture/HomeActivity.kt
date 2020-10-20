@@ -31,17 +31,16 @@ class HomeActivity : AppCompatActivity() {
 
         val credentials = intent.getSerializableExtra("credentials") as? ImgurCredentials?
         HomeActivityData.imgurCredentials = credentials
-
-        println(credentials)
+        
         val navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home,
-                R.id.navigation_favorites,
-                R.id.navigation_search,
-                R.id.navigation_upload,
-                R.id.navigation_user
-            )
+                setOf(
+                        R.id.navigation_home,
+                        R.id.navigation_favorites,
+                        R.id.navigation_search,
+                        R.id.navigation_upload,
+                        R.id.navigation_user
+                )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
@@ -57,8 +56,8 @@ class HomeActivity : AppCompatActivity() {
 
         val homeActivityData = HomeActivityData.imgurCredentials
         val mPreference = getSharedPreferences(
-            "credentials",
-            Context.MODE_PRIVATE
+                "credentials",
+                Context.MODE_PRIVATE
         ).edit()
         mPreference.putString(Config.ACCESS_TOKEN_KEY, homeActivityData?.accessToken)
         mPreference.putString(Config.REFRESH_TOKEN_KEY, homeActivityData?.refreshToken)
