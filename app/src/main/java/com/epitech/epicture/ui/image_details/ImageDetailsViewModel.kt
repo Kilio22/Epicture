@@ -143,7 +143,12 @@ class ImageDetailsViewModel(private val imageId: String, private val commentCoun
         viewModelScope.launch {
             _commentLoadingStatus.value = LoadingStatus.LOADING
             try {
-                _commentList.value = ImgurService.getComments(imageId, sort.value).data
+                _commentList.value = ImgurService.getComments(
+                    HomeActivityData.imgurCredentials?.accessToken ?: "",
+                    imageId,
+                    sort.value
+                ).data
+                Log.i(null, _commentList.value?.get(0)?.toString() ?: "null vote")
                 _commentLoadingStatus.value = LoadingStatus.DONE
             } catch (e: Exception) {
                 _commentLoadingStatus.value = LoadingStatus.ERROR

@@ -215,10 +215,11 @@ object ImgurService {
      * @param id The id of the image / album
      */
     suspend fun getComments(
+        accessToken: String,
         id: String,
         sort: String
     ): ListDataResponse<Comment> {
-        return this.retrofitImgurService.getComments("Client-ID $CLIENT_ID", id, sort)
+        return this.retrofitImgurService.getComments("Bearer $accessToken", id, sort)
     }
 
     /**

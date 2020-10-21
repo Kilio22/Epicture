@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.epitech.epicture.HomeActivityData
 import com.epitech.epicture.R
 import com.epitech.epicture.databinding.FragmentImageDetailsBinding
+import com.epitech.epicture.model.Comment
 import com.epitech.epicture.service.ImgurService
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -21,11 +22,11 @@ import kotlinx.coroutines.launch
 /**
  * Image details fragment
  */
-class ImageDetailsFragment : Fragment() {
+class ImageDetailsFragment : Fragment(), CommentListAdapter.ClickListener {
 
     private lateinit var viewModel: ImageDetailsViewModel
     private lateinit var binding: FragmentImageDetailsBinding
-    private val adapter = CommentGridAdapter()
+    private val adapter = CommentListAdapter(this)
     private var searchJob: Job? = null
 
     /**
@@ -37,6 +38,11 @@ class ImageDetailsFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(ImageDetailsViewModel::class.java)
         binding = FragmentImageDetailsBinding.inflate(layoutInflater, container, false)
 
+        viewModel.commentList.observe(viewLifecycleOwner, { commentList: List<Comment> ->
+            Log.i("viewModel.commentList.observe", "Dataset changed")
+            adapter.commentList = commentList.toMutableList()
+            adapter.notifyDataSetChanged()
+        })
         binding.detailsFavoriteIc.setOnClickListener {
             viewModel.onClickFavorite()
             updateFavStatus()
@@ -53,14 +59,6 @@ class ImageDetailsFragment : Fragment() {
                 updateVoteStatus(it)
             }
         }
-//        viewModel.voteStatus.observe(viewLifecycleOwner, { newStatus: VoteStatus ->
-//            updateVoteStatus(imageId, newStatus)
-//        })
-//        viewModel.isFav.observe(viewLifecycleOwner, { favStatus: Boolean ->
-//            if (isFav != favStatus)
-//                updateFavStatus(imageId)
-//            isFav = favStatus
-//        })
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.detailsComments.adapter = adapter
@@ -115,7 +113,6 @@ class ImageDetailsFragment : Fragment() {
     private fun updateFavStatus() {
         lifecycleScope.launch {
             try {
-                Log.i(null, "Fav $id")
                 viewModel.image?.let {
                     if (it.isAlbum) {
                         ImgurService.favAlbum(
@@ -141,7 +138,6 @@ class ImageDetailsFragment : Fragment() {
     private fun updateVoteStatus(newStatus: VoteStatus) {
         lifecycleScope.launch {
             try {
-                Log.i(null, "Vote $id: $newStatus")
                 viewModel.image?.let {
                     ImgurService.vote(
                         HomeActivityData.imgurCredentials?.accessToken ?: "",
@@ -153,5 +149,53 @@ class ImageDetailsFragment : Fragment() {
                 println(exception)
             }
         }
+    }
+
+    override fun onClickUpvote(position: Int) {
+        val item = adapter.commentList!![position]
+
+        Log.i("onClickUpvote", "Upvote comment button clicked $position.")
+        if (item.isDown)
+            item.downs--
+        if (item.isUp) {
+            item.vote = VoteStatus.VETO.value
+            item.ups--
+        } else {
+            item.vote = VoteStatus.UP.value
+            item.ups++
+        }
+        lifecycleScope.launch {
+            ImgurService.voteComment(
+                HomeActivityData.imgurCredentials?.accessToken ?: "",
+                item.id.toString(),
+                item.vote ?: VoteStatus.VETO.value
+            )
+        }
+        adapter.commentList!![position] = item
+        adapter.notifyItemChanged(position)
+    }
+
+    override fun onClickDownvote(position: Int) {
+        val item = adapter.commentList!![position]
+
+        Log.i("onClickUpvote", "Downvote comment button clicked $position.")
+        if (item.isUp)
+            item.ups--
+        if (item.isDown) {
+            item.vote = VoteStatus.VETO.value
+            item.downs--
+        } else {
+            item.vote = VoteStatus.DOWN.value
+            item.downs++
+        }
+        lifecycleScope.launch {
+            ImgurService.voteComment(
+                HomeActivityData.imgurCredentials?.accessToken ?: "",
+                item.id.toString(),
+                item.vote ?: VoteStatus.VETO.value
+            )
+        }
+        adapter.commentList!![position] = item
+        adapter.notifyItemChanged(position)
     }
 }

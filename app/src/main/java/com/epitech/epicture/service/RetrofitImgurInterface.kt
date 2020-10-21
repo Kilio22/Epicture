@@ -80,7 +80,7 @@ interface RetrofitImgurService {
 
     @GET("3/gallery/{imageId}/comments/{commentSort}")
     suspend fun getComments(
-        @Header("Authorization") clientId: String,
+        @Header("Authorization") accessToken: String,
         @Path("imageId") imageId: String,
         @Path("commentSort") commentSort: String
     ): ListDataResponse<Comment>

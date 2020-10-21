@@ -2,19 +2,20 @@ package com.epitech.epicture.ui.image_details
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.util.ObjectsCompat
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.epitech.epicture.databinding.CommentBinding
 import com.epitech.epicture.model.Comment
 
-class CommentGridAdapter : ListAdapter<Comment, CommentGridAdapter.CommentViewHolder>(CommentDiffCallback) {
+class CommentListAdapter(private val clickListener: ClickListener) : RecyclerView.Adapter<CommentListAdapter.CommentViewHolder>() {
+
+    var commentList: MutableList<Comment>? = null
 
     class CommentViewHolder(private val binding: CommentBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(comment: Comment) {
+        fun bind(comment: Comment, clickListener: ClickListener, position: Int) {
             binding.comment = comment
+            binding.clickListener = clickListener
+            binding.position = position
             binding.executePendingBindings()
         }
 
@@ -28,14 +29,9 @@ class CommentGridAdapter : ListAdapter<Comment, CommentGridAdapter.CommentViewHo
         }
     }
 
-    companion object CommentDiffCallback : DiffUtil.ItemCallback<Comment>() {
-        override fun areItemsTheSame(oldItem: Comment, newItem: Comment): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: Comment, newItem: Comment): Boolean {
-            return ObjectsCompat.equals(oldItem, newItem)
-        }
+    interface ClickListener {
+        fun onClickUpvote(position: Int)
+        fun onClickDownvote(position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
@@ -43,8 +39,12 @@ class CommentGridAdapter : ListAdapter<Comment, CommentGridAdapter.CommentViewHo
     }
 
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
-        val item = getItem(position)
+        val item = commentList?.get(position)
 
-        item?.let { holder.bind(it) }
+        item?.let { holder.bind(it, clickListener, position) }
+    }
+
+    override fun getItemCount(): Int {
+        return commentList?.size ?: 0
     }
 }

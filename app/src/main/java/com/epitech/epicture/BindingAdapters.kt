@@ -1,4 +1,4 @@
-package com.epitech.epicture
+    package com.epitech.epicture
 
 import android.util.Log
 import android.view.View
@@ -9,8 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.epitech.epicture.model.Comment
-import com.epitech.epicture.ui.image_details.CommentGridAdapter
-import com.epitech.epicture.ui.image_details.ImageDetailsViewModel
+import com.epitech.epicture.ui.image_details.CommentListAdapter
 import com.epitech.epicture.ui.login.LoginViewModel
 import com.epitech.epicture.ui.upload.UploadViewModel
 
@@ -37,7 +36,7 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
     }
 }
 
-@BindingAdapter("imageFavorite")
+@BindingAdapter("favoriteSrc")
 fun bindImageFavorite(imageView: ImageView, isFav: Boolean?)
 {
     isFav?.let {
@@ -48,7 +47,7 @@ fun bindImageFavorite(imageView: ImageView, isFav: Boolean?)
     }
 }
 
-@BindingAdapter("imageUpvote")
+@BindingAdapter("upvoteSrc")
 fun bindImageUpvote(imageView: ImageView, isUp: Boolean?)
 {
     isUp?.let {
@@ -59,7 +58,7 @@ fun bindImageUpvote(imageView: ImageView, isUp: Boolean?)
     }
 }
 
-@BindingAdapter("imageDownvote")
+@BindingAdapter("downvoteSrc")
 fun bindImageDownvote(imageView: ImageView, isUp: Boolean?)
 {
     isUp?.let {
@@ -234,13 +233,6 @@ fun advancedSearchStatus(button: Button, value: Boolean) {
         true -> button.visibility = View.VISIBLE
         false -> button.visibility = View.GONE
     }
-}
-
-@BindingAdapter("commentListData")
-fun bindCommentRecyclerView(recyclerView: RecyclerView, data: List<Comment>?) {
-    val adapter = recyclerView.adapter as CommentGridAdapter
-
-    adapter.submitList(data)
 }
 
 @BindingAdapter("loadingStatus")
