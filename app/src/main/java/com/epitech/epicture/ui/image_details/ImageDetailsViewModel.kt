@@ -88,7 +88,6 @@ class ImageDetailsViewModel(private val imageId: String, private val commentCoun
         get() = _commentList
 
     init {
-        Log.i(null, imageId)
         viewModelScope.launch {
             try {
                 _loadingStatus.value = LoadingStatus.LOADING
@@ -109,7 +108,6 @@ class ImageDetailsViewModel(private val imageId: String, private val commentCoun
     }
 
     private fun fromImage(image: GalleryImage) {
-        Log.i(null, "Got: ${image.id} ${image.isFavorite} ${image.vote}")
         this.image = image
         _title.value = image.title ?: ""
         if (_title.value.isNullOrEmpty())
@@ -154,7 +152,6 @@ class ImageDetailsViewModel(private val imageId: String, private val commentCoun
                         imageId,
                         sort.value
                 ).data
-                Log.i(null, _commentList.value?.get(0)?.toString() ?: "null vote")
                 _commentLoadingStatus.value = LoadingStatus.DONE
             } catch (e: Exception) {
                 _commentLoadingStatus.value = LoadingStatus.ERROR
@@ -172,7 +169,6 @@ class ImageDetailsViewModel(private val imageId: String, private val commentCoun
     }
 
     fun onClickFavorite() {
-        Log.i("onClickFavorite", "Favorite button clicked.")
         if (_isFav.value == true) {
             _isFav.value = false
             _favs.value = originFavCount.toString()
@@ -183,7 +179,6 @@ class ImageDetailsViewModel(private val imageId: String, private val commentCoun
     }
 
     fun onClickUpvote() {
-        Log.i("onClickUpvote", "Upvote button clicked.")
         if (_isUp.value == true) {
             _isUp.value = false
             _ups.value = originUpCount.toString()
@@ -198,7 +193,6 @@ class ImageDetailsViewModel(private val imageId: String, private val commentCoun
     }
 
     fun onClickDownvote() {
-        Log.i("onClickDownvote", "Downvote button clicked.")
         if (_isDown.value == true) {
             _isDown.value = false
             _downs.value = originDownCount.toString()
