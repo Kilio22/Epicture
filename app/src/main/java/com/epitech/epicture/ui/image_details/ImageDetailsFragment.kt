@@ -44,7 +44,6 @@ class ImageDetailsFragment : Fragment(), CommentListAdapter.ClickListener {
         binding = FragmentImageDetailsBinding.inflate(layoutInflater, container, false)
 
         viewModel.commentList.observe(viewLifecycleOwner, { commentList: List<Comment> ->
-            Log.i("viewModel.commentList.observe", "Dataset changed")
             adapter.commentList = commentList.toMutableList()
             adapter.notifyDataSetChanged()
         })
@@ -173,7 +172,6 @@ class ImageDetailsFragment : Fragment(), CommentListAdapter.ClickListener {
     override fun onClickUpvote(position: Int) {
         val item = adapter.commentList!![position]
 
-        Log.i("onClickUpvote", "Upvote comment button clicked $position.")
         if (item.isDown)
             item.downs--
         if (item.isUp) {
@@ -200,7 +198,6 @@ class ImageDetailsFragment : Fragment(), CommentListAdapter.ClickListener {
     override fun onClickDownvote(position: Int) {
         val item = adapter.commentList!![position]
 
-        Log.i("onClickUpvote", "Downvote comment button clicked $position.")
         if (item.isUp)
             item.ups--
         if (item.isDown) {

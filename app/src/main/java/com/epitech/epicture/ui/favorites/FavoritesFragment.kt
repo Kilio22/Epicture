@@ -44,7 +44,6 @@ class FavoritesFragment : Fragment() {
 
         viewModel.selectedImage.observe(viewLifecycleOwner, { selectedImage ->
             selectedImage?.let {
-                Log.i(null, "Selecting image: ${it.id} ${it.title} ${it.isAlbum}")
                 this.findNavController().navigate(FavoritesFragmentDirections.actionNavigationFavoritesToImageDetailsFragment(it.id))
                 viewModel.selectImageDone()
             }
