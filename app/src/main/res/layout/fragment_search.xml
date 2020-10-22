@@ -39,15 +39,10 @@
                     android:id="@+id/base_query_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:autofillHints=""
-                    android:ems="10"
-                    android:hint="@string/base_query_input"
-                    android:imeOptions="actionSearch"
-                    android:inputType="textPersonName"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:layout_margin="10dp"
                     app:startIconDrawable="@drawable/ic_baseline_search_24"
                     app:endIconMode="clear_text">
 
@@ -55,6 +50,9 @@
                         android:id="@+id/base_query_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:hint="@string/base_query_input"
                         android:text="@={baseObservable.query}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -63,17 +61,11 @@
                     android:id="@+id/qany_query_layout"
                     app:advancedSearchStatus="@{viewModel.advancedSearch}"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.491"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/base_query_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:autofillHints=""
-                    android:ems="10"
-                    android:hint="@string/any_of"
-                    android:inputType="text"
-                    android:imeOptions="actionSearch"
                     app:startIconDrawable="@drawable/ic_baseline_search_24"
                     app:endIconMode="clear_text">
 
@@ -81,6 +73,9 @@
                         android:id="@+id/any_of_query_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:hint="@string/any_of"
                         android:text="@={baseObservable.QAny}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -89,17 +84,11 @@
                     android:id="@+id/qexactly_query_layout"
                     app:advancedSearchStatus="@{viewModel.advancedSearch}"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.491"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/qany_query_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:autofillHints=""
-                    android:ems="10"
-                    android:hint="@string/exactly"
-                    android:inputType="text"
-                    android:imeOptions="actionSearch"
                     app:startIconDrawable="@drawable/ic_baseline_search_24"
                     app:endIconMode="clear_text">
 
@@ -107,6 +96,9 @@
                         android:id="@+id/exactly_query_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:hint="@string/exactly"
                         android:text="@={baseObservable.QExactly}" />
 
                 </com.google.android.material.textfield.TextInputLayout>
