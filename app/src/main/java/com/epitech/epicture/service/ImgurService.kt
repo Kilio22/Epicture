@@ -17,7 +17,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 /**
- * This is the service used to access to imgur data using HTTP requests and Retrofit library
+ * This is the service used to access to imgur data using HTTP requests using Retrofit library
  */
 object ImgurService {
     private val retrofit = Retrofit.Builder()
@@ -237,28 +237,13 @@ object ImgurService {
     }
 
     /**
-     * Creates a comment
-     * @param accessToken The access token of the user
-     * @param id The id of the image / the album to comment
-     * @param comment The comment
-     */
-    suspend fun createComment(
-        accessToken: String,
-        id: RequestBody,
-        comment: RequestBody
-    ) {
-        return this.retrofitImgurService.createComment(
-            "Bearer $accessToken",
-            id,
-            comment
-        )
-    }
-
-    /**
      * Gets image informations thanks to its id
      * @param imageId The id of the image
      */
-    suspend fun getImageById(accessToken: String, imageId: String): BasicDataResponse<GalleryImage> {
+    suspend fun getImageById(
+        accessToken: String,
+        imageId: String
+    ): BasicDataResponse<GalleryImage> {
         Log.i(null, "$accessToken $imageId")
         return this.retrofitImgurService.getImage("Bearer $accessToken", imageId)
     }

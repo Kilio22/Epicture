@@ -19,7 +19,7 @@ class ImgurAccountImagesPagingSource : PagingSource<Int, Image>() {
                     HomeActivityData.imgurCredentials?.accessToken ?: "", position
                 ).data
             val imageList = this.getImageList(images)
-            
+
             LoadResult.Page(
                 data = imageList,
                 prevKey = if (position == PAGE_INITIAL_IDX) null else position - 1,

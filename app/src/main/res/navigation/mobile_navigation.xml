@@ -9,33 +9,36 @@
         android:id="@+id/navigation_home"
         android:name="com.epitech.epicture.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_navigation_home_to_imageDetailsFragment"
             app:destination="@id/imageDetailsFragment"
-            app:popUpTo="@id/navigation_home" />
+            app:popUpTo="@id/navigation_home"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_favorites"
         android:name="com.epitech.epicture.ui.favorites.FavoritesFragment"
         android:label="@string/title_favorites"
-        tools:layout="@layout/fragment_favorites" >
+        tools:layout="@layout/fragment_favorites">
         <action
             android:id="@+id/action_navigation_favorites_to_imageDetailsFragment"
             app:destination="@id/imageDetailsFragment"
-            app:popUpTo="@id/navigation_favorites" />
+            app:popUpTo="@id/navigation_favorites"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_search"
         android:name="com.epitech.epicture.ui.search.SearchFragment"
         android:label="@string/title_search"
-        tools:layout="@layout/fragment_search" >
+        tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_navigation_search_to_imageDetailsFragment"
             app:destination="@id/imageDetailsFragment"
-            app:popUpTo="@id/navigation_search" />
+            app:popUpTo="@id/navigation_search"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/navigation_upload"

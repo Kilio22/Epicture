@@ -92,14 +92,6 @@ interface RetrofitImgurService {
         @Path("vote") vote: String
     )
 
-    @Multipart
-    @POST("3/gallery/{id}/comment")
-    suspend fun createComment(
-        @Header("Authorization") accessToken: String,
-        @Path("id") id: RequestBody,
-        @Part("comment") comment: RequestBody
-    )
-
     @GET("3/gallery/search/top/all/{page}")
     suspend fun simpleSearch(
         @Header("Authorization") clientId: String,

@@ -32,9 +32,14 @@ class ImageDetailsFragment : Fragment(), CommentListAdapter.ClickListener {
     /**
      * Creates fragment
      */
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val arguments = ImageDetailsFragmentArgs.fromBundle(requireArguments())
-        val viewModelFactory = ImageDetailsViewModelFactory(arguments.imageId, getString(R.string.comment_count))
+        val viewModelFactory =
+            ImageDetailsViewModelFactory(arguments.imageId, getString(R.string.comment_count))
         viewModel = ViewModelProvider(this, viewModelFactory).get(ImageDetailsViewModel::class.java)
         binding = FragmentImageDetailsBinding.inflate(layoutInflater, container, false)
 
@@ -62,7 +67,12 @@ class ImageDetailsFragment : Fragment(), CommentListAdapter.ClickListener {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.detailsComments.adapter = adapter
-        binding.detailsComments.addItemDecoration(DividerItemDecoration(binding.detailsComments.context, DividerItemDecoration.VERTICAL))
+        binding.detailsComments.addItemDecoration(
+            DividerItemDecoration(
+                binding.detailsComments.context,
+                DividerItemDecoration.VERTICAL
+            )
+        )
         search()
         initSpinner()
         return binding.root
@@ -80,19 +90,25 @@ class ImageDetailsFragment : Fragment(), CommentListAdapter.ClickListener {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.detailsSortBySpinner.adapter = adapter
         }
-        binding.detailsSortBySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val stringArray = resources.getStringArray(R.array.comment_sort_array)
+        binding.detailsSortBySpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val stringArray = resources.getStringArray(R.array.comment_sort_array)
 
-                viewModel.setCommentSort(stringArray[position])
-                search()
-            }
+                    viewModel.setCommentSort(stringArray[position])
+                    search()
+                }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                viewModel.setCommentSort(SortTypes.BEST.value)
-                search()
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    viewModel.setCommentSort(SortTypes.BEST.value)
+                    search()
+                }
             }
-        }
     }
 
     /**
