@@ -164,8 +164,8 @@
 
                 <Button
                     android:id="@+id/search_button"
-                    android:layout_width="84dp"
-                    android:layout_height="37dp"
+                    android:layout_width="95dp"
+                    android:layout_height="38dp"
                     android:layout_marginTop="20dp"
                     android:text="@string/title_search"
                     app:advancedSearchStatus="@{viewModel.advancedSearch}"

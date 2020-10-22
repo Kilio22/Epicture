@@ -2,8 +2,8 @@ package com.epitech.epicture.data
 
 import androidx.paging.PagingSource
 import com.epitech.epicture.config.Config
-import com.epitech.epicture.model.Image
 import com.epitech.epicture.model.GalleryImage
+import com.epitech.epicture.model.Image
 import com.epitech.epicture.service.ImgurService
 import okhttp3.internal.toImmutableList
 import retrofit2.HttpException
@@ -36,13 +36,6 @@ class ImgurGallerySimpleSearchPagingSource(private val query: String) : PagingSo
         val imageList = mutableListOf<Image>()
 
         for (imgurImage in imgurImages) {
-            if (imgurImage.isAlbum && imgurImage.images != null) {
-                for (image in imgurImage.images) {
-                    if (image.type != null && Config.FORMATS_EXTENSION.containsKey(image.type)) {
-                        imageList.add(image)
-                    }
-                }
-            }
             if (imgurImage.type != null && Config.FORMATS_EXTENSION.containsKey(imgurImage.type)) {
                 val imageLink = if (imgurImage.isAlbum) {
                     "https://i.imgur.com/" + imgurImage.cover + Config.FORMATS_EXTENSION[imgurImage.type]

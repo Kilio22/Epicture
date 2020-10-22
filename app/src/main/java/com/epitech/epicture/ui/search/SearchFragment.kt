@@ -60,7 +60,9 @@ class SearchFragment : Fragment() {
 
         searchViewModel.selectedImage.observe(viewLifecycleOwner, { selectedImage ->
             selectedImage?.let {
-                this.findNavController().navigate(SearchFragmentDirections.actionNavigationSearchToImageDetailsFragment(it.id))
+                this.findNavController().navigate(
+                    SearchFragmentDirections.actionNavigationSearchToImageDetailsFragment(it.id)
+                )
                 searchViewModel.selectImageDone()
             }
         })
@@ -118,7 +120,7 @@ class SearchFragment : Fragment() {
         val sort = searchViewModel.sort.value?.trim() ?: "time"
 
         view?.hideKeyboard()
-        if (searchViewModel.advancedSearch.value == true && (qAny.isNotEmpty() || qExactly.isNotEmpty())) {
+        if (searchViewModel.advancedSearch.value == true && (qAny.isNotEmpty() || qExactly.isNotEmpty() || fileType != "all" || sort != "time")) {
             advancedSearch(query, qAny, qExactly, fileType, sort)
         } else if (query.isNotEmpty()) {
             simpleSearch(query)

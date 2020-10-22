@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 /**
- * Fetched DAO representing an image / an album when making HTTP requests to imgur
+ * Fetched DAO representing an image / an album when making HTTP requests to Imgur
  */
 @Parcelize
 data class GalleryImage(
@@ -23,5 +23,5 @@ data class GalleryImage(
         @SerializedName("favorite_count") val favoriteCount: Int,
         @SerializedName("favorite") val isFavorite: Boolean,
         @SerializedName("images") val images: List<Image>?,
-        @SerializedName("in_gallery") val inGallery: Boolean?
+        @SerializedName("in_gallery") val inGallery: Boolean
 ) : Parcelable

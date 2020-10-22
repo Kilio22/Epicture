@@ -15,7 +15,8 @@ import com.epitech.epicture.service.ImgurService
 import kotlinx.coroutines.launch
 
 @SuppressLint("LogNotTimber")
-class ImageDetailsViewModel(private val imageId: String, private val commentCountFormat: String) : ViewModel() {
+class ImageDetailsViewModel(private val imageId: String, private val commentCountFormat: String) :
+    ViewModel() {
 
     var image: GalleryImage? = null
         private set
@@ -88,6 +89,7 @@ class ImageDetailsViewModel(private val imageId: String, private val commentCoun
         viewModelScope.launch {
             try {
                 _loadingStatus.value = LoadingStatus.LOADING
+                Log.i("request", "requesting image with id: $imageId")
                 fromImage(
                     ImgurService.getImageById(
                         HomeActivityData.imgurCredentials?.accessToken ?: "",
@@ -96,6 +98,7 @@ class ImageDetailsViewModel(private val imageId: String, private val commentCoun
                 )
                 _loadingStatus.value = LoadingStatus.DONE
             } catch (e: Exception) {
+                Log.i("error", e.toString())
                 Log.e(null, "${e.message} ${e.localizedMessage}")
                 _loadingStatus.value = LoadingStatus.ERROR
             }

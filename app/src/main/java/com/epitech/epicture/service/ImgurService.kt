@@ -3,7 +3,6 @@ package com.epitech.epicture.service
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import com.epitech.epicture.config.Config
 import com.epitech.epicture.config.Config.Companion.ACCESS_TOKEN_KEY
 import com.epitech.epicture.config.Config.Companion.ACCOUNT_ID_KEY
@@ -244,7 +243,6 @@ object ImgurService {
         accessToken: String,
         imageId: String
     ): BasicDataResponse<GalleryImage> {
-        Log.i(null, "$accessToken $imageId")
         return this.retrofitImgurService.getImage("Bearer $accessToken", imageId)
     }
 
