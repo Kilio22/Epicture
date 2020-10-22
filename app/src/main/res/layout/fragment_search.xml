@@ -35,54 +35,81 @@
                 android:fillViewport="true"
                 tools:context=".ui.search.SearchFragment">
 
-                <EditText
-                    android:id="@+id/base_query_input"
-                    android:layout_width="354dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="16dp"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/base_query_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
                     android:autofillHints=""
                     android:ems="10"
                     android:hint="@string/base_query_input"
                     android:imeOptions="actionSearch"
                     android:inputType="textPersonName"
-                    android:text="@={baseObservable.query}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:startIconDrawable="@drawable/ic_baseline_search_24"
+                    app:endIconMode="clear_text">
 
-                <EditText
-                    android:id="@+id/any_of_query_input"
-                    android:layout_width="354dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/base_query_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={baseObservable.query}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/qany_query_layout"
+                    app:advancedSearchStatus="@{viewModel.advancedSearch}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.491"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/base_query_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
                     android:autofillHints=""
                     android:ems="10"
                     android:hint="@string/any_of"
-                    android:inputType="textPersonName"
+                    android:inputType="text"
                     android:imeOptions="actionSearch"
-                    android:text="@={baseObservable.QAny}"
+                    app:startIconDrawable="@drawable/ic_baseline_search_24"
+                    app:endIconMode="clear_text">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/any_of_query_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={baseObservable.QAny}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/qexactly_query_layout"
                     app:advancedSearchStatus="@{viewModel.advancedSearch}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.491"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/base_query_input" />
-
-                <EditText
-                    android:id="@+id/exactly_query_input"
-                    android:layout_width="354dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/qany_query_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
                     android:autofillHints=""
                     android:ems="10"
                     android:hint="@string/exactly"
-                    android:inputType="textPersonName"
+                    android:inputType="text"
                     android:imeOptions="actionSearch"
-                    android:text="@={baseObservable.QExactly}"
-                    app:advancedSearchStatus="@{viewModel.advancedSearch}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.491"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/any_of_query_input" />
+                    app:startIconDrawable="@drawable/ic_baseline_search_24"
+                    app:endIconMode="clear_text">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/exactly_query_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={baseObservable.QExactly}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/search_list"
@@ -110,7 +137,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.355"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/exactly_query_input" />
+                    app:layout_constraintTop_toBottomOf="@+id/qexactly_query_layout" />
 
                 <Spinner
                     android:id="@+id/sort_by_spinner"
@@ -134,7 +161,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/file_type_spinner"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/exactly_query_input" />
+                    app:layout_constraintTop_toBottomOf="@+id/qexactly_query_layout" />
 
                 <TextView
                     android:id="@+id/sort_by_text_view"
@@ -152,7 +179,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/file_type_text_view"
                     app:layout_constraintVertical_bias="0.0" />
 
-                <androidx.appcompat.widget.SwitchCompat
+                <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/advanced_search_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -172,7 +199,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.537"
                     app:layout_constraintStart_toEndOf="@+id/file_type_spinner"
-                    app:layout_constraintTop_toBottomOf="@+id/exactly_query_input" />
+                    app:layout_constraintTop_toBottomOf="@+id/qexactly_query_layout" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

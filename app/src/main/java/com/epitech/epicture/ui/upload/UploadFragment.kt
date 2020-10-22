@@ -37,6 +37,7 @@ import java.io.File
 class UploadFragment : Fragment() {
     private lateinit var uploadViewModel: UploadViewModel
     private lateinit var uploadBaseObservable: UploadBaseObservable
+    private lateinit var binding: FragmentUploadBinding
 
     /**
      * Create fragment
@@ -48,7 +49,7 @@ class UploadFragment : Fragment() {
     ): View? {
         uploadViewModel = ViewModelProvider(this).get(UploadViewModel::class.java)
         uploadBaseObservable = UploadBaseObservable()
-        val binding: FragmentUploadBinding =
+        binding =
                 DataBindingUtil.inflate(inflater, R.layout.fragment_upload, container, false)
 
         binding.lifecycleOwner = this
@@ -104,9 +105,10 @@ class UploadFragment : Fragment() {
     private fun uploadImage() {
         view?.hideKeyboard()
         if (this.uploadBaseObservable.getTitle().trim().isEmpty()) {
-            Toast.makeText(requireContext(), "You must provide a title", Toast.LENGTH_LONG).show()
+            binding.titleInputLayout.error = "You must provide a title"
             return
         }
+        binding.titleInputLayout.error = null
         this.uploadViewModel.setStatus(UploadViewModel.UploadStatus.UPLOADING)
 
         val file = File(this.uploadViewModel.filePath.value ?: "")

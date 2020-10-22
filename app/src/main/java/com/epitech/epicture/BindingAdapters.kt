@@ -1,24 +1,14 @@
-    package com.epitech.epicture
+package com.epitech.epicture
 
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.epitech.epicture.model.Comment
-import com.epitech.epicture.ui.image_details.CommentListAdapter
 import com.epitech.epicture.ui.login.LoginViewModel
 import com.epitech.epicture.ui.upload.UploadViewModel
-
-@BindingAdapter("textStr")
-fun bindTextString(textView: TextView, string: String?) {
-    string?.let {
-        textView.text = it
-    }
-}
+import com.google.android.material.textfield.TextInputLayout
 
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {
@@ -26,19 +16,18 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
         val imgUri = it.toUri().buildUpon().scheme("https").build()
 
         Glide.with(imgView.context)
-            .load(imgUri)
-            .apply(
-                RequestOptions()
-                    .placeholder(R.drawable.loading_animation)
-                    .error(R.drawable.broken_image)
-            )
-            .into(imgView)
+                .load(imgUri)
+                .apply(
+                        RequestOptions()
+                                .placeholder(R.drawable.loading_animation)
+                                .error(R.drawable.broken_image)
+                )
+                .into(imgView)
     }
 }
 
 @BindingAdapter("favoriteSrc")
-fun bindImageFavorite(imageView: ImageView, isFav: Boolean?)
-{
+fun bindImageFavorite(imageView: ImageView, isFav: Boolean?) {
     isFav?.let {
         if (isFav)
             imageView.setImageResource(R.drawable.star_favorite)
@@ -48,8 +37,7 @@ fun bindImageFavorite(imageView: ImageView, isFav: Boolean?)
 }
 
 @BindingAdapter("upvoteSrc")
-fun bindImageUpvote(imageView: ImageView, isUp: Boolean?)
-{
+fun bindImageUpvote(imageView: ImageView, isUp: Boolean?) {
     isUp?.let {
         if (isUp)
             imageView.setImageResource(R.drawable.ic_baseline_arrow_upward_highlight_24)
@@ -59,8 +47,7 @@ fun bindImageUpvote(imageView: ImageView, isUp: Boolean?)
 }
 
 @BindingAdapter("downvoteSrc")
-fun bindImageDownvote(imageView: ImageView, isUp: Boolean?)
-{
+fun bindImageDownvote(imageView: ImageView, isUp: Boolean?) {
     isUp?.let {
         if (isUp)
             imageView.setImageResource(R.drawable.ic_baseline_arrow_downward_highlight_24)
@@ -71,8 +58,8 @@ fun bindImageDownvote(imageView: ImageView, isUp: Boolean?)
 
 @BindingAdapter("chooseImageButtonStatus")
 fun chooseImageButtonStatus(
-    button: Button,
-    status: UploadViewModel.UploadStatus?
+        button: Button,
+        status: UploadViewModel.UploadStatus?
 ) {
     when (status) {
         UploadViewModel.UploadStatus.CHOOSE_IMAGE -> {
@@ -89,8 +76,8 @@ fun chooseImageButtonStatus(
 
 @BindingAdapter("uploadFieldStatus")
 fun uploadFieldStatus(
-    imageView: ImageView,
-    status: UploadViewModel.UploadStatus?
+        imageView: ImageView,
+        status: UploadViewModel.UploadStatus?
 ) {
     when (status) {
         UploadViewModel.UploadStatus.CHOOSE_IMAGE -> {
@@ -107,8 +94,8 @@ fun uploadFieldStatus(
 
 @BindingAdapter("uploadFieldStatus")
 fun uploadFieldStatus(
-    editText: EditText,
-    status: UploadViewModel.UploadStatus?
+        editText: TextInputLayout,
+        status: UploadViewModel.UploadStatus?
 ) {
     when (status) {
         UploadViewModel.UploadStatus.CHOOSE_IMAGE -> {
@@ -125,8 +112,8 @@ fun uploadFieldStatus(
 
 @BindingAdapter("uploadFieldStatus")
 fun uploadFieldStatus(
-    button: Button,
-    status: UploadViewModel.UploadStatus?
+        button: Button,
+        status: UploadViewModel.UploadStatus?
 ) {
     when (status) {
         UploadViewModel.UploadStatus.CHOOSE_IMAGE -> {
@@ -143,8 +130,8 @@ fun uploadFieldStatus(
 
 @BindingAdapter("uploadAnimationStatus")
 fun uploadAnimationStatus(
-    imageView: RelativeLayout,
-    status: UploadViewModel.UploadStatus?
+        imageView: RelativeLayout,
+        status: UploadViewModel.UploadStatus?
 ) {
     when (status) {
         UploadViewModel.UploadStatus.CHOOSE_IMAGE -> {
@@ -161,8 +148,8 @@ fun uploadAnimationStatus(
 
 @BindingAdapter("loginAnimationStatus")
 fun loginAnimationStatus(
-    relativeLayout: ProgressBar,
-    status: LoginViewModel.LoginStatus?
+        relativeLayout: ProgressBar,
+        status: LoginViewModel.LoginStatus?
 ) {
     when (status) {
         LoginViewModel.LoginStatus.LOADING -> {
@@ -176,8 +163,8 @@ fun loginAnimationStatus(
 
 @BindingAdapter("loginAnimationStatus")
 fun loginAnimationStatus(
-    button: Button,
-    status: LoginViewModel.LoginStatus?
+        button: Button,
+        status: LoginViewModel.LoginStatus?
 ) {
     when (status) {
         LoginViewModel.LoginStatus.LOADING -> {
@@ -193,18 +180,18 @@ fun loginAnimationStatus(
 fun bindChosenImage(imgView: ImageView, imgUrl: String?) {
     imgUrl?.let {
         Glide.with(imgView.context)
-            .load(imgUrl)
-            .apply(
-                RequestOptions()
-                    .placeholder(R.drawable.loading_animation)
-                    .error(R.drawable.broken_image)
-            )
-            .into(imgView)
+                .load(imgUrl)
+                .apply(
+                        RequestOptions()
+                                .placeholder(R.drawable.loading_animation)
+                                .error(R.drawable.broken_image)
+                )
+                .into(imgView)
     }
 }
 
 @BindingAdapter("advancedSearchStatus")
-fun advancedSearchStatus(editText: EditText, value: Boolean) {
+fun advancedSearchStatus(editText: TextInputLayout, value: Boolean) {
     when (value) {
         true -> editText.visibility = View.VISIBLE
         false -> editText.visibility = View.GONE

@@ -57,35 +57,53 @@
                     app:uploadFieldStatus="@{viewModel.status}"
                     tools:srcCompat="@tools:sample/avatars" />
 
-                <EditText
-                    android:id="@+id/title_input"
-                    android:layout_width="0dp"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/title_input_layout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_margin="10dp"
+                    android:autofillHints=""
                     android:ems="10"
                     android:hint="@string/title"
-                    android:importantForAutofill="no"
+                    android:imeOptions="actionSearch"
                     android:inputType="textPersonName"
-                    android:text="@={baseObservable.title}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/chosen_image"
-                    app:uploadFieldStatus="@{viewModel.status}" />
+                    app:endIconMode="clear_text"
+                    app:uploadFieldStatus="@{viewModel.status}">
 
-                <EditText
-                    android:id="@+id/description_input"
-                    android:layout_width="0dp"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/title_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={baseObservable.title}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/description_input_layout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_margin="10dp"
+                    android:autofillHints=""
                     android:ems="10"
                     android:hint="@string/description"
-                    android:importantForAutofill="no"
-                    android:inputType="textMultiLine"
-                    android:text="@={baseObservable.description}"
+                    android:imeOptions="actionSearch"
+                    android:inputType="textPersonName"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/title_input"
-                    app:uploadFieldStatus="@{viewModel.status}" />
+                    app:layout_constraintTop_toBottomOf="@+id/title_input_layout"
+                    app:endIconMode="clear_text"
+                    app:uploadFieldStatus="@{viewModel.status}">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/description_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={baseObservable.description}" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
                     android:id="@+id/upload_button"
@@ -96,7 +114,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/description_input"
+                    app:layout_constraintTop_toBottomOf="@+id/description_input_layout"
                     app:uploadFieldStatus="@{viewModel.status}" />
 
                 <RelativeLayout
