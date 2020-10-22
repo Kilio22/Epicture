@@ -8,6 +8,9 @@ import com.epitech.epicture.data.ImgurPager
 import com.epitech.epicture.model.Image
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * SearchViewModel contains the observable data used inside SearchFragment
+ */
 class SearchViewModel : ViewModel() {
     private val pager = ImgurPager()
 
@@ -37,11 +40,11 @@ class SearchViewModel : ViewModel() {
     }
 
     fun advancedSearch(
-        qAll: String,
-        qAny: String,
-        qExactly: String,
-        qType: String,
-        sort: String
+            qAll: String,
+            qAny: String,
+            qExactly: String,
+            qType: String,
+            sort: String
     ): Flow<PagingData<Image>> {
         return pager.advancedSearchStream(qAll, qAny, qExactly, qType, sort)
     }

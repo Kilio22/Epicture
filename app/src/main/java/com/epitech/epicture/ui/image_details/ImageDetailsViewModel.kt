@@ -14,9 +14,12 @@ import com.epitech.epicture.model.GalleryImage
 import com.epitech.epicture.service.ImgurService
 import kotlinx.coroutines.launch
 
+/**
+ * ImageDetailsViewModel contains the observable data used inside ImageDetailsFragment
+ */
 @SuppressLint("LogNotTimber")
 class ImageDetailsViewModel(private val imageId: String, private val commentCountFormat: String) :
-    ViewModel() {
+        ViewModel() {
 
     var image: GalleryImage? = null
         private set
@@ -91,10 +94,10 @@ class ImageDetailsViewModel(private val imageId: String, private val commentCoun
                 _loadingStatus.value = LoadingStatus.LOADING
                 Log.i("request", "requesting image with id: $imageId")
                 fromImage(
-                    ImgurService.getImageById(
-                        HomeActivityData.imgurCredentials?.accessToken ?: "",
-                        imageId
-                    ).data
+                        ImgurService.getImageById(
+                                HomeActivityData.imgurCredentials?.accessToken ?: "",
+                                imageId
+                        ).data
                 )
                 _loadingStatus.value = LoadingStatus.DONE
             } catch (e: Exception) {
@@ -147,9 +150,9 @@ class ImageDetailsViewModel(private val imageId: String, private val commentCoun
             _commentLoadingStatus.value = LoadingStatus.LOADING
             try {
                 _commentList.value = ImgurService.getComments(
-                    HomeActivityData.imgurCredentials?.accessToken ?: "",
-                    imageId,
-                    sort.value
+                        HomeActivityData.imgurCredentials?.accessToken ?: "",
+                        imageId,
+                        sort.value
                 ).data
                 Log.i(null, _commentList.value?.get(0)?.toString() ?: "null vote")
                 _commentLoadingStatus.value = LoadingStatus.DONE

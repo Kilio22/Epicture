@@ -33,13 +33,13 @@ class ImageDetailsFragment : Fragment(), CommentListAdapter.ClickListener {
      * Creates fragment
      */
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val arguments = ImageDetailsFragmentArgs.fromBundle(requireArguments())
         val viewModelFactory =
-            ImageDetailsViewModelFactory(arguments.imageId, getString(R.string.comment_count))
+                ImageDetailsViewModelFactory(arguments.imageId, getString(R.string.comment_count))
         viewModel = ViewModelProvider(this, viewModelFactory).get(ImageDetailsViewModel::class.java)
         binding = FragmentImageDetailsBinding.inflate(layoutInflater, container, false)
 
@@ -68,10 +68,10 @@ class ImageDetailsFragment : Fragment(), CommentListAdapter.ClickListener {
         binding.viewModel = viewModel
         binding.detailsComments.adapter = adapter
         binding.detailsComments.addItemDecoration(
-            DividerItemDecoration(
-                binding.detailsComments.context,
-                DividerItemDecoration.VERTICAL
-            )
+                DividerItemDecoration(
+                        binding.detailsComments.context,
+                        DividerItemDecoration.VERTICAL
+                )
         )
         search()
         initSpinner()
@@ -83,32 +83,32 @@ class ImageDetailsFragment : Fragment(), CommentListAdapter.ClickListener {
      */
     private fun initSpinner() {
         ArrayAdapter.createFromResource(
-            this.requireContext(),
-            R.array.comment_sort_array,
-            android.R.layout.simple_spinner_item
+                this.requireContext(),
+                R.array.comment_sort_array,
+                android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.detailsSortBySpinner.adapter = adapter
         }
         binding.detailsSortBySpinner.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    val stringArray = resources.getStringArray(R.array.comment_sort_array)
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                    ) {
+                        val stringArray = resources.getStringArray(R.array.comment_sort_array)
 
-                    viewModel.setCommentSort(stringArray[position])
-                    search()
-                }
+                        viewModel.setCommentSort(stringArray[position])
+                        search()
+                    }
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    viewModel.setCommentSort(SortTypes.BEST.value)
-                    search()
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        viewModel.setCommentSort(SortTypes.BEST.value)
+                        search()
+                    }
                 }
-            }
     }
 
     /**
@@ -132,13 +132,13 @@ class ImageDetailsFragment : Fragment(), CommentListAdapter.ClickListener {
                 viewModel.image?.let {
                     if (it.isAlbum) {
                         ImgurService.favAlbum(
-                            HomeActivityData.imgurCredentials?.accessToken ?: "",
-                            it.id
+                                HomeActivityData.imgurCredentials?.accessToken ?: "",
+                                it.id
                         )
                     } else {
                         ImgurService.favImage(
-                            HomeActivityData.imgurCredentials?.accessToken ?: "",
-                            it.id
+                                HomeActivityData.imgurCredentials?.accessToken ?: "",
+                                it.id
                         )
                     }
                 }
@@ -156,9 +156,9 @@ class ImageDetailsFragment : Fragment(), CommentListAdapter.ClickListener {
             try {
                 viewModel.image?.let {
                     ImgurService.vote(
-                        HomeActivityData.imgurCredentials?.accessToken ?: "",
-                        it.id,
-                        newStatus.value
+                            HomeActivityData.imgurCredentials?.accessToken ?: "",
+                            it.id,
+                            newStatus.value
                     )
                 }
             } catch (exception: Exception) {
@@ -167,6 +167,9 @@ class ImageDetailsFragment : Fragment(), CommentListAdapter.ClickListener {
         }
     }
 
+    /**
+     * Called when touching the upvote button
+     */
     override fun onClickUpvote(position: Int) {
         val item = adapter.commentList!![position]
 
@@ -182,15 +185,18 @@ class ImageDetailsFragment : Fragment(), CommentListAdapter.ClickListener {
         }
         lifecycleScope.launch {
             ImgurService.voteComment(
-                HomeActivityData.imgurCredentials?.accessToken ?: "",
-                item.id.toString(),
-                item.vote ?: VoteStatus.VETO.value
+                    HomeActivityData.imgurCredentials?.accessToken ?: "",
+                    item.id.toString(),
+                    item.vote ?: VoteStatus.VETO.value
             )
         }
         adapter.commentList!![position] = item
         adapter.notifyItemChanged(position)
     }
 
+    /**
+     * Called when touching the downvote button
+     */
     override fun onClickDownvote(position: Int) {
         val item = adapter.commentList!![position]
 
@@ -206,9 +212,9 @@ class ImageDetailsFragment : Fragment(), CommentListAdapter.ClickListener {
         }
         lifecycleScope.launch {
             ImgurService.voteComment(
-                HomeActivityData.imgurCredentials?.accessToken ?: "",
-                item.id.toString(),
-                item.vote ?: VoteStatus.VETO.value
+                    HomeActivityData.imgurCredentials?.accessToken ?: "",
+                    item.id.toString(),
+                    item.vote ?: VoteStatus.VETO.value
             )
         }
         adapter.commentList!![position] = item

@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
+/**
+ * LoginViewModel contains the observable data used inside LoginActivity
+ */
 class LoginViewModel : ViewModel() {
     enum class LoginStatus {
         MUST_LOGIN,

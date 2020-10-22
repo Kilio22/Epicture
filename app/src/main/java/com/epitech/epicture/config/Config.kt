@@ -1,5 +1,8 @@
 package com.epitech.epicture.config
 
+/**
+ * Config class, it contains data used across the entire application
+ */
 class Config {
     companion object {
         const val CLIENT_ID: String = "86b365f7d56d786"
@@ -15,9 +18,9 @@ class Config {
         const val ACCOUNT_ID_KEY: String = "account_id"
         const val PAGE_INITIAL_IDX = 0
         val FORMATS_EXTENSION = mapOf(
-            "image/jpeg" to ".jpg",
-            "image/gif" to ".gif",
-            "image/png" to ".png"
+                "image/jpeg" to ".jpg",
+                "image/gif" to ".gif",
+                "image/png" to ".png"
         )
     }
 }

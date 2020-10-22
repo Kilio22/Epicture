@@ -8,6 +8,9 @@ import com.epitech.epicture.data.ImgurPager
 import com.epitech.epicture.model.Image
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * FavoritesViewModel contains the observable data used inside FavoritesFragment
+ */
 class FavoritesViewModel : ViewModel() {
 
     private val pager = ImgurPager()

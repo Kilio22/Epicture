@@ -9,21 +9,24 @@ import okhttp3.internal.toImmutableList
 import retrofit2.HttpException
 import java.io.IOException
 
+/**
+ * Returns a PagingSource object, used when searching images with a simple query
+ */
 class ImgurGallerySimpleSearchPagingSource(private val query: String) : PagingSource<Int, Image>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Image> {
         val position = params.key ?: Config.PAGE_INITIAL_IDX
         return try {
             val imgurImages =
-                ImgurService.simpleSearch(
-                    position,
-                    query
-                ).data
+                    ImgurService.simpleSearch(
+                            position,
+                            query
+                    ).data
             val imageList = this.getImageList(imgurImages)
 
             LoadResult.Page(
-                data = imageList,
-                prevKey = if (position == Config.PAGE_INITIAL_IDX) null else position - 1,
-                nextKey = if (imageList.isEmpty()) null else position + 1
+                    data = imageList,
+                    prevKey = if (position == Config.PAGE_INITIAL_IDX) null else position - 1,
+                    nextKey = if (imageList.isEmpty()) null else position + 1
             )
         } catch (exception: IOException) {
             return LoadResult.Error(exception)
@@ -43,20 +46,20 @@ class ImgurGallerySimpleSearchPagingSource(private val query: String) : PagingSo
                     "https://i.imgur.com/" + imgurImage.id + Config.FORMATS_EXTENSION[imgurImage.type]
                 }
                 imageList.add(
-                    Image(
-                        imgurImage.id,
-                        imgurImage.title,
-                        imgurImage.description,
-                        imageLink,
-                        imgurImage.ups,
-                        imgurImage.downs,
-                        imgurImage.isAlbum,
-                        imgurImage.type,
-                        imgurImage.vote,
-                        imgurImage.commentCount,
-                        imgurImage.favoriteCount,
-                        imgurImage.isFavorite
-                    )
+                        Image(
+                                imgurImage.id,
+                                imgurImage.title,
+                                imgurImage.description,
+                                imageLink,
+                                imgurImage.ups,
+                                imgurImage.downs,
+                                imgurImage.isAlbum,
+                                imgurImage.type,
+                                imgurImage.vote,
+                                imgurImage.commentCount,
+                                imgurImage.favoriteCount,
+                                imgurImage.isFavorite
+                        )
                 )
             }
         }

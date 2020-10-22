@@ -10,20 +10,23 @@ import okhttp3.internal.toImmutableList
 import retrofit2.HttpException
 import java.io.IOException
 
+/**
+ * Returns a PagingSource object, used when fetching uploaded user images
+ */
 class ImgurAccountImagesPagingSource : PagingSource<Int, Image>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Image> {
         val position = params.key ?: PAGE_INITIAL_IDX
         return try {
             val images =
-                ImgurService.getAccountImages(
-                    HomeActivityData.imgurCredentials?.accessToken ?: "", position
-                ).data
+                    ImgurService.getAccountImages(
+                            HomeActivityData.imgurCredentials?.accessToken ?: "", position
+                    ).data
             val imageList = this.getImageList(images)
 
             LoadResult.Page(
-                data = imageList,
-                prevKey = if (position == PAGE_INITIAL_IDX) null else position - 1,
-                nextKey = if (imageList.isEmpty()) null else position + 1
+                    data = imageList,
+                    prevKey = if (position == PAGE_INITIAL_IDX) null else position - 1,
+                    nextKey = if (imageList.isEmpty()) null else position + 1
             )
         } catch (exception: IOException) {
             return LoadResult.Error(exception)
@@ -40,20 +43,20 @@ class ImgurAccountImagesPagingSource : PagingSource<Int, Image>() {
                 continue
             }
             imageList.add(
-                Image(
-                    image.id,
-                    image.title,
-                    image.description,
-                    "https://i.imgur.com/" + image.id + FORMATS_EXTENSION[image.type],
-                    image.ups,
-                    image.downs,
-                    image.isAlbum,
-                    image.type,
-                    image.vote,
-                    image.commentCount,
-                    image.favoriteCount,
-                    image.isFavorite
-                )
+                    Image(
+                            image.id,
+                            image.title,
+                            image.description,
+                            "https://i.imgur.com/" + image.id + FORMATS_EXTENSION[image.type],
+                            image.ups,
+                            image.downs,
+                            image.isAlbum,
+                            image.type,
+                            image.vote,
+                            image.commentCount,
+                            image.favoriteCount,
+                            image.isFavorite
+                    )
             )
         }
         return imageList.toImmutableList()

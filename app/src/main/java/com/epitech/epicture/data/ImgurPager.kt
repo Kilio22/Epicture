@@ -3,10 +3,13 @@ package com.epitech.epicture.data
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.epitech.epicture.model.Comment
 import com.epitech.epicture.model.Image
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * Contains all methods used to return a flow of paged data
+ * Each method is used in a different context: when getting favored images, using a simple search, using an advanced search...
+ */
 class ImgurPager {
     fun getAccountFavoritesStream(sort: String): Flow<PagingData<Image>> {
         return Pager(

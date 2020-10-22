@@ -8,6 +8,9 @@ import com.epitech.epicture.data.ImgurPager
 import com.epitech.epicture.model.Image
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * HomeViewModel contains the observable data used inside HomeFragment
+ */
 class HomeViewModel : ViewModel() {
     private val _selectedImage = MutableLiveData<Image?>()
     val selectedImage: LiveData<Image?>

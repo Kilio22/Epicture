@@ -3,6 +3,9 @@ package com.epitech.epicture.ui.search
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 
+/**
+ * SearchBaseObservable is used to handle two way databinding inside SearchFragment
+ */
 class SearchBaseObservable : BaseObservable() {
     private var query = ""
 

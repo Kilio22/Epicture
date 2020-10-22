@@ -3,6 +3,9 @@ package com.epitech.epicture.ui.upload
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 
+/**
+ * UploadBaseObservable is used to handle two way databinding inside UploadFragment
+ */
 class UploadBaseObservable : BaseObservable() {
     private var title = ""
 

@@ -6,6 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.epitech.epicture.databinding.CommentBinding
 import com.epitech.epicture.model.Comment
 
+/**
+ * Adapter used to display comments inside the appropriate RecyclerView
+ */
 class CommentListAdapter(private val clickListener: ClickListener) : RecyclerView.Adapter<CommentListAdapter.CommentViewHolder>() {
 
     var commentList: MutableList<Comment>? = null
