@@ -32,8 +32,20 @@ class CommentListAdapter(private val clickListener: ClickListener) : RecyclerVie
         }
     }
 
+    /**
+     * ClickListener interface called when clicking on a comment's upvote or downvote buttons.
+     */
     interface ClickListener {
+        /**
+         * Called when upvote button is clicked
+         * @param position Clicked comment's index for the Adapter's comment list
+         */
         fun onClickUpvote(position: Int)
+
+        /**
+         * Called when downvote button is clicked
+         * @param position Clicked comment's index for the Adapter's comment list
+         */
         fun onClickDownvote(position: Int)
     }
 

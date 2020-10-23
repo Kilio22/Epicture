@@ -11,9 +11,9 @@ import retrofit2.HttpException
 import java.io.IOException
 
 /**
- * Returns a PagingSource object, used when fetching uploaded user images
+ * Returns a PagingSource implementation, used when fetching uploaded user images
  */
-class ImgurAccountImagesPagingSource : PagingSource<Int, Image>() {
+internal class ImgurAccountImagesPagingSource : PagingSource<Int, Image>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Image> {
         val position = params.key ?: PAGE_INITIAL_IDX
         return try {

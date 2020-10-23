@@ -10,6 +10,11 @@ import com.epitech.epicture.ui.login.LoginViewModel
 import com.epitech.epicture.ui.upload.UploadViewModel
 import com.google.android.material.textfield.TextInputLayout
 
+/**
+ * TODO
+ * @param imgView
+ * @param imgUrlwin
+ */
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {
     imgUrl?.let {

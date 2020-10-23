@@ -11,9 +11,9 @@ import retrofit2.HttpException
 import java.io.IOException
 
 /**
- * Returns a PagingSource object, used when searching images with multiple query parameters
+ * Returns a PagingSource implementation, used when searching images using multiple query parameters
  */
-class ImgurGalleryAdvancedSearchPagingSource(
+internal class ImgurGalleryAdvancedSearchPagingSource(
         private val qAll: String,
         private val qAny: String,
         private val qExactly: String,

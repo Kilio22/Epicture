@@ -12,9 +12,9 @@ import retrofit2.HttpException
 import java.io.IOException
 
 /**
- * Returns a PagingSource object, used when fetching favored user images
+ * Returns a PagingSource implementation, used when fetching favored user images
  */
-class ImgurAccountFavoritesPagingSource(private val sort: String) : PagingSource<Int, Image>() {
+internal class ImgurAccountFavoritesPagingSource(private val sort: String) : PagingSource<Int, Image>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Image> {
         val position = params.key ?: PAGE_INITIAL_IDX
         return try {

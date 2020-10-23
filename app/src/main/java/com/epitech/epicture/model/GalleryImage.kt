@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 /**
- * Fetched DAO representing an image / an album when making HTTP requests to Imgur
+ * DAO representing an image / an album published onto Imgur's gallery feed
  */
 @Parcelize
 data class GalleryImage(

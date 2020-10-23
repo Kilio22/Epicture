@@ -18,8 +18,7 @@ import kotlinx.coroutines.launch
  * ImageDetailsViewModel contains the observable data used inside ImageDetailsFragment
  */
 @SuppressLint("LogNotTimber")
-class ImageDetailsViewModel(private val imageId: String, private val commentCountFormat: String) :
-        ViewModel() {
+class ImageDetailsViewModel(private val imageId: String, private val commentCountFormat: String) : ViewModel() {
 
     var image: GalleryImage? = null
         private set
@@ -93,10 +92,10 @@ class ImageDetailsViewModel(private val imageId: String, private val commentCoun
                 _loadingStatus.value = LoadingStatus.LOADING
                 Log.i("request", "requesting image with id: $imageId")
                 fromImage(
-                        ImgurService.getImageById(
-                                HomeActivityData.imgurCredentials?.accessToken ?: "",
-                                imageId
-                        ).data
+                    ImgurService.getImageById(
+                        HomeActivityData.imgurCredentials?.accessToken ?: "",
+                        imageId
+                    ).data
                 )
                 _loadingStatus.value = LoadingStatus.DONE
             } catch (e: Exception) {
@@ -143,14 +142,18 @@ class ImageDetailsViewModel(private val imageId: String, private val commentCoun
         }
     }
 
+    /**
+     * Gets comments for the associated image
+     * @param sort Comment sort query parameter
+     */
     fun getImageComments(sort: SortTypes) {
         viewModelScope.launch {
             _commentLoadingStatus.value = LoadingStatus.LOADING
             try {
                 _commentList.value = ImgurService.getComments(
-                        HomeActivityData.imgurCredentials?.accessToken ?: "",
-                        imageId,
-                        sort.value
+                    HomeActivityData.imgurCredentials?.accessToken ?: "",
+                    imageId,
+                    sort.value
                 ).data
                 _commentLoadingStatus.value = LoadingStatus.DONE
             } catch (e: Exception) {
@@ -160,6 +163,10 @@ class ImageDetailsViewModel(private val imageId: String, private val commentCoun
         }
     }
 
+    /**
+     * Sets comment sort query parameter
+     * @param sort Sort query parameter string
+     */
     fun setCommentSort(sort: String) {
         when (sort) {
             SortTypes.TOP.value -> _sort.value = SortTypes.TOP
@@ -168,6 +175,9 @@ class ImageDetailsViewModel(private val imageId: String, private val commentCoun
         }
     }
 
+    /**
+     * Called when the image's favorite button is clicked
+     */
     fun onClickFavorite() {
         if (_isFav.value == true) {
             _isFav.value = false
@@ -178,6 +188,9 @@ class ImageDetailsViewModel(private val imageId: String, private val commentCoun
         }
     }
 
+    /**
+     * Called when the image's upvote button is clicked
+     */
     fun onClickUpvote() {
         if (_isUp.value == true) {
             _isUp.value = false
@@ -192,6 +205,9 @@ class ImageDetailsViewModel(private val imageId: String, private val commentCoun
         _downs.value = originDownCount.toString()
     }
 
+    /**
+     * Called when the image's downvote button is clicked
+     */
     fun onClickDownvote() {
         if (_isDown.value == true) {
             _isDown.value = false

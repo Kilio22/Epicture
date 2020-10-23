@@ -1,7 +1,7 @@
 package com.epitech.epicture.config
 
 /**
- * Config class, it contains data used across the entire application
+ * Configuration class, it contains data used across the entire application
  */
 class Config {
     companion object {

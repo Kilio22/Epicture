@@ -63,9 +63,9 @@ class FavoritesFragment : Fragment() {
         search()
         lifecycleScope.launch {
             adapter.loadStateFlow
-                    .distinctUntilChangedBy { it.refresh }
-                    .filter { it.refresh is LoadState.NotLoading }
-                    .collect { binding.favoritesList.scrollToPosition(0) }
+                .distinctUntilChangedBy { it.refresh }
+                .filter { it.refresh is LoadState.NotLoading }
+                .collect { binding.favoritesList.scrollToPosition(0) }
         }
     }
 
@@ -74,35 +74,35 @@ class FavoritesFragment : Fragment() {
      */
     private fun initSpinner() {
         ArrayAdapter.createFromResource(
-                this.requireContext(),
-                R.array.fav_sort_array,
-                android.R.layout.simple_spinner_item
+            this.requireContext(),
+            R.array.fav_sort_array,
+            android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.favSortBySpinner.adapter = adapter
         }
         binding.favSortBySpinner.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            position: Int,
-                            id: Long
-                    ) {
-                        val stringArray = resources.getStringArray(R.array.fav_sort_array)
-                        viewModel.setSort(stringArray[position])
-                        search()
-                    }
-
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-                        viewModel.setSort("newest")
-                        search()
-                    }
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val stringArray = resources.getStringArray(R.array.fav_sort_array)
+                    viewModel.setSort(stringArray[position])
+                    search()
                 }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    viewModel.setSort("newest")
+                    search()
+                }
+            }
     }
 
     /**
-     * Starts search depending on query string
+     * Fetches favorites depending on query string
      */
     private fun search() {
         searchJob?.cancel()
