@@ -14,22 +14,23 @@ import java.io.IOException
 /**
  * Returns a PagingSource implementation, used when fetching favored user images
  */
-internal class ImgurAccountFavoritesPagingSource(private val sort: String) : PagingSource<Int, Image>() {
+internal class ImgurAccountFavoritesPagingSource(private val sort: String) :
+    PagingSource<Int, Image>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Image> {
         val position = params.key ?: PAGE_INITIAL_IDX
         return try {
             val imgurImages = ImgurService.getUserFavorites(
-                    HomeActivityData.imgurCredentials?.accessToken ?: "",
-                    HomeActivityData.imgurCredentials?.accountUsername ?: "",
-                    position,
-                    sort
+                HomeActivityData.imgurCredentials?.accessToken ?: "",
+                HomeActivityData.imgurCredentials?.accountUsername ?: "",
+                position,
+                sort
             ).data
             val imageList = this.getImageList(imgurImages)
 
             LoadResult.Page(
-                    data = imageList,
-                    prevKey = if (position == PAGE_INITIAL_IDX) null else position - 1,
-                    nextKey = if (imageList.isEmpty()) null else position + 1
+                data = imageList,
+                prevKey = if (position == PAGE_INITIAL_IDX) null else position - 1,
+                nextKey = if (imageList.isEmpty()) null else position + 1
             )
         } catch (exception: IOException) {
             return LoadResult.Error(exception)
@@ -38,13 +39,19 @@ internal class ImgurAccountFavoritesPagingSource(private val sort: String) : Pag
         }
     }
 
+    /**
+     * Extracts images from fetched data
+     *
+     * @param imgurImages Fetched data
+     * @return The image list
+     */
     private fun getImageList(imgurImages: List<GalleryImage>): List<Image> {
         val imageList = mutableListOf<Image>()
 
         for (imgurImage in imgurImages) {
             if (imgurImage.inGallery && imgurImage.type != null && FORMATS_EXTENSION.containsKey(
-                            imgurImage.type
-                    )
+                    imgurImage.type
+                )
             ) {
                 val imageLink = if (imgurImage.isAlbum) {
                     "https://i.imgur.com/" + imgurImage.cover + FORMATS_EXTENSION[imgurImage.type]
@@ -52,20 +59,20 @@ internal class ImgurAccountFavoritesPagingSource(private val sort: String) : Pag
                     "https://i.imgur.com/" + imgurImage.id + FORMATS_EXTENSION[imgurImage.type]
                 }
                 imageList.add(
-                        Image(
-                                imgurImage.id,
-                                imgurImage.title,
-                                imgurImage.description,
-                                imageLink,
-                                imgurImage.ups,
-                                imgurImage.downs,
-                                imgurImage.isAlbum,
-                                imgurImage.type,
-                                imgurImage.vote,
-                                imgurImage.commentCount,
-                                imgurImage.favoriteCount,
-                                imgurImage.isFavorite
-                        )
+                    Image(
+                        imgurImage.id,
+                        imgurImage.title,
+                        imgurImage.description,
+                        imageLink,
+                        imgurImage.ups,
+                        imgurImage.downs,
+                        imgurImage.isAlbum,
+                        imgurImage.type,
+                        imgurImage.vote,
+                        imgurImage.commentCount,
+                        imgurImage.favoriteCount,
+                        imgurImage.isFavorite
+                    )
                 )
             }
         }

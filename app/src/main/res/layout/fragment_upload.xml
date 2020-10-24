@@ -54,7 +54,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:uploadFieldStatus="@{viewModel.status}"
+                    app:uploadStatus="@{viewModel.status}"
                     tools:srcCompat="@tools:sample/avatars" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -71,7 +71,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/chosen_image"
                     app:endIconMode="clear_text"
-                    app:uploadFieldStatus="@{viewModel.status}">
+                    app:uploadStatus="@{viewModel.status}">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/title_input"
@@ -95,7 +95,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/title_input_layout"
                     app:endIconMode="clear_text"
-                    app:uploadFieldStatus="@{viewModel.status}">
+                    app:uploadStatus="@{viewModel.status}">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/description_input"
@@ -115,14 +115,14 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/description_input_layout"
-                    app:uploadFieldStatus="@{viewModel.status}" />
+                    app:uploadStatus="@{viewModel.status}" />
 
                 <RelativeLayout
                     android:id="@+id/loadingPanel"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    app:uploadAnimationStatus="@{viewModel.status}"
+                    app:uploadStatus="@{viewModel.status}"
                     tools:layout_editor_absoluteX="-14dp"
                     tools:layout_editor_absoluteY="0dp">
 

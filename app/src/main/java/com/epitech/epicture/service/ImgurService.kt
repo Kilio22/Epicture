@@ -96,7 +96,7 @@ object ImgurService {
      * @param accessToken The user access token
      * @param username The username
      * @param page The page number
-     * @param sort The way data is sorted
+     * @param sort The way data is sorted: oldest or newest
      */
     suspend fun getUserFavorites(
         accessToken: String,

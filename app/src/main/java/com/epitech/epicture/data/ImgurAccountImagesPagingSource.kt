@@ -18,15 +18,15 @@ internal class ImgurAccountImagesPagingSource : PagingSource<Int, Image>() {
         val position = params.key ?: PAGE_INITIAL_IDX
         return try {
             val images =
-                    ImgurService.getAccountImages(
-                            HomeActivityData.imgurCredentials?.accessToken ?: "", position
-                    ).data
+                ImgurService.getAccountImages(
+                    HomeActivityData.imgurCredentials?.accessToken ?: "", position
+                ).data
             val imageList = this.getImageList(images)
 
             LoadResult.Page(
-                    data = imageList,
-                    prevKey = if (position == PAGE_INITIAL_IDX) null else position - 1,
-                    nextKey = if (imageList.isEmpty()) null else position + 1
+                data = imageList,
+                prevKey = if (position == PAGE_INITIAL_IDX) null else position - 1,
+                nextKey = if (imageList.isEmpty()) null else position + 1
             )
         } catch (exception: IOException) {
             return LoadResult.Error(exception)
@@ -35,6 +35,12 @@ internal class ImgurAccountImagesPagingSource : PagingSource<Int, Image>() {
         }
     }
 
+    /**
+     * Extracts images from fetched data
+     *
+     * @param imgurImages Fetched data
+     * @return The image list
+     */
     private fun getImageList(images: List<Image>): List<Image> {
         val imageList = mutableListOf<Image>()
 
@@ -43,20 +49,20 @@ internal class ImgurAccountImagesPagingSource : PagingSource<Int, Image>() {
                 continue
             }
             imageList.add(
-                    Image(
-                            image.id,
-                            image.title,
-                            image.description,
-                            "https://i.imgur.com/" + image.id + FORMATS_EXTENSION[image.type],
-                            image.ups,
-                            image.downs,
-                            image.isAlbum,
-                            image.type,
-                            image.vote,
-                            image.commentCount,
-                            image.favoriteCount,
-                            image.isFavorite
-                    )
+                Image(
+                    image.id,
+                    image.title,
+                    image.description,
+                    "https://i.imgur.com/" + image.id + FORMATS_EXTENSION[image.type],
+                    image.ups,
+                    image.downs,
+                    image.isAlbum,
+                    image.type,
+                    image.vote,
+                    image.commentCount,
+                    image.favoriteCount,
+                    image.isFavorite
+                )
             )
         }
         return imageList.toImmutableList()

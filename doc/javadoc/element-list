@@ -1,0 +1,26 @@
+$dokka.format:javadoc-v1
+$dokka.linkExtension:html
+$dokka.location:com.epitech.epicture.config/Config.Companion///PointingToDeclaration/com/epitech/epicture/config/Config.Companion.html
+$dokka.location:com.epitech.epicture.data/ImgurPager.Companion///PointingToDeclaration/com/epitech/epicture/data/ImgurPager.Companion.html
+$dokka.location:com.epitech.epicture.ui.image_details/CommentListAdapter.ClickListener///PointingToDeclaration/com/epitech/epicture/ui/image_details/CommentListAdapter.ClickListener.html
+$dokka.location:com.epitech.epicture.ui.image_details/CommentListAdapter.CommentViewHolder.Companion///PointingToDeclaration/com/epitech/epicture/ui/image_details/CommentListAdapter.CommentViewHolder.Companion.html
+$dokka.location:com.epitech.epicture.ui.image_details/CommentListAdapter.CommentViewHolder///PointingToDeclaration/com/epitech/epicture/ui/image_details/CommentListAdapter.CommentViewHolder.html
+$dokka.location:com.epitech.epicture.ui.login/LoginViewModel.LoginStatus///PointingToDeclaration/com/epitech/epicture/ui/login/LoginViewModel.LoginStatus.html
+$dokka.location:com.epitech.epicture.ui/ImageGridAdapter.ClickListener///PointingToDeclaration/com/epitech/epicture/ui/ImageGridAdapter.ClickListener.html
+$dokka.location:com.epitech.epicture.ui/ImageGridAdapter.ImageViewHolder.Companion///PointingToDeclaration/com/epitech/epicture/ui/ImageGridAdapter.ImageViewHolder.Companion.html
+$dokka.location:com.epitech.epicture.ui/ImageGridAdapter.ImageViewHolder///PointingToDeclaration/com/epitech/epicture/ui/ImageGridAdapter.ImageViewHolder.html
+$dokka.location:com.epitech.epicture.ui/ImageGridAdapter.PhotoDiffCallback///PointingToDeclaration/com/epitech/epicture/ui/ImageGridAdapter.PhotoDiffCallback.html
+com.epitech.epicture
+com.epitech.epicture.config
+com.epitech.epicture.data
+com.epitech.epicture.model
+com.epitech.epicture.service
+com.epitech.epicture.ui
+com.epitech.epicture.ui.favorites
+com.epitech.epicture.ui.home
+com.epitech.epicture.ui.image_details
+com.epitech.epicture.ui.login
+com.epitech.epicture.ui.search
+com.epitech.epicture.ui.upload
+com.epitech.epicture.ui.user
+

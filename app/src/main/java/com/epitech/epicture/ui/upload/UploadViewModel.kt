@@ -8,12 +8,6 @@ import androidx.lifecycle.ViewModel
  * UploadViewModel contains the observable data used inside UploadFragment
  */
 class UploadViewModel : ViewModel() {
-    enum class UploadStatus {
-        CHOOSE_IMAGE,
-        INFORMATIONS,
-        UPLOADING
-    }
-
     private val _status = MutableLiveData(UploadStatus.CHOOSE_IMAGE)
     val status: LiveData<UploadStatus>
         get() = _status

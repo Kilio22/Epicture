@@ -7,13 +7,14 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.epitech.epicture.ui.login.LoginViewModel
-import com.epitech.epicture.ui.upload.UploadViewModel
+import com.epitech.epicture.ui.upload.UploadStatus
 import com.google.android.material.textfield.TextInputLayout
 
 /**
- * TODO
- * @param imgView
- * @param imgUrlwin
+ * Binds an image to an image view using the given url
+ *
+ * @param imgView The image view
+ * @param imgUrlwin The image url
  */
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {
@@ -21,16 +22,22 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
         val imgUri = it.toUri().buildUpon().scheme("https").build()
 
         Glide.with(imgView.context)
-                .load(imgUri)
-                .apply(
-                        RequestOptions()
-                                .placeholder(R.drawable.loading_animation)
-                                .error(R.drawable.broken_image)
-                )
-                .into(imgView)
+            .load(imgUri)
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.loading_animation)
+                    .error(R.drawable.broken_image)
+            )
+            .into(imgView)
     }
 }
 
+/**
+ * Checks if a star needs to be displayed or not
+ *
+ * @param imageView The image view on which a star must be displayed
+ * @param isFav True if the star must be displayed, false otherwise
+ */
 @BindingAdapter("favoriteSrc")
 fun bindImageFavorite(imageView: ImageView, isFav: Boolean?) {
     isFav?.let {
@@ -41,6 +48,12 @@ fun bindImageFavorite(imageView: ImageView, isFav: Boolean?) {
     }
 }
 
+/**
+ * Checks if the upward arrow must be displayed highlighted or not
+ *
+ * @param imageView The image view on which the arrow must be displayed
+ * @param isUp True if the arrow must be highlighted, false otherwise
+ */
 @BindingAdapter("upvoteSrc")
 fun bindImageUpvote(imageView: ImageView, isUp: Boolean?) {
     isUp?.let {
@@ -51,110 +64,152 @@ fun bindImageUpvote(imageView: ImageView, isUp: Boolean?) {
     }
 }
 
+/**
+ * Checks if the downward arrow must be displayed highlighted or not
+ *
+ * @param imageView The image view on which the arrow must be displayed
+ * @param isDown True if the arrow must be highlighted, false otherwise
+ */
 @BindingAdapter("downvoteSrc")
-fun bindImageDownvote(imageView: ImageView, isUp: Boolean?) {
-    isUp?.let {
-        if (isUp)
+fun bindImageDownvote(imageView: ImageView, isDown: Boolean?) {
+    isDown?.let {
+        if (isDown)
             imageView.setImageResource(R.drawable.ic_baseline_arrow_downward_highlight_24)
         else
             imageView.setImageResource(R.drawable.ic_baseline_arrow_downward_24)
     }
 }
 
+/**
+ * Checks if the button must be displayed or not depending on the upload status
+ *
+ * @param button The button
+ * @param status The upload status
+ */
 @BindingAdapter("chooseImageButtonStatus")
-fun chooseImageButtonStatus(
-        button: Button,
-        status: UploadViewModel.UploadStatus?
+fun bindChooseImageButton(
+    button: Button,
+    status: UploadStatus?
 ) {
     when (status) {
-        UploadViewModel.UploadStatus.CHOOSE_IMAGE -> {
+        UploadStatus.CHOOSE_IMAGE -> {
             button.visibility = View.VISIBLE
         }
-        UploadViewModel.UploadStatus.INFORMATIONS -> {
+        UploadStatus.INFORMATIONS -> {
             button.visibility = View.GONE
         }
-        UploadViewModel.UploadStatus.UPLOADING -> {
+        UploadStatus.UPLOADING -> {
             button.visibility = View.GONE
         }
     }
 }
 
-@BindingAdapter("uploadFieldStatus")
-fun uploadFieldStatus(
-        imageView: ImageView,
-        status: UploadViewModel.UploadStatus?
+/**
+ * Checks if the image view must be displayed or not depending on the upload status
+ *
+ * @param imageView The image view
+ * @param status The upload status
+ */
+@BindingAdapter("uploadStatus")
+fun bindUploadTextView(
+    imageView: ImageView,
+    status: UploadStatus?
 ) {
     when (status) {
-        UploadViewModel.UploadStatus.CHOOSE_IMAGE -> {
+        UploadStatus.CHOOSE_IMAGE -> {
             imageView.visibility = View.GONE
         }
-        UploadViewModel.UploadStatus.INFORMATIONS -> {
+        UploadStatus.INFORMATIONS -> {
             imageView.visibility = View.VISIBLE
         }
-        UploadViewModel.UploadStatus.UPLOADING -> {
+        UploadStatus.UPLOADING -> {
             imageView.visibility = View.GONE
         }
     }
 }
 
-@BindingAdapter("uploadFieldStatus")
-fun uploadFieldStatus(
-        editText: TextInputLayout,
-        status: UploadViewModel.UploadStatus?
+/**
+ * Checks if the TextInputLayout must be displayed or not depending on the upload status
+ *
+ * @param textInputLayout The TextInputLayout
+ * @param status The upload status
+ */
+@BindingAdapter("uploadStatus")
+fun bindUploadTextInputLayout(
+    textInputLayout: TextInputLayout,
+    status: UploadStatus?
 ) {
     when (status) {
-        UploadViewModel.UploadStatus.CHOOSE_IMAGE -> {
-            editText.visibility = View.GONE
+        UploadStatus.CHOOSE_IMAGE -> {
+            textInputLayout.visibility = View.GONE
         }
-        UploadViewModel.UploadStatus.INFORMATIONS -> {
-            editText.visibility = View.VISIBLE
+        UploadStatus.INFORMATIONS -> {
+            textInputLayout.visibility = View.VISIBLE
         }
-        UploadViewModel.UploadStatus.UPLOADING -> {
-            editText.visibility = View.GONE
+        UploadStatus.UPLOADING -> {
+            textInputLayout.visibility = View.GONE
         }
     }
 }
 
-@BindingAdapter("uploadFieldStatus")
-fun uploadFieldStatus(
-        button: Button,
-        status: UploadViewModel.UploadStatus?
+/**
+ * Checks if the button must be displayed or not depending on the upload status
+ *
+ * @param button The text input layout
+ * @param status The upload status
+ */
+@BindingAdapter("uploadStatus")
+fun bindUploadButton(
+    button: Button,
+    status: UploadStatus?
 ) {
     when (status) {
-        UploadViewModel.UploadStatus.CHOOSE_IMAGE -> {
+        UploadStatus.CHOOSE_IMAGE -> {
             button.visibility = View.GONE
         }
-        UploadViewModel.UploadStatus.INFORMATIONS -> {
+        UploadStatus.INFORMATIONS -> {
             button.visibility = View.VISIBLE
         }
-        UploadViewModel.UploadStatus.UPLOADING -> {
+        UploadStatus.UPLOADING -> {
             button.visibility = View.GONE
         }
     }
 }
 
-@BindingAdapter("uploadAnimationStatus")
-fun uploadAnimationStatus(
-        imageView: RelativeLayout,
-        status: UploadViewModel.UploadStatus?
+/**
+ * Checks if the upload animation must be displayed or not depending on the upload status
+ *
+ * @param relativeLayout The upload animation
+ * @param status The upload status
+ */
+@BindingAdapter("uploadStatus")
+fun bindUploadAnimation(
+    relativeLayout: RelativeLayout,
+    status: UploadStatus?
 ) {
     when (status) {
-        UploadViewModel.UploadStatus.CHOOSE_IMAGE -> {
-            imageView.visibility = View.GONE
+        UploadStatus.CHOOSE_IMAGE -> {
+            relativeLayout.visibility = View.GONE
         }
-        UploadViewModel.UploadStatus.INFORMATIONS -> {
-            imageView.visibility = View.GONE
+        UploadStatus.INFORMATIONS -> {
+            relativeLayout.visibility = View.GONE
         }
-        UploadViewModel.UploadStatus.UPLOADING -> {
-            imageView.visibility = View.VISIBLE
+        UploadStatus.UPLOADING -> {
+            relativeLayout.visibility = View.VISIBLE
         }
     }
 }
 
-@BindingAdapter("loginAnimationStatus")
-fun loginAnimationStatus(
-        relativeLayout: ProgressBar,
-        status: LoginViewModel.LoginStatus?
+/**
+ * Checks if the login animation must be displayed or not depending on the login status
+ *
+ * @param relativeLayout The login animation
+ * @param status The login status
+ */
+@BindingAdapter("loginStatus")
+fun bindLoginAnimation(
+    relativeLayout: RelativeLayout,
+    status: LoginViewModel.LoginStatus?
 ) {
     when (status) {
         LoginViewModel.LoginStatus.LOADING -> {
@@ -166,10 +221,16 @@ fun loginAnimationStatus(
     }
 }
 
-@BindingAdapter("loginAnimationStatus")
-fun loginAnimationStatus(
-        button: Button,
-        status: LoginViewModel.LoginStatus?
+/**
+ * Checks if the login button must be displayed or not depending on the login status
+ *
+ * @param button The button
+ * @param status The login status
+ */
+@BindingAdapter("loginStatus")
+fun bindLoginButton(
+    button: Button,
+    status: LoginViewModel.LoginStatus?
 ) {
     when (status) {
         LoginViewModel.LoginStatus.LOADING -> {
@@ -181,52 +242,88 @@ fun loginAnimationStatus(
     }
 }
 
+/**
+ * Binds an image on an image view depending on the given image url (local stored images only)
+ *
+ * @param imgView The image view
+ * @param imgUrl The url of the local stored image
+ */
 @BindingAdapter("chosenImageUrl")
 fun bindChosenImage(imgView: ImageView, imgUrl: String?) {
     imgUrl?.let {
         Glide.with(imgView.context)
-                .load(imgUrl)
-                .apply(
-                        RequestOptions()
-                                .placeholder(R.drawable.loading_animation)
-                                .error(R.drawable.broken_image)
-                )
-                .into(imgView)
+            .load(imgUrl)
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.loading_animation)
+                    .error(R.drawable.broken_image)
+            )
+            .into(imgView)
     }
 }
 
+/**
+ * Checks if the TextInputLayout must be displayed or not depending on advanced search status
+ *
+ * @param textInputLayout The TextInputLayout to display or not
+ * @param value True if the layout must be displayed, false otherwise
+ */
 @BindingAdapter("advancedSearchStatus")
-fun advancedSearchStatus(editText: TextInputLayout, value: Boolean) {
+fun bindAdvancedSearchInputLayout(textInputLayout: TextInputLayout, value: Boolean) {
     when (value) {
-        true -> editText.visibility = View.VISIBLE
-        false -> editText.visibility = View.GONE
+        true -> textInputLayout.visibility = View.VISIBLE
+        false -> textInputLayout.visibility = View.GONE
     }
 }
 
+/**
+ * Checks if the TextView must be displayed or not depending on advanced search status
+ *
+ * @param textView The TextView to display or not
+ * @param value True if the view must be displayed, false otherwise
+ */
 @BindingAdapter("advancedSearchStatus")
-fun advancedSearchStatus(textView: TextView, value: Boolean) {
+fun bindAdvancedSearchTextView(textView: TextView, value: Boolean) {
     when (value) {
         true -> textView.visibility = View.VISIBLE
         false -> textView.visibility = View.GONE
     }
 }
 
+/**
+ * Checks if the Spinner must be displayed or not depending on advanced search status
+ *
+ * @param spinner The spinner to display or not
+ * @param value True if the view must be displayed, false otherwise
+ */
 @BindingAdapter("advancedSearchStatus")
-fun advancedSearchStatus(spinner: Spinner, value: Boolean) {
+fun bindAdvancedSearchSpinner(spinner: Spinner, value: Boolean) {
     when (value) {
         true -> spinner.visibility = View.VISIBLE
         false -> spinner.visibility = View.GONE
     }
 }
 
+/**
+ * Checks if the Button must be displayed or not depending on advanced search status
+ *
+ * @param button The button to display or not
+ * @param value True if the view must be displayed, false otherwise
+ */
 @BindingAdapter("advancedSearchStatus")
-fun advancedSearchStatus(button: Button, value: Boolean) {
+fun bindAdvancedSearchButton(button: Button, value: Boolean) {
     when (value) {
         true -> button.visibility = View.VISIBLE
         false -> button.visibility = View.GONE
     }
 }
 
+/**
+ * Checks if the loading animation must be displayed or not inside the ImageView depending on the loading status
+ *
+ * @param imageView The image view
+ * @param status The loading status
+ */
 @BindingAdapter("loadingStatus")
 fun bindLoadingAnimation(imageView: ImageView, status: LoadingStatus) {
     when (status) {
@@ -244,6 +341,12 @@ fun bindLoadingAnimation(imageView: ImageView, status: LoadingStatus) {
     }
 }
 
+/**
+ * Checks if the view must be displayed or not depending on loading status
+ *
+ * @param view The view
+ * @param status The loading status
+ */
 @BindingAdapter("visibleIfDone")
 fun bindVisibleIfDone(view: View, status: LoadingStatus) {
     if (status == LoadingStatus.DONE)

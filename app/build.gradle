@@ -76,3 +76,19 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-contrib:3.3.0"
     androidTestImplementation "io.mockk:mockk-android:1.10.2"
 }
+
+tasks.dokkaHtml.configure {
+    dokkaSourceSets {
+        configureEach {
+            includeNonPublic.set(true)
+        }
+    }
+}
+
+tasks.dokkaJavadoc.configure {
+    dokkaSourceSets {
+        configureEach {
+            includeNonPublic.set(true)
+        }
+    }
+}
