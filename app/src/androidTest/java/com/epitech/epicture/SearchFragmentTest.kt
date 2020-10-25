@@ -1,14 +1,12 @@
 package com.epitech.epicture
 
 import android.view.KeyEvent
-import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -16,7 +14,6 @@ import androidx.test.filters.MediumTest
 import com.epitech.epicture.model.GalleryImage
 import com.epitech.epicture.model.ListDataResponse
 import com.epitech.epicture.service.ImgurService
-import com.epitech.epicture.ui.favorites.FavoritesFragment
 import com.epitech.epicture.ui.image_details.CommentListAdapter
 import com.epitech.epicture.ui.search.SearchFragment
 import com.epitech.epicture.ui.search.SearchFragmentDirections

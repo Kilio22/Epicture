@@ -1,6 +1,5 @@
 package com.epitech.epicture
 
-import android.util.Log
 import androidx.core.os.bundleOf
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso.onView
@@ -24,7 +23,6 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockkObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import okhttp3.internal.toImmutableList
 import org.hamcrest.CoreMatchers.not
 import org.junit.Before
 import org.junit.Test
