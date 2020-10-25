@@ -44,7 +44,6 @@ class HomeActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         setupActionBarWithNavController(navController, appBarConfiguration)
-        Log.i(null, HomeActivityData.imgurCredentials?.accessToken ?: "")
     }
 
     /**
