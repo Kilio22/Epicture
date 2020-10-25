@@ -44,7 +44,7 @@
             android:scaleX=".75"
             android:scaleY=".75"
             app:layout_constraintBottom_toBottomOf="@id/comment_author"
-            app:layout_constraintEnd_toStartOf="@+id/comment_upvote_count"
+            app:layout_constraintEnd_toStartOf="@id/comment_upvote_count"
             app:layout_constraintTop_toTopOf="@id/comment_author"
             app:upvoteSrc="@{comment.isUp}"
             tools:src="@drawable/ic_baseline_arrow_upward_24" />
@@ -69,7 +69,7 @@
             android:scaleY=".75"
             app:downvoteSrc="@{comment.isDown}"
             app:layout_constraintBottom_toBottomOf="@id/comment_author"
-            app:layout_constraintEnd_toStartOf="@+id/comment_downvote_count"
+            app:layout_constraintEnd_toStartOf="@id/comment_downvote_count"
             app:layout_constraintTop_toTopOf="@id/comment_author"
             tools:src="@drawable/ic_baseline_arrow_downward_24" />
 
@@ -84,6 +84,7 @@
             tools:text="2" />
 
         <TextView
+            android:id="@+id/comment_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

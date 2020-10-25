@@ -11,8 +11,7 @@ import com.epitech.epicture.ui.upload.UploadStatus
 import com.google.android.material.textfield.TextInputLayout
 
 /**
- * Binds an image to an image view using the given url
- *
+ * Loads an image and binds it from a given URL
  * @param imgView The image view
  * @param imgUrlwin The image url
  */

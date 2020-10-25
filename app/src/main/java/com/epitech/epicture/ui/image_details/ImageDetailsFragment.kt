@@ -72,7 +72,6 @@ class ImageDetailsFragment : Fragment(), CommentListAdapter.ClickListener {
                 DividerItemDecoration.VERTICAL
             )
         )
-        search()
         initSpinner()
         return binding.root
     }

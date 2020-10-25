@@ -51,8 +51,8 @@ class FavoritesFragment : Fragment() {
 
         binding.lifecycleOwner = this
         binding.favoritesList.adapter = adapter
-        initSearch()
         initSpinner()
+        initSearch()
         return binding.root
     }
 
@@ -60,7 +60,6 @@ class FavoritesFragment : Fragment() {
      * Initializes search
      */
     private fun initSearch() {
-        search()
         lifecycleScope.launch {
             adapter.loadStateFlow
                 .distinctUntilChangedBy { it.refresh }
