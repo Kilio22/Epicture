@@ -23,7 +23,7 @@ We chose to develop our app in **Kotlin**.
 * Sort comments / displayed photos
 * Dark theme
 * Sign out
-* Connexion informations saving
+* Saving login information
 
 ## Tests
 We've made 12 android instrumental test to ensure our app was working the way we wanted it to work.  
