@@ -26,7 +26,7 @@ We chose to develop our app in **Kotlin**.
 * Saving login information
 
 ## Tests
-We've made 12 android instrumental test to ensure our app was working the way we wanted it to work.  
+We've made 12 android instrumental tests to ensure our app was working the way we wanted it to work.  
 We used JUnit and Mockk for theses tests.
 
 ## Documentation
