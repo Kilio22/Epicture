@@ -1,7 +1,7 @@
 # Epicture
-The goal of this project was to create a **mobile Imgur client application**.
+The goal of this project was to create an **Imgur android client application**.
 
-We were free to choose any language between theses :
+We were free to choose any language between theses:
 * Java / Kotlin
 * React native
 * C# / .NET
@@ -10,11 +10,11 @@ We chose to develop our app in **Kotlin**.
 
 ## Mandatory functionnalities
 * Authenticate to the Imgur platform
-* Display the photos put online by the user connected
+* Display photos put online by the connected user
 * Search for photos on the plateform
 * Upload photos to the plateform
 * Manage your favorites
-* Filter the displayed photos
+* Filter displayed photos
 * Manage comments
 
 ## Bonus functionnalities
